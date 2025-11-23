@@ -1,4 +1,0 @@
-LibHanger
-Scrapinger
-decorator
-twython
