@@ -1,0 +1,11 @@
+{
+    "logging": {
+        "logfile_name": "pycorex.log",
+        "logfile_name_suffix": 0,
+        "logfolder_name": "./log",
+        "logformat": "%(levelname)-7s : %(asctime)s : %(message)s",
+        "loglevel": 20,
+        "log_prefix_format": "[ {} {} ]",
+        "log_depth": "+"
+    }
+}

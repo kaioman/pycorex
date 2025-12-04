@@ -7,3 +7,5 @@ build/
 dist/
 pycorex.egg-info/
 .pypirc
+configs/pycorex.json
+__pycache__

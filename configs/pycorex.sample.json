@@ -1,0 +1,9 @@
+{
+    "auth": {
+        "organization": "org-xxxxx",
+        "api_key": "sk-xxxxx"
+    },
+    "promot": {
+        "json_path": "json"
+    }
+}
