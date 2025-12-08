@@ -5,5 +5,4 @@ app.init_app(__file__, "logger.json", "pycorex.json")
 
 # 設定クラスメンバ参照確認
 print(app.core.config.prompt.json_path)
-print(app.core.config.auth.api_key)
-print(app.core.config.auth.organization)
+print(app.core.config.gemini.api_key)

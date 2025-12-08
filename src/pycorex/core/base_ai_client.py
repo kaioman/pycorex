@@ -84,6 +84,10 @@ class BaseAIClient(ABC):
     @abstractmethod
     def generate_text(self, prompt: str, language: AILang = AILang.jp, include_row: bool = False) -> Dict[str, Any]:
         pass
+
+    @abstractmethod
+    def generate_image(self, prompt: str, pspect_ratio:str, number_of_images:int = 1, include_row: bool = False) -> list[bytes]:
+        pass
     
     # def set_prompt(self, _jsonFileName):
         

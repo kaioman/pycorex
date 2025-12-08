@@ -1,5 +1,6 @@
 from libcore_hng.core.base_config import BaseConfig
-from pycorex.models.auth import AuthModel
+from pycorex.models.gemini import GeminiModel
+from pycorex.models.vertexai import VertexaiModel
 from pycorex.models.prompt import PromptModel
 
 class PyCorexConfig(BaseConfig):
@@ -7,8 +8,11 @@ class PyCorexConfig(BaseConfig):
     pycorex共通設定クラス
     """
     
-    auth: AuthModel = AuthModel()
-    """ 認証系設定クラスモデル """
+    gemini: GeminiModel = GeminiModel()
+    """ Gemini設定クラスモデル """
+    
+    vertexai: VertexaiModel = VertexaiModel()
+    """ Vertexai設定クラスモデル """
     
     prompt: PromptModel = PromptModel()
     """ プロンプト系クラスモデル """

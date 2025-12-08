@@ -1,5 +1,8 @@
+import google.generativeai as genai
+import vertexai
 from enum import Enum
 from datetime import datetime, timezone
+from vertexai.vision_models import ImageGenerationModel
 from pycorex.core.base_ai_client import BaseAIClient
 
 class GeminiClient(BaseAIClient):
@@ -37,6 +40,19 @@ class GeminiClient(BaseAIClient):
             """
             return self.value
     
+    class ImagenMode(Enum):
+        """
+        画像生成に利用可能なImagenモデルを表すEnumクラス
+        
+        各メンバーはGoogle Gen AI SDKにおける`client.models.generate_content()`の呼び出し時に指定するモデル名に対応
+        
+        また、旧SDK(Vertex AI SDK)における`ImageGenerationModel.from_pretrained(...)`で指定する
+        モデル名としても利用する
+        """
+        
+        IMAGEN_4_ULTRA = "imagen-4.0-ultra-generate-001"
+        
+    
     def __init__(self, api_key: str, model: GeminiModel):
         """
         コンストラクタ
@@ -46,7 +62,7 @@ class GeminiClient(BaseAIClient):
         api_key : str
             APIキー
         model : GeminiModel
-            model
+            model(テキスト生成時のモデルを指定)
         """
 
         super().__init__(api_key, model)
@@ -57,10 +73,9 @@ class GeminiClient(BaseAIClient):
         APIクライアントの初期化処理
         """
 
-        import google.generativeai as genai
         genai.configure(api_key=self.api_key)
         self.client = genai
-    
+
     def calc_tokens(self, prompt, response_text):
         """
         プロンプトと応答テキストのトークン数を計算する
@@ -83,10 +98,13 @@ class GeminiClient(BaseAIClient):
             return {"error": f"Token calculation failed: {e}"}
     
     def generate_text(self, prompt: str, language = BaseAIClient.AILang.jp, include_row: bool = False):
-        
+                
+        # プロンプト
         full_prompt = f"Respond in {language.value}. {prompt}"
+        # テキスト生成
         response = self.client.GenerativeModel(self.model.value).generate_content(full_prompt)
-        
+
+        # 結果を取得する
         result = {
             "type": "text",
             "model": self.model.value,
@@ -110,4 +128,70 @@ class GeminiClient(BaseAIClient):
         # トークン数を計算して追加する
         result["metadata"]["token_count"] = self.calc_tokens(prompt, response.text)
         
+        return result
+    
+    def generate_image(self, prompt: str, aspect_ratio:str, number_of_images:int = 1, include_row: bool = False) -> list[bytes]:
+        
+        # vertexai初期化
+        vertexai.init(project="gen-lang-client-0452718754", location="us-east4")
+
+        # モデル取得
+        image_model = ImageGenerationModel.from_pretrained("imagen-4.0-ultra-generate-001")
+        
+        # 画像生成
+        images = image_model.generate_images(
+            prompt=prompt,
+            number_of_images=number_of_images,
+            aspect_ratio=aspect_ratio
+        )
+        
+        # 画像データをbytesでlistに追加
+        image_list = []
+        for _, image in enumerate(images):
+            image_list.append(image)
+        
+        # 結果を取得する
+        result = {
+            "type": "image",
+            "model": "imagen-4.0-ultra-generate-001",
+            "result": image_list,
+            "metadata": {
+                "prompt": prompt,
+                "mode": "generate",
+                "timestamp": datetime.now(timezone.utc).isoformat()
+            }
+        }
+
+        return result
+
+    def generate_image_newsdk(self, prompt: str, aspect_ratio:str, number_of_images:int = 1) -> list[bytes]:
+        """
+        画像生成メソッド【試験用】
+        
+        新SDKに対応した画像生成メソッドだが、2025年12月現在は画像生成モデルのエンドポイントが利用できない
+        """
+
+        # 画像生成モデルを定義
+        image_model = self.client.GenerativeModel("imagen-4.0-ultra")
+        
+        # 画像生成
+        response = image_model.generate_content(
+            contents=f"{prompt} (aspect ratio {aspect_ratio}, {number_of_images} images)"
+        )
+        
+        # 画像データをbytesでlistに追加
+        image_list = [img.data for img in response.images]
+        
+        # 結果を取得する
+        result = {
+            "type": "image",
+            "model": "imagen-4.0-ultra",
+            "result": image_list,
+            "metadata": {
+                "prompt": prompt,
+                "mode": "generate",
+                "timestamp": datetime.now(timezone.utc).isoformat()
+            }
+        }
+
         return result

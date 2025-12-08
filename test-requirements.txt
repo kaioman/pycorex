@@ -1,3 +1,4 @@
 libcore-hng
 google-generativeai
 tiktoken
+google-cloud-aiplatform

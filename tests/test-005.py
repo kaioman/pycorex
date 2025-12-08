@@ -14,18 +14,18 @@ client = GeminiClient(
     model=GeminiClient.GeminiModel.GEMINI_2_5_FLASH_LITE)
 
 # プロンプトを設定
-prompt = "相対性理論と特殊相対性理論について簡潔に説明してください"
+prompt = "A full body portrait of an adult woman in stylish clothing, soft lighting, studio background"
 
 # テキスト生成を実行
-response = client.generate_text(
+response = client.generate_image_newsdk(
     prompt=prompt,
-    language=GeminiClient.AILang.jp
+    aspect_ratio="1:1"
 )
 
 # 結果を表示する
-print("=== 使用モデル ===")
-print(response["model"])
-print("\n=== 生成結果 ===")
-print(response["result"])
-print("\n=== メタ情報 ===")
-print(response["metadata"])
+#print("=== 使用モデル ===")
+#print(response["model"])
+#print("\n=== 生成結果 ===")
+#print(response["result"])
+#print("\n=== メタ情報 ===")
+#print(response["metadata"])

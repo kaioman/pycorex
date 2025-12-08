@@ -1,9 +1,12 @@
 {
-    "auth": {
-        "organization": "org-xxxxx",
-        "api_key": "sk-xxxxx"
+    "gemini": {
+        "api_key": "xxxxx"
     },
-    "promot": {
+    "vertexai": {
+        "project_id": "xxxxx",
+        "location": "us-east4"
+    },
+    "prompt": {
         "json_path": "json"
     }
 }

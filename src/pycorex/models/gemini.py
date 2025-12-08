@@ -1,8 +1,8 @@
 from libcore_hng.core.base_config_model import BaseConfigModel
 
-class AuthModel(BaseConfigModel):
+class GeminiModel(BaseConfigModel):
     """
-    認証系設定クラス
+    Gemini設定クラス
     """ 
     
     api_key: str = ''
