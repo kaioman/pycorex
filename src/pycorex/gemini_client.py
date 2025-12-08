@@ -1,12 +1,22 @@
 import google.generativeai as genai
-import vertexai
 from enum import Enum
 from datetime import datetime, timezone
-from vertexai.vision_models import ImageGenerationModel
 from pycorex.core.base_ai_client import BaseAIClient
 
 class GeminiClient(BaseAIClient):
-    
+    """
+    Google Gemini API を利用してテキスト生成を行うクライアントクラス。
+
+    Attributes
+    ----------
+    api_key : str
+        Gemini API の認証キー
+    model : GeminiModel
+        使用する Gemini モデル
+    client : google.generativeai
+        初期化済みの Gemini API クライアント
+    """
+
     class GeminiModel(Enum):
         """
         Google Gemini で利用可能なモデルを表す Enum クラス
@@ -40,19 +50,6 @@ class GeminiClient(BaseAIClient):
             """
             return self.value
     
-    class ImagenMode(Enum):
-        """
-        画像生成に利用可能なImagenモデルを表すEnumクラス
-        
-        各メンバーはGoogle Gen AI SDKにおける`client.models.generate_content()`の呼び出し時に指定するモデル名に対応
-        
-        また、旧SDK(Vertex AI SDK)における`ImageGenerationModel.from_pretrained(...)`で指定する
-        モデル名としても利用する
-        """
-        
-        IMAGEN_4_ULTRA = "imagen-4.0-ultra-generate-001"
-        
-    
     def __init__(self, api_key: str, model: GeminiModel):
         """
         コンストラクタ
@@ -65,20 +62,62 @@ class GeminiClient(BaseAIClient):
             model(テキスト生成時のモデルを指定)
         """
 
-        super().__init__(api_key, model)
+        # APIキー
+        self.api_key = api_key
+
+        # モデル情報
+        self.model = model
+
+        # APIクライアントの初期化処理
         self._configuration_client()
 
+    def set_authentication(self, api_key: str):
+        """
+        認証情報を再設定する
+
+        Parameters
+        ----------
+        api_key : str
+            APIキー
+        """
+        
+        # APIキー再設定
+        self.api_key = api_key
+        
+        # APIクライアント初期化
+        self._configuration_client()
+        
     def _configuration_client(self):
         """
         APIクライアントの初期化処理
         """
 
+        # APIクライアントにAPIキーを設定する
         genai.configure(api_key=self.api_key)
+        
+        # APIクライアント(genai)をセット
         self.client = genai
 
-    def calc_tokens(self, prompt, response_text):
+    def calc_tokens(self, prompt, response_text) -> dict:
         """
         プロンプトと応答テキストのトークン数を計算する
+        
+        Parameters
+        ----------
+        prompt : str
+            入力プロンプト
+        response_text : str
+            モデルからの応答テキスト
+
+        Returns
+        -------
+        dict
+            {
+                "prompt_tokens": int,
+                "response_tokens": int,
+                "total_tokens": int
+            }
+            失敗時は {"error": str} を返す
         """
 
         try:
@@ -97,8 +136,38 @@ class GeminiClient(BaseAIClient):
         except Exception as e:
             return {"error": f"Token calculation failed: {e}"}
     
-    def generate_text(self, prompt: str, language = BaseAIClient.AILang.jp, include_row: bool = False):
-                
+    def generate_text(self, prompt: str, language = BaseAIClient.AILang.JP, include_row: bool = False) -> dict:
+        """
+        指定したプロンプトに基づいてテキストを生成する
+
+        Parameters
+        ----------
+        prompt : str
+            入力プロンプト
+        language : BaseAIClient.AILang, optional
+            応答言語の指定（デフォルト: 日本語）
+        include_row : bool, optional
+            True の場合、生レスポンス情報を追加する
+
+        Returns
+        -------
+        dict
+            {
+                "type": "text",
+                "model": str,
+                "result": str,
+                "metadata": {
+                    "prompt": str,
+                    "language": str,
+                    "mode": "generate",
+                    "timestamp": str,
+                    "usage": Any,
+                    "token_count": dict
+                },
+                "raw_response": dict (include_row=True の場合のみ)
+            }
+        """
+
         # プロンプト
         full_prompt = f"Respond in {language.value}. {prompt}"
         # テキスト生成
@@ -130,68 +199,3 @@ class GeminiClient(BaseAIClient):
         
         return result
     
-    def generate_image(self, prompt: str, aspect_ratio:str, number_of_images:int = 1, include_row: bool = False) -> list[bytes]:
-        
-        # vertexai初期化
-        vertexai.init(project="gen-lang-client-0452718754", location="us-east4")
-
-        # モデル取得
-        image_model = ImageGenerationModel.from_pretrained("imagen-4.0-ultra-generate-001")
-        
-        # 画像生成
-        images = image_model.generate_images(
-            prompt=prompt,
-            number_of_images=number_of_images,
-            aspect_ratio=aspect_ratio
-        )
-        
-        # 画像データをbytesでlistに追加
-        image_list = []
-        for _, image in enumerate(images):
-            image_list.append(image)
-        
-        # 結果を取得する
-        result = {
-            "type": "image",
-            "model": "imagen-4.0-ultra-generate-001",
-            "result": image_list,
-            "metadata": {
-                "prompt": prompt,
-                "mode": "generate",
-                "timestamp": datetime.now(timezone.utc).isoformat()
-            }
-        }
-
-        return result
-
-    def generate_image_newsdk(self, prompt: str, aspect_ratio:str, number_of_images:int = 1) -> list[bytes]:
-        """
-        画像生成メソッド【試験用】
-        
-        新SDKに対応した画像生成メソッドだが、2025年12月現在は画像生成モデルのエンドポイントが利用できない
-        """
-
-        # 画像生成モデルを定義
-        image_model = self.client.GenerativeModel("imagen-4.0-ultra")
-        
-        # 画像生成
-        response = image_model.generate_content(
-            contents=f"{prompt} (aspect ratio {aspect_ratio}, {number_of_images} images)"
-        )
-        
-        # 画像データをbytesでlistに追加
-        image_list = [img.data for img in response.images]
-        
-        # 結果を取得する
-        result = {
-            "type": "image",
-            "model": "imagen-4.0-ultra",
-            "result": image_list,
-            "metadata": {
-                "prompt": prompt,
-                "mode": "generate",
-                "timestamp": datetime.now(timezone.utc).isoformat()
-            }
-        }
-
-        return result

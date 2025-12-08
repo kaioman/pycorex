@@ -12,82 +12,54 @@ class BaseAIClient(ABC):
         言語設定
         """
         
-        jp = 'ja'
+        JP = 'ja'
         """ 日本語 """
 
-        en = 'en'
+        EN = 'en'
         """ 英語 """
 
-    # class promtDictElement():
-        
-    #     """
-    #     PromptDict要素
-    #     """
-        
-    #     systemContent = 'systemContent'
-    #     """ systemContent """
-
-    #     userContent = 'userContent'
-    #     """ userContent """
-
-    #     assistantContent = 'assistantContent'
-    #     """ assistantContent """
-        
-    def __init__(self, api_key: str, model: Enum):
+    def __init__(self):
         """
         コンストラクタ
-        
-        Parameters
-        ----------
-        api_key : str
-            APIキー
-        model : Enum
-            model
         """
 
-        # APIキー
-        self.api_key = api_key
+        # 生成モデル
+        self.model = None
+    
+    def set_model(self, model: Enum):
+        """
+        生成モデルをセットする
+        """
 
-        # モデル情報
+        # 生成モデル
         self.model = model
     
-    def set_authentication(self, api_key: str):
-        """
-        認証情報を再設定する
-
-        Parameters
-        ----------
-        api_key : str
-            APIキー
-        """
-        
-        # APIキー再設定
-        self.api_key = api_key
-        
-        # APIクライアント初期化
-        self._configuration_client()
-        
     @abstractmethod
     def _configuration_client(self):
         """
         APIクライアントの初期化処理
+        
+        Notes
+        -----
+        内部的に `genai.configure(api_key=...)` を呼び出し、
+        `self.client` に設定する
         """
         pass
     
-    @abstractmethod
-    def calc_tokens(self, prompt: str, response_text: str) -> dict:
-        """
-        プロンプトと応答テキストのトークン数を計算する
-        """
-        pass
+    #@abstractmethod
+    #def calc_tokens(self, prompt: str, response_text: str) -> dict:
+    #    """
+    #    プロンプトと応答テキストのトークン数を計算する
+    #    """
+    #    pass
     
-    @abstractmethod
-    def generate_text(self, prompt: str, language: AILang = AILang.jp, include_row: bool = False) -> Dict[str, Any]:
-        pass
+    #@abstractmethod
+    #def generate_text(self, prompt: str, language: AILang = AILang.JP, include_row: bool = False) -> Dict[str, Any]:
+    #    pass
 
-    @abstractmethod
-    def generate_image(self, prompt: str, pspect_ratio:str, number_of_images:int = 1, include_row: bool = False) -> list[bytes]:
-        pass
+    #@abstractmethod
+    #def generate_image(self, prompt: str, pspect_ratio:str, number_of_images:int = 1, include_row: bool = False) -> list[bytes]:
+    #    pass
     
     # def set_prompt(self, _jsonFileName):
         

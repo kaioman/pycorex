@@ -19,7 +19,7 @@ prompt = "相対性理論と特殊相対性理論について簡潔に説明し�
 # テキスト生成を実行
 response = client.generate_text(
     prompt=prompt,
-    language=GeminiClient.AILang.jp
+    language=GeminiClient.AILang.JP
 )
 
 # 結果を表示する
