@@ -11,16 +11,17 @@ print(app.core.config.vertexai.location)
 # ImagenClientを初期化
 client = ImagenClient(
     project_id=app.core.config.vertexai.project_id,
-    location=app.core.config.vertexai.location,
-    model=ImagenClient.ImagenModel.IMAGEN_4_ULTRA)
+    location=app.core.config.vertexai.location
+)
 
 # プロンプトを設定
 prompt = "A full body portrait of an adult woman in stylish clothing, soft lighting, studio background"
 
 # テキスト生成を実行
-response = client.generate_image_newsdk(
+response = client.generate_image_vertexai(
     prompt=prompt,
     model=ImagenClient.ImagenModel.IMAGEN_4_ULTRA,
+    language=ImagenClient.AILang.EN,
     aspect_ratio=ImagenClient.AspectRatio.SQUARE,
 )
 

@@ -304,102 +304,6 @@ class ImagenClient(BaseAIClient):
         # vertexai初期化
         vertexai.init(project=self.project_id, location=self.location)
 
-    def generate_image(self, 
-        prompt: str, 
-        model: ImagenModel,
-        aspect_ratio:AspectRatio = AspectRatio.SQUARE, 
-        number_of_images:int = 1, 
-        language = BaseAIClient.AILang.EN,
-        person_generation = PersonGeneration.ALLOW_ADULT,
-        safety_filter_level = SafetyFilterLevel.BLOCK_MEDIUM_AND_ABOVE,
-        include_row: bool = False) -> dict:
-        
-        """
-        指定したプロンプトに基づいて画像を生成する
-
-        Parameters
-        ----------
-        prompt : str
-            生成する画像の説明文
-        model: ImagenModel
-            画像生成で使用するモデル
-        aspect_ratio : AspectRatio, optional
-            出力画像のアスペクト比 (例: "1:1", "16:9")
-            default="1:1"
-        number_of_images : int, optional
-            生成する画像の枚数
-            default=1
-        language : BaseAIClient.AILang, optional
-            プロンプトの言語指定
-            default="en"
-        person_generation : PersonGeneration, optional
-            人物の画像生成許可
-            default="allow_adult"
-        safety_filter_level : SafetyFilterLevel, optional
-            安全フィルタリングのフィルタレベル
-            default="block_medium_and_above"
-        include_row : bool, optional
-            追加情報を含めるかどうか
-
-        Returns
-        -------
-        dict
-            生成結果を含む辞書。
-            {
-                "type": "image",
-                "model": <使用モデル名>,
-                "result": [画像データのリスト],
-                "metadata": {
-                    "prompt": <入力プロンプト>,
-                    "mode": "generate",
-                    "timestamp": <ISO8601形式の生成時刻>
-                }
-            }
-        """
-
-        # モデル取得
-        image_model = ImageGenerationModel.from_pretrained(model.value)
-        
-        # 画像生成
-        images = image_model.generate_images(
-            prompt=prompt,
-            number_of_images=number_of_images,
-            aspect_ratio=aspect_ratio.value,
-            language=language.value,
-            person_generation=person_generation.value,
-            safety_filter_level=safety_filter_level.value,
-        )
-
-        # 画像データをbytesでlistに追加
-        image_list = [image._image_bytes for image in images]
-        
-        # 結果を取得する
-        result = {
-            "type": "image",
-            "model": model.value,
-            "result": image_list,
-            "metadata": {
-                "prompt": prompt,
-                "mode": "generate",
-                "timestamp": datetime.now(timezone.utc).isoformat()
-            }
-        }
-        if include_row:
-            result["raw_response"] = []
-            for idx, image in enumerate(images):
-                row_info = {
-                    "index": idx,
-                    "size_bytes": len(image) if isinstance(image, bytes) else None,
-                    "mime_type": self.guess_mime_type(image),
-                    "prompt": prompt,
-                    "aspect_ratio": aspect_ratio,
-                    "timestamp": datetime.now(timezone.utc).isoformat(),
-                    "model": model.value
-                }
-                result["raw_response"].append(row_info)
-
-        return result
-
     def guess_mime_type(self, image_bytes: bytes) -> str:
         """
         バイト列から画像のMIME typeを推測する
@@ -430,6 +334,81 @@ class ImagenClient(BaseAIClient):
             return "image/webp"
         else:
             return "application/octet-stream"
+    
+    def generate_image(self, 
+        prompt: str, 
+        model: GeminiModel,
+        aspect_ratio:AspectRatio = AspectRatio.SQUARE,
+        image_size = ImageSize.ONE_K,
+        number_of_images:int = 1, 
+        harm_category = HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+        safety_filter_level = SafetyFilterLevel.BLOCK_MEDIUM_AND_ABOVE,
+        include_row: bool = False) -> dict:
+        """
+        画像生成メソッド【試験用】
+        
+        新SDKに対応した画像生成メソッドだが、2025年12月現在は画像生成モデルのエンドポイントが利用できない
+        """
+
+        # 画像生成リクエスト
+        app_logger.info(f"Image generation request sent. Model={model.value}, Prompt={prompt}, CandidateCount={number_of_images}")
+        response = self.client.models.generate_content(
+            model = model.value,
+            contents = [prompt],
+            config = GenerateContentConfig(
+                response_modalities = [Modality.IMAGE],
+                candidate_count = number_of_images,                
+                safety_settings = [
+                    {"category": harm_category.value},
+                    {"threshold": safety_filter_level.value.upper()},
+                ],
+                image_config = ImageConfig(
+                    aspect_ratio = aspect_ratio.value,
+                    image_size = image_size.value,
+                )
+            )
+        )
+        
+        # 画像生成結果チェック
+        if not response.candidates:
+            raise NoCandidatesError("No candidates returned. Possibly blocked by safety filters.")
+        
+        # 生成画像をbytesでlist化して返す
+        image_list: list[bytes] = []
+        for candidate in response.candidates:
+            for part in candidate.content.parts:
+                if part.inline_data:
+                    image_list.append(part.inline_data.data)
+                    app_logger.info(f"Image candidate received. Size={len(part.inline_data.data)} bytes")
+                elif part.text:
+                    app_logger.warning(f"Text explanation returned instead of image: {part.text}")
+        
+        # 結果を取得する
+        result = {
+            "type": "image",
+            "model": model.value,
+            "result": image_list,
+            "metadata": {
+                "prompt": prompt,
+                "mode": "generate",
+                "timestamp": datetime.now(timezone.utc).isoformat()
+            }
+        }
+        if include_row:
+            result["raw_response"] = []
+            for idx, image in enumerate(image_list):
+                row_info = {
+                    "index": idx,
+                    "size_bytes": len(image) if isinstance(image, bytes) else None,
+                    "mime_type": self.guess_mime_type(image),
+                    "prompt": prompt,
+                    "aspect_ratio": aspect_ratio.value,
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                    "model": model.value
+                }
+                result["raw_response"].append(row_info)
+        app_logger.info(f"Image generation completed. Total images={len(image_list)}")
+        return result
     
     def edit_image(self, 
         base_image,
@@ -526,39 +505,87 @@ class ImagenClient(BaseAIClient):
                     "size_bytes": len(image) if isinstance(image, bytes) else None,
                     "mime_type": self.guess_mime_type(image),
                     "prompt": prompt,
-                    "aspect_ratio": aspect_ratio,
+                    "aspect_ratio": aspect_ratio.value,
                     "timestamp": datetime.now(timezone.utc).isoformat(),
                     "model": model.value
                 }
                 result["raw_response"].append(row_info)
         app_logger.info(f"Image editing completed. Total images={len(image_list)}")
         return result
-        
-    def generate_image_newsdk(self, 
+    
+    def generate_image_vertexai(self, 
         prompt: str, 
-        aspect_ratio:str, 
-        number_of_images:int = 1) -> dict:
-        """
-        画像生成メソッド【試験用】
+        model: ImagenModel,
+        aspect_ratio:AspectRatio = AspectRatio.SQUARE, 
+        number_of_images:int = 1, 
+        language = BaseAIClient.AILang.EN,
+        person_generation = PersonGeneration.ALLOW_ADULT,
+        safety_filter_level = SafetyFilterLevel.BLOCK_MEDIUM_AND_ABOVE,
+        include_row: bool = False) -> dict:
         
-        新SDKに対応した画像生成メソッドだが、2025年12月現在は画像生成モデルのエンドポイントが利用できない
+        """
+        指定したプロンプトに基づいて画像を生成する(Imagen版)
+
+        Parameters
+        ----------
+        prompt : str
+            生成する画像の説明文
+        model: ImagenModel
+            画像生成で使用するモデル
+        aspect_ratio : AspectRatio, optional
+            出力画像のアスペクト比 (例: "1:1", "16:9")
+            default="1:1"
+        number_of_images : int, optional
+            生成する画像の枚数
+            default=1
+        language : BaseAIClient.AILang, optional
+            プロンプトの言語指定
+            default="en"
+        person_generation : PersonGeneration, optional
+            人物の画像生成許可
+            default="allow_adult"
+        safety_filter_level : SafetyFilterLevel, optional
+            安全フィルタリングのフィルタレベル
+            default="block_medium_and_above"
+        include_row : bool, optional
+            追加情報を含めるかどうか
+
+        Returns
+        -------
+        dict
+            生成結果を含む辞書。
+            {
+                "type": "image",
+                "model": <使用モデル名>,
+                "result": [画像データのリスト],
+                "metadata": {
+                    "prompt": <入力プロンプト>,
+                    "mode": "generate",
+                    "timestamp": <ISO8601形式の生成時刻>
+                }
+            }
         """
 
-        # 画像生成モデルを定義
-        image_model = self.client.GenerativeModel("imagen-4.0-ultra")
+        # モデル取得
+        image_model = ImageGenerationModel.from_pretrained(model.value)
         
         # 画像生成
-        response = image_model.generate_content(
-            contents=f"{prompt} (aspect ratio {aspect_ratio}, {number_of_images} images)"
+        images = image_model.generate_images(
+            prompt=prompt,
+            number_of_images=number_of_images,
+            aspect_ratio=aspect_ratio.value,
+            language=language.value,
+            person_generation=person_generation.value,
+            safety_filter_level=safety_filter_level.value,
         )
-        
+
         # 画像データをbytesでlistに追加
-        image_list = [img.data for img in response.images]
+        image_list = [image._image_bytes for image in images]
         
         # 結果を取得する
         result = {
             "type": "image",
-            "model": "imagen-4.0-ultra",
+            "model": model.value,
             "result": image_list,
             "metadata": {
                 "prompt": prompt,
@@ -566,5 +593,18 @@ class ImagenClient(BaseAIClient):
                 "timestamp": datetime.now(timezone.utc).isoformat()
             }
         }
+        if include_row:
+            result["raw_response"] = []
+            for idx, image in enumerate(images):
+                row_info = {
+                    "index": idx,
+                    "size_bytes": len(image) if isinstance(image, bytes) else None,
+                    "mime_type": self.guess_mime_type(image),
+                    "prompt": prompt,
+                    "aspect_ratio": aspect_ratio,
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                    "model": model.value
+                }
+                result["raw_response"].append(row_info)
 
         return result

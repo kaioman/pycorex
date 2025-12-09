@@ -19,7 +19,7 @@ client = ImagenClient(
 prompt = "複数の女の子が踊っている"
 
 # 画像生成を実行
-response = client.generate_image(
+response = client.generate_image_vertexai(
     prompt=prompt,
     model=ImagenClient.ImagenModel.IMAGEN_4_ULTRA,
     aspect_ratio=ImagenClient.AspectRatio.SQUARE,
