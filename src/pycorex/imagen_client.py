@@ -1,9 +1,13 @@
 import vertexai
 import imghdr
+import libcore_hng.utils.app_logger as app_logger
 from enum import Enum
 from datetime import datetime, timezone
-from vertexai.vision_models import ImageGenerationModel
+from vertexai.preview.vision_models import ImageGenerationModel
+from google import genai
+from google.genai.types import GenerateContentConfig, Modality, ImageConfig
 from pycorex.core.base_ai_client import BaseAIClient
+from pycorex.exceptions.no_candidates_error import NoCandidatesError
 
 class ImagenClient(BaseAIClient):
     """
@@ -15,8 +19,6 @@ class ImagenClient(BaseAIClient):
         利用するGoogle CloudプロジェクトのID
     location : str
         Vertex AIのリージョン
-    model : ImagenModel
-        使用するImagenモデル
     """
 
     class ImagenModel(Enum):
@@ -59,6 +61,24 @@ class ImagenClient(BaseAIClient):
             """
             return self.value
     
+    class GeminiModel(Enum):
+        """
+        画像生成に利用可能なGeminiモデルを表すEnumクラス
+        
+        各メンバーはGoogle Gen AI SDKにおける`client.models.generate_content()`の呼び出し時に指定するモデル名に対応        
+        """
+        
+        GEMINI_25_FLASH_IMAGE = "gemini-2.5-flash-image"
+        """ 画像編集可能なGeminiモデル(edit_imageで指定可能な唯一のモデル) """
+
+        def __str__(self):
+            """
+            モデルの文字列値を返す
+
+            使用例:
+                str(GeminiModel.GEMINI_25_FLASH_IMAGE) -> "gemini-2.5-flash-image"
+            """
+            return self.value
     class AspectRatio(Enum):
         """
         画像生成時に指定可能なアスペクト比を表すEnumクラス
@@ -92,6 +112,23 @@ class ImagenClient(BaseAIClient):
                 aspect_ratio の指定値 (例: "16:9")
             """
             return self.value
+
+    class ImageSize(Enum):
+        """
+        Gemini API などで画像生成時に利用する解像度指定を表す Enum クラス。
+
+        この Enum は、画像生成・編集の際に出力サイズを指定するための定数を定義する
+        各値は文字列として API に渡され、生成される画像の解像度を決定する
+        """
+
+        ONE_K = "1K"
+        """ "1K" 解像度。標準的なサイズで軽量な出力に適する """
+
+        TWO_K = "2K"
+        """ "2K" 解像度。より高精細な出力が必要な場合に利用 """
+
+        FOUR_K = "4K"
+        """ "4K" 解像度。非常に高解像度の出力を生成する場合に利用 """
 
     class PersonGeneration(Enum):
         """
@@ -182,7 +219,35 @@ class ImagenClient(BaseAIClient):
             """
             return self.value
 
-    def __init__(self, project_id: str, location: str, model: ImagenModel):
+    class HarmCategory(Enum):
+        """
+        Gemini API の安全フィルターカテゴリを表す Enum クラス。
+
+        この Enum は、Google Generative AI (Gemini) の `GenerateContentConfig.safety_settings`
+        に指定可能な「有害コンテンツカテゴリ」を定義する
+        各カテゴリはモデルが生成するコンテンツをフィルタリングする際に利用される
+
+        """
+
+        HARM_CATEGORY_HARASSMENT = "HARM_CATEGORY_HARASSMENT"
+        """ ハラスメントコンテンツ。嫌がらせや攻撃的な表現を含む可能性があるもの """
+
+        HARM_CATEGORY_HATE_SPEECH = "HARM_CATEGORY_HATE_SPEECH"
+        """ ヘイトスピーチコンテンツ。特定の人種、宗教、性別などに対する差別的表現 """
+
+        HARM_CATEGORY_SEXUALLY_EXPLICIT = "HARM_CATEGORY_SEXUALLY_EXPLICIT"
+        """ 性的描写が露骨なコンテンツ。成人向けの性的表現を含むもの """
+
+        HARM_CATEGORY_DANGEROUS_CONTENT = "HARM_CATEGORY_DANGEROUS_CONTENT"
+        """ 危険なコンテンツ。暴力、違法行為、危険な行動を助長する可能性があるもの """
+
+        HARM_CATEGORY_CIVIC_INTEGRITY = "HARM_CATEGORY_CIVIC_INTEGRITY"
+        """ 
+        市民の清廉性を損なう可能性があるコンテンツ 
+        非推奨
+        """
+    
+    def __init__(self, project_id: str, location: str):
         """
         コンストラクタ
 
@@ -192,8 +257,6 @@ class ImagenClient(BaseAIClient):
             Google Cloud プロジェクトID
         location : str
             Vertex AIのリージョン
-        model : ImagenModel
-            画像生成モデル
         """
 
         # プロジェクトID
@@ -202,12 +265,12 @@ class ImagenClient(BaseAIClient):
         # ロケーション
         self.location = location
         
-        # モデル情報
-        self.model = model
-
         # APIクライアントの初期化処理
         self._configuration_client()
 
+        # ADC認証クライアント
+        self.client = genai.Client(vertexai=True)
+        
     def set_authentication(self, project_id: str, location: str):
         """
         認証情報を再設定する
@@ -243,6 +306,7 @@ class ImagenClient(BaseAIClient):
 
     def generate_image(self, 
         prompt: str, 
+        model: ImagenModel,
         aspect_ratio:AspectRatio = AspectRatio.SQUARE, 
         number_of_images:int = 1, 
         language = BaseAIClient.AILang.EN,
@@ -257,6 +321,8 @@ class ImagenClient(BaseAIClient):
         ----------
         prompt : str
             生成する画像の説明文
+        model: ImagenModel
+            画像生成で使用するモデル
         aspect_ratio : AspectRatio, optional
             出力画像のアスペクト比 (例: "1:1", "16:9")
             default="1:1"
@@ -292,21 +358,9 @@ class ImagenClient(BaseAIClient):
         """
 
         # モデル取得
-        image_model = ImageGenerationModel.from_pretrained(self.model.value)
+        image_model = ImageGenerationModel.from_pretrained(model.value)
         
         # 画像生成
-        # images = image_model.generate_images(
-        #     prompt=prompt,
-        #     number_of_images=number_of_images,
-        #     aspect_ratio=aspect_ratio,
-        #     language=language.value,
-        #     person_generation="",
-        #     safety_filter_level="",
-        #     seed=-1,
-        #     sample_image_size="",
-        #     output_mime_type="",
-        #     compression_quality=75
-        # )
         images = image_model.generate_images(
             prompt=prompt,
             number_of_images=number_of_images,
@@ -315,14 +369,14 @@ class ImagenClient(BaseAIClient):
             person_generation=person_generation.value,
             safety_filter_level=safety_filter_level.value,
         )
-        
+
         # 画像データをbytesでlistに追加
         image_list = [image._image_bytes for image in images]
         
         # 結果を取得する
         result = {
             "type": "image",
-            "model": self.model.value,
+            "model": model.value,
             "result": image_list,
             "metadata": {
                 "prompt": prompt,
@@ -340,7 +394,7 @@ class ImagenClient(BaseAIClient):
                     "prompt": prompt,
                     "aspect_ratio": aspect_ratio,
                     "timestamp": datetime.now(timezone.utc).isoformat(),
-                    "model": self.model.value
+                    "model": model.value
                 }
                 result["raw_response"].append(row_info)
 
@@ -376,8 +430,114 @@ class ImagenClient(BaseAIClient):
             return "image/webp"
         else:
             return "application/octet-stream"
+    
+    def edit_image(self, 
+        base_image,
+        prompt: str, 
+        model: GeminiModel,
+        aspect_ratio:AspectRatio = AspectRatio.SQUARE,
+        image_size = ImageSize.ONE_K,
+        number_of_images:int = 1, 
+        harm_category = HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+        safety_filter_level = SafetyFilterLevel.BLOCK_MEDIUM_AND_ABOVE,
+        include_row: bool = False) -> dict:
+        """
+        元画像を指定して変化させる画像生成メソッド
+
+        Parameters
+        ----------
+        base_image : bytes
+            編集対象となる元画像データ
+        prompt : str
+            変化の内容を説明するプロンプト
+        model: GeminiModel
+            画像生成で使用するモデル
+        aspect_ratio : AspectRatio, optional
+            出力画像のアスペクト比 (例: "1:1", "16:9")
+            default="1:1"
+        image_size : ImageSize, optional
+            画像サイズ(1K,2K,4K)
+            default=1K
+        number_of_images : int, optional
+            生成する画像の枚数
+            default=1
+        harm_category : HarmCategory
+            評価のカテゴリ
+            default="HARM_CATEGORY_DANGEROUS_CONTENT"
+        safety_filter_level : SafetyFilterLevel, optional
+            安全フィルタリングのフィルタレベル
+            default="block_medium_and_above"
+
+        Returns
+        -------
+        dict
+            生成結果を含む辞書
+        """
+
+        # 画像編集リクエスト
+        app_logger.info(f"Image generation request sent. Model={model.value}, Prompt={prompt}, CandidateCount={number_of_images}")
+        response = self.client.models.generate_content(
+            model = model.value,
+            contents = [base_image, prompt],
+            config = GenerateContentConfig(
+                response_modalities = [Modality.TEXT, Modality.IMAGE],
+                candidate_count = number_of_images,                
+                safety_settings = [
+                    {"category": harm_category.value},
+                    {"threshold": safety_filter_level.value.upper()},
+                ],
+                image_config = ImageConfig(
+                    aspect_ratio = aspect_ratio.value,
+                    image_size = image_size.value,
+                )
+            )
+        )
         
-    def generate_image_newsdk(self, prompt: str, aspect_ratio:str, number_of_images:int = 1) -> dict:
+        # 画像生成結果チェック
+        if not response.candidates:
+            raise NoCandidatesError("No candidates returned. Possibly blocked by safety filters.")
+        
+        # 生成画像をbytesでlist化して返す
+        image_list: list[bytes] = []
+        for candidate in response.candidates:
+            for part in candidate.content.parts:
+                if part.inline_data:
+                    image_list.append(part.inline_data.data)
+                    app_logger.info(f"Image candidate received. Size={len(part.inline_data.data)} bytes")
+                elif part.text:
+                    app_logger.warning(f"Text explanation returned instead of image: {part.text}")
+
+        # 結果を取得する
+        result = {
+            "type": "image",
+            "model": model.value,
+            "result": image_list,
+            "metadata": {
+                "prompt": prompt,
+                "mode": "edit",
+                "timestamp": datetime.now(timezone.utc).isoformat()
+            }
+        }
+        if include_row:
+            result["raw_response"] = []
+            for idx, image in enumerate(image_list):
+                row_info = {
+                    "index": idx,
+                    "size_bytes": len(image) if isinstance(image, bytes) else None,
+                    "mime_type": self.guess_mime_type(image),
+                    "prompt": prompt,
+                    "aspect_ratio": aspect_ratio,
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                    "model": model.value
+                }
+                result["raw_response"].append(row_info)
+        app_logger.info(f"Image editing completed. Total images={len(image_list)}")
+        return result
+        
+    def generate_image_newsdk(self, 
+        prompt: str, 
+        aspect_ratio:str, 
+        number_of_images:int = 1) -> dict:
         """
         画像生成メソッド【試験用】
         

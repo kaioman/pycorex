@@ -9,4 +9,4 @@ pycorex.egg-info/
 .pypirc
 configs/pycorex.json
 __pycache__
-sample*.png
+*.png

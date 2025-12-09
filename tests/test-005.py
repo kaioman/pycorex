@@ -20,7 +20,8 @@ prompt = "A full body portrait of an adult woman in stylish clothing, soft light
 # テキスト生成を実行
 response = client.generate_image_newsdk(
     prompt=prompt,
-    aspect_ratio="1:1"
+    model=ImagenClient.ImagenModel.IMAGEN_4_ULTRA,
+    aspect_ratio=ImagenClient.AspectRatio.SQUARE,
 )
 
 # 結果を表示する
