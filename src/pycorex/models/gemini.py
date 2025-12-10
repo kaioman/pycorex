@@ -6,5 +6,7 @@ class GeminiModel(BaseConfigModel):
     """ 
     
     api_key: str = ''
-    """ APIキー """
+    """ APIキー(generative language) """
     
+    api_key_vertexai: str = ''
+    """ APIキー(vertexai) """

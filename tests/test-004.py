@@ -5,8 +5,8 @@ from pycorex.imagen_client import ImagenClient
 app.init_app(__file__, "logger.json", "pycorex.json")
 
 # 設定クラスメンバ参照確認
-print(app.core.config.vertexai.project_id)
-print(app.core.config.vertexai.location)
+print(f"project_id={app.core.config.vertexai.project_id}")
+print(f"location={app.core.config.vertexai.location}")
 
 # ImagenClientを初期化
 client = ImagenClient(
@@ -16,7 +16,7 @@ client = ImagenClient(
 
 # プロンプトを設定
 #prompt = "A full body portrait of an adult woman in stylish clothing, soft lighting, studio background"
-prompt = "複数の女の子が踊っている"
+prompt = "複数の日本の女子が踊っている。写実的。幻想的な雰囲気"
 
 # 画像生成を実行
 response = client.generate_image_vertexai(

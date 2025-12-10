@@ -5,8 +5,8 @@ from pycorex.imagen_client import ImagenClient
 app.init_app(__file__, "logger.json", "pycorex.json")
 
 # 設定クラスメンバ参照確認
-print(app.core.config.vertexai.project_id)
-print(app.core.config.vertexai.location)
+print(f"project_id={app.core.config.vertexai.project_id}")
+print(f"location={app.core.config.vertexai.location}")
 
 # ImagenClientを初期化
 client = ImagenClient(
@@ -25,10 +25,14 @@ response = client.generate_image_vertexai(
     aspect_ratio=ImagenClient.AspectRatio.SQUARE,
 )
 
+# 画像ファイルを出力する
+for idx, image_bytes in enumerate(response["result"]):
+    with open(f"image_{idx}.png", "wb") as f:
+        f.write(image_bytes)
+    print(f"Saved: image_{idx}.png")
+
 # 結果を表示する
-#print("=== 使用モデル ===")
-#print(response["model"])
-#print("\n=== 生成結果 ===")
-#print(response["result"])
-#print("\n=== メタ情報 ===")
-#print(response["metadata"])
+print("=== 使用モデル ===")
+print(response["model"])
+print("\n=== メタ情報 ===")
+print(response["metadata"])

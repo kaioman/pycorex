@@ -1,12 +1,7 @@
 log/
 env/
-pycorex/config/pycorex.ini
 pycorex/__pycache__
-pycorex/Library/__pycache__
-build/
-dist/
 pycorex.egg-info/
-.pypirc
 configs/pycorex.json
 __pycache__
 *.png

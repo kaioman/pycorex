@@ -1,29 +1,28 @@
 import pycorex.configs.app_init as app
-from pycorex.imagen_client import ImagenClient
+from pycorex.gemini_client import GeminiClient
 from pycorex.exceptions.no_candidates_error import NoCandidatesError
 
 # アプリ初期化
 app.init_app(__file__, "logger.json", "pycorex.json")
 
 # ImagenClientを初期化
-client = ImagenClient(
-    project_id=app.core.config.vertexai.project_id,
-    location=app.core.config.vertexai.location
+client = GeminiClient(
+    api_key=app.core.config.gemini.api_key_vertexai
 )
 
 # プロンプトを設定
-#prompt = "Youtuberが緊急で動画を撮っているが、どうみても緊急でもなければ大したことがない件"
-prompt = "複数の女の子が踊っている"
+#prompt = "リクルートスーツの女性が就職活動をしている"
+prompt = "12月10日は「アロースタートの日」。1945年のこの日、日本で初めてアローインディアカ（羽根つきバレーボール）の講習会が開かれたことに由来します。"
 
 try:
     # 画像生成を実行
     response = client.generate_image(
         prompt=prompt,
-        model=ImagenClient.GeminiModel.GEMINI_25_FLASH_IMAGE,
-        aspect_ratio=ImagenClient.AspectRatio.SQUARE,
-        image_size=ImagenClient.ImageSize.ONE_K,
-        harm_category = ImagenClient.HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
-        safety_filter_level = ImagenClient.SafetyFilterLevel.BLOCK_ONLY_HIGH
+        model=GeminiClient.GeminiModel.GEMINI_2_5_FLASH_IMAGE,
+        aspect_ratio=GeminiClient.AspectRatio.SQUARE,
+        image_size=GeminiClient.ImageSize.ONE_K,
+        harm_category = GeminiClient.HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+        safety_filter_level = GeminiClient.SafetyFilterLevel.BLOCK_ONLY_HIGH
     )
     
     # 画像ファイルを出力する
