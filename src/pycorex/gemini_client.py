@@ -44,7 +44,9 @@ class GeminiClient(BaseAIClient):
         """ GEMINI_ULTRA: 最上位モデル。有料プラン限定で利用可能 """
         GEMINI_PRO_VISION = "gemini-pro-vision"
         """ GEMINI_PRO_VISION: マルチモーダル対応モデル。テキスト＋画像入力を処理可能 """
-
+        GEMINI_3_0_PRO_IMAGE_PREVIEW = "gemini-3-pro-image-preview"
+        """ GEMINI_3_0_PRO_IMAGE_PREVIEW: Gemini 3 Pro Image (Nano Banana Pro) プレビュー版 """
+        
         def __str__(self):
             """
             モデルの文字列値を返す
