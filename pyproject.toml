@@ -12,6 +12,12 @@ authors = [
     { name="kaioman", email="kajin0318@gmail.com" }
 ]
 dependencies = [
+    "libcore-hng",
+    "google-generativeai",
+    "tiktoken",
+    "google-cloud-aiplatform",
+    "pillow",
+    "psutil"
 ]
 
 [tool.setuptools]
