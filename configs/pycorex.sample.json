@@ -8,5 +8,9 @@
     },
     "prompt": {
         "json_path": "json"
+    },
+    "uwgen": {
+        "api_key": "xxxxx",
+        "endpoint": "xxxxx"
     }
 }

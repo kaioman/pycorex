@@ -5,3 +5,4 @@ pycorex.egg-info/
 configs/pycorex.json
 __pycache__
 *.png
+gen_images/
