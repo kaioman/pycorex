@@ -1,7 +1,7 @@
 import google.generativeai as genai
 import libcore_hng.utils.app_logger as app_logger
 from google import genai as image_genai
-from google.genai.types import GenerateContentConfig, Modality, ImageConfig
+from google.genai.types import GenerateContentConfig, Modality, ImageConfig, Part
 from enum import Enum
 from datetime import datetime, timezone
 from pycorex.core.base_ai_client import BaseAIClient
@@ -45,7 +45,9 @@ class GeminiClient(BaseAIClient):
         GEMINI_PRO_VISION = "gemini-pro-vision"
         """ GEMINI_PRO_VISION: マルチモーダル対応モデル。テキスト＋画像入力を処理可能 """
         GEMINI_3_0_PRO_IMAGE_PREVIEW = "gemini-3-pro-image-preview"
-        """ GEMINI_3_0_PRO_IMAGE_PREVIEW: Gemini 3 Pro Image (Nano Banana Pro) プレビュー版 """
+        """ GEMINI_3_0_PRO_IMAGE_PREVIEW: Gemini 3 Pro Image (Nano Banana Pro) プレビュー版 """        
+        GEMINI_3_0_FLASH_PREVIEW = "gemini-3-flash-preview"
+        """ GEMINI_3_0_FLASH_PREVIEW: Gemini 3 Flash プレビュー版 """
         
         def __str__(self):
             """
@@ -110,13 +112,17 @@ class GeminiClient(BaseAIClient):
         APIクライアントの初期化処理
         """
 
-        # APIクライアントにAPIキーを設定する
-        genai.configure(api_key=self.api_key)
-        
         # APIクライアント(テキスト)をセット
+        # (generativeai)
+        genai.configure(api_key=self.api_key)
         self.text_client = genai
-        # APIクライアント(画像)をセット        
+        
+        # APIクライアント(画像)をセット
+        # (genai)
         self.image_client = image_genai.Client(vertexai=True, api_key=self.api_key)
+        # genaiクライアント
+        # (genai)
+        self.genai_client = image_genai.Client(api_key=self.api_key)
         
     def calc_tokens(self, prompt, response_text) -> dict:
         """
@@ -401,4 +407,61 @@ class GeminiClient(BaseAIClient):
                 }
                 result["raw_response"].append(row_info)
         app_logger.info(f"Image editing completed. Total images={len(image_list)}")
+        return result
+
+    def analyze_image(self, 
+        base_image,
+        prompt: str, 
+        model: GeminiModel,
+        include_row: bool = False,
+        **params) -> dict:
+        """
+        解析画像を指定して解析内容をテキストデータで取得する
+
+        Parameters
+        ----------
+        base_image : bytes
+            解析対象となる画像データ(byte)
+        prompt : str
+            変化の内容を説明するプロンプト
+        model: GeminiModel
+            画像生成で使用するモデル
+
+        Returns
+        -------
+        dict
+            解析内容テキストデータを含む辞書
+        """
+        
+        # 画像解析リクエスト
+        app_logger.info(f"Image analyze request sent. Model={model.value}, Prompt={prompt}")
+        response = self.genai_client.models.generate_content(
+            model = model.value,
+            contents = [
+                Part.from_bytes(
+                    data=base_image,
+                    mime_type="image/png"
+                ),
+                prompt
+            ],
+            config = GenerateContentConfig(
+                **params
+            )
+        )
+        
+        # 結果を取得する
+        result = {
+            "type": "image",
+            "model": model.value,
+            "result": response.text,
+            "metadata": {
+                "prompt": prompt,
+                "mode": "analyze",
+                "timestamp": datetime.now(timezone.utc).isoformat()
+            }
+        }
+        if include_row:
+            result["raw_response"] = []
+
+        app_logger.info(f"Image analyzing completed.")
         return result
