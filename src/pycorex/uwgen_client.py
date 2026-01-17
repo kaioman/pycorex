@@ -12,7 +12,7 @@ from pycorex.exceptions.no_candidates_error import NoCandidatesError
 
 class UwgenClient(BaseAIClient):
     """
-    Uwgen APIを利用して画像生成・編集を行うクライアントクラス
+    Uwgen APIを利用して画像生成・編集・解析を行うクライアントクラス
     """
     
     class UwgenModel(Enum):
@@ -26,6 +26,9 @@ class UwgenClient(BaseAIClient):
         IMAGE_EDIT = "image_edit"
         """ 画像編集 """
         
+        IMAGE_ANALYZE = "image_analyze"
+        """ 画像解析 """
+
         def __str__(self):
             return self.value
         
@@ -161,6 +164,55 @@ class UwgenClient(BaseAIClient):
         # 生成結果を返す
         return result
 
+    def analyze_image(self, prompt: str, source_image_path: str, **params):
+        """
+        画像を解析する
+        """
+        
+        # payloadの組み立て        
+        payload = {"prompt": prompt, **params}
+        
+        # エンドポイントURL取得
+        url = f"{self.endpoint}/{UwgenClient.UwgenModel.IMAGE_ANALYZE.value}"
+
+        # payloadをログ出力
+        app_logger.info(f"[Uwgen] Request image_analyze: {payload}")
+
+        # 解析画像を取得する
+        files = {
+            "sourceImage": open(source_image_path, "rb")
+        }
+
+        # 画像解析をリクエストする
+        res = requests.post(url, data=payload, files=files, headers=self.headers)
+
+        # Httpステータスコード判定
+        if not (HTTPStatus.OK <= res.status_code < HTTPStatus.MULTIPLE_CHOICES):
+            raise APIError(
+                message="Uwgen API error",
+                status_code=res.status_code,
+                response_text=res.text
+            )
+        
+        # レスポンスをjsonで取得
+        json_data = res.json()
+        
+        # 結果を取得する
+        result = {
+            "type": "text",
+            "model": payload.get("model", "unkwon model"),
+            "text": json_data["data"]["generated"],
+            "metadata": {
+                "prompt": prompt,
+                "mode": "analyze",
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "params": params
+            }
+        }
+        
+        # 生成結果を返す
+        return result
+    
     def output_images(self, images, output_abs_path):
         """
         画像を保存する
