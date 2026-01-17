@@ -451,7 +451,7 @@ class GeminiClient(BaseAIClient):
         
         # 結果を取得する
         result = {
-            "type": "image",
+            "type": "text",
             "model": model.value,
             "result": response.text,
             "metadata": {

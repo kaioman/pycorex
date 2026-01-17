@@ -1,5 +1,4 @@
 import pycorex.configs.app_init as app
-from PIL import Image as PIL_image
 from pycorex.gemini_client import GeminiClient
 
 # アプリ初期化
