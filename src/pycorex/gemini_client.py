@@ -453,11 +453,12 @@ class GeminiClient(BaseAIClient):
         result = {
             "type": "text",
             "model": model.value,
-            "result": response.text,
+            "text": response.text,
             "metadata": {
                 "prompt": prompt,
                 "mode": "analyze",
-                "timestamp": datetime.now(timezone.utc).isoformat()
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "params": params
             }
         }
         if include_row:
