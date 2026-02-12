@@ -12,13 +12,16 @@ from pycorex.exceptions.no_candidates_error import NoCandidatesError
 
 class UwgenClient(BaseAIClient):
     """
-    Uwgen APIを利用して画像生成・編集・解析を行うクライアントクラス
+    Uwgen APIを利用してテキスト生成・画像生成・編集・解析を行うクライアントクラス
     """
     
     class UwgenModel(Enum):
         """
         Uwgenモデル
         """
+
+        TEXT_GEN = "text_gen"
+        """ テキスト生成 """
 
         IMAGE_GEN = "image_gen"
         """ 画像生成 """
@@ -48,7 +51,51 @@ class UwgenClient(BaseAIClient):
         """
 
         pass
+    
+    def generate_text(self, prompt: str, **params):
+        """
+        テキストを生成する
+        """
         
+        # payloadの組み立て        
+        payload = {"prompt": prompt, **params}
+        
+        # エンドポイントURL取得
+        url = f"{self.endpoint}/{UwgenClient.UwgenModel.TEXT_GEN.value}"
+
+        # payloadをログ出力
+        app_logger.info(f"[Uwgen] Request text_gen: {payload}")
+
+        # テキスト生成をリクエストする
+        res = requests.post(url, json=payload, headers=self.headers)
+
+        # Httpステータスコード判定
+        if not (HTTPStatus.OK <= res.status_code < HTTPStatus.MULTIPLE_CHOICES):
+            raise APIError(
+                message="Uwgen API error",
+                status_code=res.status_code,
+                response_text=res.text
+            )
+        
+        # レスポンスをjsonで取得
+        json_data = res.json()
+        
+        # 結果を取得する
+        result = {
+            "type": "text",
+            "model": payload.get("model", "unkwon model"),
+            "text": json_data["data"]["generated"]["result"],
+            "metadata": {
+                "prompt": prompt,
+                "mode": "analyze",
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "params": params
+            }
+        }
+        
+        # 生成結果を返す
+        return result
+    
     def generate_image(self, prompt: str, **params):
         """
         画像生成処理
