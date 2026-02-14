@@ -1,6 +1,7 @@
 import pycorex.configs.app_init as app
 from PIL import Image as PIL_image
 from pycorex.gemini_client import GeminiClient
+from pycorex.imagen_client import ImagenClient
 from pycorex.exceptions.no_candidates_error import NoCandidatesError
 
 # アプリ初期化
@@ -29,17 +30,18 @@ client = GeminiClient(
 prompt = "クリスマスコスチュームを着た姿に変えてください。ポーズも大胆に変えて。表情は楽し気な感じ"
 
 # 画像ファイルをImageFile型で取得
-#base_image = PIL_image.open("tests/source_image/00109-2381410371.png")
-base_image = PIL_image.open("tests/source_image/00015-3838046869.png")
+base_image = PIL_image.open("tests/source_image/00109-2381410371.png")
+#base_image = PIL_image.open("tests/source_image/00015-3838046869.png")
 
 try:
     # 画像生成を実行
     response = client.edit_image(
         prompt=prompt,
         model=GeminiClient.GeminiModel.GEMINI_2_5_FLASH_IMAGE,
+        #model=ImagenClient.ImagenModel.IMAGEN_3_GENERATE_002,
         base_image=base_image,
         aspect_ratio=GeminiClient.AspectRatio.SQUARE,
-        image_size=GeminiClient.ImageSize.ONE_K,
+        image_size=GeminiClient.ImageSize.TWO_K,
         harm_category = GeminiClient.HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
         safety_filter_level = GeminiClient.SafetyFilterLevel.BLOCK_ONLY_HIGH
     )

@@ -119,7 +119,7 @@ class GeminiClient(BaseAIClient):
         
         # APIクライアント(画像)をセット
         # (genai)
-        self.image_client = image_genai.Client(vertexai=True, api_key=self.api_key)
+        self.image_client = image_genai.Client(vertexai=True, project="gen-lang-client-0452718754", location="global")
         # genaiクライアント
         # (genai)
         self.genai_client = image_genai.Client(api_key=self.api_key)
@@ -264,7 +264,7 @@ class GeminiClient(BaseAIClient):
                 )
             )
         )
-        
+
         # 画像生成結果チェック
         if not response.candidates:
             raise NoCandidatesError("No candidates returned. Possibly blocked by safety filters.")
