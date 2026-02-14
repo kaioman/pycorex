@@ -1,7 +1,6 @@
-import google.generativeai as genai
 import libcore_hng.utils.app_logger as app_logger
 from google import genai as image_genai
-from google.genai.types import GenerateContentConfig, Modality, ImageConfig, Part
+from google.genai.types import GenerateContentConfig, Modality, ImageConfig, Part, ThinkingConfig
 from enum import Enum
 from datetime import datetime, timezone
 from pycorex.core.base_ai_client import BaseAIClient
@@ -15,8 +14,11 @@ class GeminiClient(BaseAIClient):
     ----------
     api_key : str
         Gemini API の認証キー
-    client : google.generativeai
-        初期化済みの Gemini API クライアント
+    image_client : google.genai
+        画像生成用Gemini API クライアント
+    genai_client : google.genai
+        テキスト生成用Gemini API クライアント
+    
     """
 
     class GeminiModel(Enum):
@@ -128,16 +130,10 @@ class GeminiClient(BaseAIClient):
         APIクライアントの初期化処理
         """
 
-        # APIクライアント(テキスト)をセット
-        # (generativeai)
-        genai.configure(api_key=self.api_key)
-        self.text_client = genai
-        
-        # APIクライアント(画像)をセット
-        # (genai)
+        # APIクライアント(画像生成用)をセット
         self.image_client = image_genai.Client(vertexai=True, project=self.project_id, location=self.location)
-        # genaiクライアント
-        # (genai)
+
+        # APIクライアント(テキスト生成用)をセット
         self.genai_client = image_genai.Client(api_key=self.api_key)
         
     def calc_tokens(self, prompt, response_text) -> dict:
@@ -182,6 +178,10 @@ class GeminiClient(BaseAIClient):
         prompt: str, 
         model: GeminiModel,
         language = BaseAIClient.AILang.JP, 
+        system_instruction: str=None,
+        temperature=0.7,
+        max_output_tokens=2048,
+        thinking_config_include_thoughts=None,
         include_row: bool = False) -> dict:
         """
         指定したプロンプトに基づいてテキストを生成する
@@ -194,6 +194,14 @@ class GeminiClient(BaseAIClient):
             model(テキスト生成時のモデルを指定)
         language : BaseAIClient.AILang, optional
             応答言語の指定（デフォルト: 日本語）
+        system_instruction : str
+            キャラクターや制約の指定
+        temperature : float
+            生成の遊び。0.0で決定的、高いほど創造的(0.7-1.0が標準的)
+        max_output_tokens : int
+            最大トークン数（長文による料金高騰防止)
+        thinking_config_include_thoughts : bool
+            思考プロセス（有効化する場合はTrueを指定）
         include_row : bool, optional
             True の場合、生レスポンス情報を追加する
 
@@ -219,8 +227,17 @@ class GeminiClient(BaseAIClient):
         # プロンプト
         full_prompt = f"Respond in {language.value}. {prompt}"
         # テキスト生成
-        response = self.text_client.GenerativeModel(model.value).generate_content(full_prompt)
-
+        response = self.genai_client.models.generate_content(
+            model=model.value,
+            contents=[full_prompt],
+            config=GenerateContentConfig(
+                system_instruction=system_instruction,
+                temperature=temperature,
+                max_output_tokens=max_output_tokens,
+                thinking_config=ThinkingConfig(include_thoughts=thinking_config_include_thoughts) if thinking_config_include_thoughts != None else None
+            )
+        )
+        
         # 結果を取得する
         result = {
             "type": "text",
@@ -259,7 +276,36 @@ class GeminiClient(BaseAIClient):
         """
         画像生成メソッド【試験用】
         
-        新SDKに対応した画像生成メソッドだが、2025年12月現在は画像生成モデルのエンドポイントが利用できない
+        Parameters
+        ----------
+        prompt : str
+            変化の内容を説明するプロンプト
+        model: GeminiModel
+            画像生成で使用するモデル
+        aspect_ratio : AspectRatio, optional
+            出力画像のアスペクト比 (例: "1:1", "16:9")
+            default="1:1"
+        image_size : ImageSize, optional
+            画像サイズ(1K,2K,4K)
+            default=1K
+        number_of_images : int, optional
+            生成する画像の枚数
+            default=1
+        harm_category : HarmCategory
+            評価のカテゴリ
+            default="HARM_CATEGORY_DANGEROUS_CONTENT"
+        safety_filter_level : SafetyFilterLevel, optional
+            安全フィルタリングのフィルタレベル
+            default="block_medium_and_above"
+
+        Returns
+        -------
+        dict
+            生成結果を含む辞書
+
+        Note
+        -------
+        新SDK対応
         """
 
         # 画像生成リクエスト
