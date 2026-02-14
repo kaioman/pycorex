@@ -1,7 +1,6 @@
 import pycorex.configs.app_init as app
 from PIL import Image as PIL_image
 from pycorex.gemini_client import GeminiClient
-from pycorex.imagen_client import ImagenClient
 from pycorex.exceptions.no_candidates_error import NoCandidatesError
 
 # アプリ初期化
@@ -13,7 +12,9 @@ print(app.core.config.vertexai.location)
 
 # GeminiClientを初期化
 client = GeminiClient(
-    api_key=app.core.config.gemini.api_key_vertexai
+    api_key=app.core.config.gemini.api_key_vertexai,
+    project_id=app.core.config.vertexai.project_id,
+    location=app.core.config.vertexai.location
 )
 
 # プロンプトを設定
@@ -38,7 +39,6 @@ try:
     response = client.edit_image(
         prompt=prompt,
         model=GeminiClient.GeminiModel.GEMINI_2_5_FLASH_IMAGE,
-        #model=ImagenClient.ImagenModel.IMAGEN_3_GENERATE_002,
         base_image=base_image,
         aspect_ratio=GeminiClient.AspectRatio.SQUARE,
         image_size=GeminiClient.ImageSize.TWO_K,

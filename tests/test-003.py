@@ -10,7 +10,9 @@ print(f"api_key={app.core.config.gemini.api_key}")
 
 # GeminiClientを初期化
 client = GeminiClient(
-    api_key=app.core.config.gemini.api_key
+    api_key=app.core.config.gemini.api_key,
+    project_id=app.core.config.vertexai.project_id,
+    location=app.core.config.vertexai.location
 )
 
 # プロンプトを設定

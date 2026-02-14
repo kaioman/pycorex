@@ -7,7 +7,9 @@ app.init_app(__file__, "logger.json", "pycorex.json")
 
 # ImagenClientを初期化
 client = GeminiClient(
-    api_key=app.core.config.gemini.api_key_vertexai
+    api_key=app.core.config.gemini.api_key_vertexai,
+    project_id=app.core.config.vertexai.project_id,
+    location=app.core.config.vertexai.location
 )
 
 # プロンプトを設定

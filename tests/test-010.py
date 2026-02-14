@@ -6,7 +6,9 @@ app.init_app(__file__, "logger.json", "pycorex.json")
 
 # GeminiClientを初期化
 client = GeminiClient(
-    api_key=app.core.config.gemini.api_key
+    api_key=app.core.config.gemini.api_key,
+    project_id=app.core.config.vertexai.project_id,
+    location=app.core.config.vertexai.location
 )
 
 # プロンプトを設定
@@ -26,4 +28,4 @@ response = client.analyze_image(
 
 # 結果を表示する
 print("\n=== 生成結果 ===")
-print(response["result"])
+print(response["text"])
