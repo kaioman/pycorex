@@ -15,10 +15,11 @@ client = ImagenClient(
 )
 
 # プロンプトを設定
-prompt = "A full body portrait of an adult woman in stylish clothing, soft lighting, studio background"
+#prompt = "A full body portrait of an adult woman in stylish clothing, soft lighting, studio background"
+prompt = "Two elegant figures with sharp, sophisticated facial features and slender proportions dance amidst a torrential downpour on a sunset beach, their voluminous hair flowing in the gale and rendered with extremely delicate fine lines. Captured in the signature premium 1980s OVA aesthetic with high-contrast cel shading and shimmering iris highlights, they wear flowing ballroom gowns that twist like silk ribbons against the crashing, high waves. The atmosphere is thick with an urban city-pop color palette, where dramatic ray-traced sunset light illuminates their messy buns and an expression of haunting vulnerability, their slender forms trembling slightly with a delicate, wide-eyed trepidation as they embrace the overwhelming majesty of the storm. Dynamic wind trails spiral around them, merging the roar of the ocean with a sophisticated, cinematic intensity that eschews soft curves for sharp, detailed precision. (safe for work, no nudity, high quality art)"
 
-# テキスト生成を実行
-response = client.generate_image_vertexai(
+# 画像生成を実行
+response = client.generate_image(
     prompt=prompt,
     model=ImagenClient.ImagenModel.IMAGEN_4_ULTRA,
     language=ImagenClient.AILang.EN,
