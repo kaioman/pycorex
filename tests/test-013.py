@@ -1,5 +1,8 @@
+import io
 import pycorex.configs.app_init as app
+from PIL import Image as PIL_image
 from pycorex.imagen_client import ImagenClient
+from google.genai import types
 
 # アプリ初期化
 app.init_app(__file__, "logger.json", "pycorex.json")
@@ -15,17 +18,27 @@ client = ImagenClient(
 )
 
 # プロンプトを設定
-#prompt = "A full body portrait of an adult woman in stylish clothing, soft lighting, studio background"
-prompt = "複数の日本の女子が踊っている。写実的。幻想的な雰囲気"
+prompt = "クリスマスコスチュームを着た姿に変えてください。ポーズも大胆に変えて。表情は楽し気な感じ"
+
+# 画像ファイルをImageFile型で取得
+base_image = PIL_image.open("tests/source_image/00109-2381410371.png")
+img_byte_arr = io.BytesIO()
+base_image.save(img_byte_arr, format='PNG')
+img_bytes = img_byte_arr.getvalue()
+sdk_image = types.Image(image_bytes=img_bytes, mime_type="image/png")
+
+raw_ref_image = types.RawReferenceImage(
+    reference_image=sdk_image,
+    reference_id=0
+)
 
 # 画像生成を実行
-response = client.generate_image(
+response = client.edit_image(
+    base_image=[raw_ref_image],
     prompt=prompt,
-    model=ImagenClient.ImagenModel.IMAGEN_4_ULTRA,
-    aspect_ratio=ImagenClient.AspectRatio.SQUARE,
+    model=ImagenClient.ImagenModel.IMAGEN_3_CAPABILITY,
     language=ImagenClient.AILang.JP,
-    person_generation=ImagenClient.PersonGeneration.ALLOW_ALL,
-    safety_filter_level=ImagenClient.SafetyFilterLevel.BLOCK_ONLY_HIGH
+    aspect_ratio=ImagenClient.AspectRatio.SQUARE,
 )
 
 # 画像ファイルを出力する

@@ -75,7 +75,7 @@ class GeminiClient(BaseAIClient):
         FOUR_K = "4K"
         """ "4K" 解像度。非常に高解像度の出力を生成する場合に利用 """
         
-    def __init__(self, api_key: str):
+    def __init__(self, api_key: str, project_id: str, location: str):
         """
         コンストラクタ
 
@@ -83,15 +83,25 @@ class GeminiClient(BaseAIClient):
         ----------
         api_key : str
             APIキー
+        project_id : str
+            プロジェクトID
+        location : str
+            ロケーション
         """
 
         # APIキー
         self.api_key = api_key
 
+        # プロジェクトID
+        self.project_id = project_id
+        
+        # ロケーション
+        self.location = location
+        
         # APIクライアントの初期化処理
         self._configuration_client()
 
-    def set_authentication(self, api_key: str):
+    def set_authentication(self, api_key: str, project_id: str, location: str):
         """
         認証情報を再設定する
 
@@ -104,6 +114,12 @@ class GeminiClient(BaseAIClient):
         # APIキー再設定
         self.api_key = api_key
         
+        # プロジェクトID
+        self.project_id = project_id
+        
+        # ロケーション
+        self.location = location
+
         # APIクライアント初期化
         self._configuration_client()
         
@@ -119,7 +135,7 @@ class GeminiClient(BaseAIClient):
         
         # APIクライアント(画像)をセット
         # (genai)
-        self.image_client = image_genai.Client(vertexai=True, project="gen-lang-client-0452718754", location="global")
+        self.image_client = image_genai.Client(vertexai=True, project=self.project_id, location=self.location)
         # genaiクライアント
         # (genai)
         self.genai_client = image_genai.Client(api_key=self.api_key)
