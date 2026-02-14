@@ -10,7 +10,7 @@ app.init_app(__file__, "logger.json", "pycorex.json")
 client = UwgenClient()
 
 # プロンプトを設定
-prompt = "悪がらみした様子にする"
+prompt = "フィギュア風にする"
 
 # 元画像取得
 source_file_path = client.get_source_file_path("gen_images", "20260117_085628_0.png")

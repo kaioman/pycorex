@@ -11,16 +11,16 @@ client = GeminiClient(
 )
 
 # プロンプトを設定
-prompt = "リクルートスーツの女性が就職活動をしている"
+prompt = "ビキニ姿の日本人女性が就職活動をしている"
 #prompt = "12月10日は「アロースタートの日」。1945年のこの日、日本で初めてアローインディアカ（羽根つきバレーボール）の講習会が開かれたことに由来します。"
 
 try:
     # 画像生成を実行
     response = client.generate_image(
         prompt=prompt,
-        model=GeminiClient.GeminiModel.GEMINI_3_0_PRO_IMAGE_PREVIEW,
+        model=GeminiClient.GeminiModel.GEMINI_2_5_FLASH_IMAGE,
         aspect_ratio=GeminiClient.AspectRatio.SQUARE,
-        image_size=GeminiClient.ImageSize.ONE_K,
+        image_size=GeminiClient.ImageSize.TWO_K,
         harm_category = GeminiClient.HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
         safety_filter_level = GeminiClient.SafetyFilterLevel.BLOCK_ONLY_HIGH
     )
