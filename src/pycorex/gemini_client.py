@@ -77,7 +77,7 @@ class GeminiClient(BaseAIClient):
         FOUR_K = "4K"
         """ "4K" 解像度。非常に高解像度の出力を生成する場合に利用 """
         
-    def __init__(self, api_key: str, project_id: str, location: str):
+    def __init__(self, api_key: str, project_id: str = None, location: str = None):
         """
         コンストラクタ
 
