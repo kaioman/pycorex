@@ -6,18 +6,15 @@ app.init_app(__file__, "logger.json", "pycorex.json")
 
 # 設定クラスメンバ参照確認
 print(f"json_path={app.core.config.prompt.json_path}")
-print(f"api_key={app.core.config.gemini.api_key}")
 
 # GeminiClientを初期化
 client = GeminiClient(
     api_key=app.core.config.gemini.api_key,
-    project_id=app.core.config.vertexai.project_id,
-    location=app.core.config.vertexai.location
 )
 
 # プロンプトを設定
 #prompt = "相対性理論と特殊相対性理論について簡潔に説明してください"
-prompt = "02/14に因んだ蘊蓄を100文字以内で語ってください。内容は必ず事実に基づいたもので歴史的に認知度の高いものとします"
+prompt = "02/15に因んだ蘊蓄を100文字以内で語ってください。内容は必ず事実に基づいたもので歴史的に認知度の高いものとします"
 
 # テキスト生成を実行
 response = client.generate_text(
