@@ -24,8 +24,10 @@ try:
     )
     
     # 画像ファイルを出力する
-    client.output_images(result["images"], "gen_images")
+    file_path_list = client.output_images(result["images"], "gen_images")
 
+    print(file_path_list)
+    
 except NoCandidatesError as e:
     print(f"Image generation failed: {e}")
 except Exception as e:
