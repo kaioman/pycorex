@@ -260,7 +260,7 @@ class UwgenClient(BaseAIClient):
         # 生成結果を返す
         return result
     
-    def output_images(self, images, output_abs_path):
+    def output_images(self, images, output_abs_path) -> list[str]:
         """
         画像を保存する
         """
@@ -272,6 +272,7 @@ class UwgenClient(BaseAIClient):
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         
         # 画像出力処理
+        file_path_list = []
         for idx, img_bytes in enumerate(images):
             
             # ファイル名生成
@@ -282,9 +283,15 @@ class UwgenClient(BaseAIClient):
             with open(file_path, "wb") as f:
                 f.write(img_bytes)
             
+            # ファイルパスリストに追加
+            file_path_list.append(file_path)
+            
             # ログ出力
             app_logger.info(f"Saved: {file_path}")
-    
+
+        # 戻り値を返す
+        return file_path_list
+
     def get_source_file_path(self, input_abs_path, filename):
         """
         元画像ファイルパスを取得する
