@@ -248,7 +248,7 @@ class UwgenClient(BaseAIClient):
         result = {
             "type": "text",
             "model": payload.get("model", "unkwon model"),
-            "text": json_data["data"]["generated"]["result"],
+            "text": json_data["data"]["generated"]["text"],
             "metadata": {
                 "prompt": prompt,
                 "mode": "analyze",
