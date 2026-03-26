@@ -1,0 +1,53 @@
+{
+    "outfits": [
+        { "id": "classic_sailor", "tags": "classic sailor school uniform, pleated skirt, red neckerchief", "vibe": "school" },
+        { "id": "blazer_style", "tags": "school blazer, plaid skirt, ribbon tie", "vibe": "school" },
+        { "id": "gym_uniform", "tags": "bloomers, gym shirt, (white socks:1.1)", "vibe": "school", "min_lv": 1 },
+        { "id": "oversized_hoodie", "tags": "oversized techwear hoodie, tactical joggers, sneakers", "vibe": "cyberpunk" },
+        { "id": "bodysuit", "tags": "sleek cyber bodysuit, metallic accents, glowing lines", "vibe": "cyberpunk", "min_lv": 1 },
+        { "id": "pilot_suit", "tags": "80s mecha pilot suit, form-fitting, shoulder pads", "vibe": "cyberpunk" },
+        { "id": "off_shoulder", "tags": "oversized off-shoulder knit sweater, denim shorts", "vibe": "casual" },
+        { "id": "sundress", "tags": "white summer sundress, straw hat, (thin fabric:1.1)", "vibe": "casual" },
+        { "id": "tracksuit", "tags": "80s retro tracksuit, side stripes, zip-up jacket", "vibe": "casual" },
+        { "id": "office_lady", "tags": "office blouse, tight pencil skirt, pantyhose", "vibe": "mature" },
+        { "id": "evening_dress", "tags": "elegant backless evening dress, high slit", "vibe": "mature" },
+        { "id": "turtleneck", "tags": "tight sleeveless turtleneck, mini skirt", "vibe": "mature" },
+        { "id": "bikini_armor", "tags": "fantasy bikini armor, metallic plating, leather straps", "vibe": "fantasy", "min_lv": 2 },
+        { "id": "miko_outfit", "tags": "traditional miko priestess outfit, white kosode, red hakama", "vibe": "traditional" },
+        { "id": "yukata", "tags": "floral pattern yukata, obi sash, wooden geta", "vibe": "traditional" },
+        { "id": "bunny_suit", "tags": "high-leg bunny suit, bow tie, wrist cuffs", "vibe": "sexy", "min_lv": 2 },
+        { "id": "lingerie_only", "tags": "sheer babydoll, lace trim, matching stockings", "vibe": "sexy", "min_lv": 3 },
+        { "id": "nurse_outfit", "tags": "retro nurse uniform, nurse cap, white stockings", "vibe": "sexy", "min_lv": 2 },
+        { "id": "china_dress", "tags": "short china dress, deep side slit, silk embroidery", "vibe": "sexy" },
+        { "id": "swimsuit_80s", "tags": "high-leg one-piece swimsuit, neon colors, 80s style", "vibe": "sexy", "min_lv": 2 }
+    ],
+    "innerwear_sets": {
+        "styles": [
+            { "id": "black_lace", "tags": "black_lace_bra, black_lace_panties, (see-through:1.1)", "vibe": "mature" },
+            { "id": "cyber_blue", "tags": "blue_sport_bra, techwear_underwear, neon_trim", "vibe": "cyberpunk" },
+            { "id": "pink_striped", "tags": "pink_and_white_striped_bra, shimapan, cute_bow", "vibe": "cute" },
+            { "id": "minimal_black", "tags": "micro_bikini_style_bra, black_thong, (strappy:1.2)", "vibe": "sexy" },
+            { "id": "white_pure", "tags": "simple_white_bra, white_panties, (satin:1.1)", "vibe": "pure" },
+            { "id": "no_bra_mode", "tags": "no_bra, (nipples_visible_through_fabric:1.3)", "min_lv": 3 }
+        ],
+        "materials": ["silk", "lace", "latex", "cotton", "polyester", "satin"]
+    },
+    "accessories": {
+        "//": "Aoiの場合はここから pink_and_black_headphones と black_leather_choker を最優先で選択",
+        "head": ["pink_and_black_headphones", "cat_ear_headset", "cyber_visor"],
+        "neck": ["black_leather_choker", "silver_pendant", "id_card_lanyard"],
+        "hands": ["fingerless_gloves", "black_nail_polish", "wrist_bands", "tactical_gloves"]
+    },
+    "fetish_items": {
+        "items": [
+            { "id": "garter", "tags": "garter_belt, thigh_highs", "min_lv": 2 },
+            { "id": "harness", "tags": "body_harness, leather_straps", "min_lv": 3 },
+            { "id": "bandage", "tags": "cleavage_bandage, wrapped_skin", "min_lv": 3 },
+            { "id": "glasses", "tags": "under-rim_glasses, looking_over_glasses", "min_lv": 0 }
+        ]
+    },
+    "wardrobe_intensity_logic": {
+        "3": "pulling_panties_aside, adjusting_bra_strap",
+        "4": "removing_panties, bra_lifted, (lingerie_only:1.3), (completely_nude:1.5)"
+    }
+}
