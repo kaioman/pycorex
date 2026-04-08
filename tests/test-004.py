@@ -2,7 +2,7 @@ import pycorex.configs.app_init as app
 from pycorex.imagen_client import ImagenClient
 
 # アプリ初期化
-app.init_app(__file__, "logger.json", "pycorex.json")
+app.init_app(__file__, "app_config.json", "pycorex.json.enc")
 
 # 設定クラスメンバ参照確認
 print(f"project_id={app.core.config.vertexai.project_id}")

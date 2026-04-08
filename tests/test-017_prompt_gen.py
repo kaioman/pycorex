@@ -68,7 +68,7 @@ def main(prompt_only=False, angle_id=None):
             return
 
         # アプリ初期化
-        app.init_app(__file__, "logger.json", "pycorex.json")
+        app.init_app(__file__, "app_config.json", "pycorex.json.enc")
 
         # UwgenClientを初期化
         client = UwgenClient()

@@ -2,7 +2,7 @@ import pycorex.configs.app_init as app
 from pycorex.gemini_client import GeminiClient
 
 # アプリ初期化
-app.init_app(__file__, "logger.json", "pycorex.json")
+app.init_app(__file__, "app_config.json", "pycorex.json.enc")
 
 # 設定クラスメンバ参照確認
 print(f"json_path={app.core.config.prompt.json_path}")

@@ -2,7 +2,7 @@ log/
 env/
 pycorex/__pycache__
 pycorex.egg-info/
-configs/pycorex.json
+configs/pycorex.json.enc
 __pycache__
 *.png
 gen_images/
