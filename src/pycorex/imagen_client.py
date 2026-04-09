@@ -3,10 +3,10 @@ from enum import Enum
 from datetime import datetime, timezone
 from google import genai
 from google.genai.types import GenerateImagesConfig, EditImageConfig
-from pycorex.core.base_ai_client import BaseAIClient
+from pycorex.core.base_gemini_client import BaseGeminiClient
 from pycorex.exceptions.no_candidates_error import NoCandidatesError
 
-class ImagenClient(BaseAIClient):
+class ImagenClient(BaseGeminiClient):
     """
     Google Vertex AI / Gen AI SDK を利用して画像生成を行うクライアントクラス
 
@@ -127,11 +127,11 @@ class ImagenClient(BaseAIClient):
     def generate_image(self, 
         prompt: str, 
         model: ImagenModel,
-        aspect_ratio:BaseAIClient.AspectRatio = BaseAIClient.AspectRatio.SQUARE, 
+        aspect_ratio:BaseGeminiClient.AspectRatio = BaseGeminiClient.AspectRatio.SQUARE, 
         number_of_images:int = 1, 
-        language = BaseAIClient.AILang.EN,
-        person_generation = BaseAIClient.PersonGeneration.ALLOW_ADULT,
-        safety_filter_level = BaseAIClient.SafetyFilterLevel.BLOCK_MEDIUM_AND_ABOVE,
+        language = BaseGeminiClient.AILang.EN,
+        person_generation = BaseGeminiClient.PersonGeneration.ALLOW_ADULT,
+        safety_filter_level = BaseGeminiClient.SafetyFilterLevel.BLOCK_MEDIUM_AND_ABOVE,
         include_row: bool = False) -> dict:
         
         """
@@ -227,11 +227,11 @@ class ImagenClient(BaseAIClient):
         base_image,
         prompt: str, 
         model: ImagenModel,
-        aspect_ratio:BaseAIClient.AspectRatio = BaseAIClient.AspectRatio.SQUARE, 
+        aspect_ratio:BaseGeminiClient.AspectRatio = BaseGeminiClient.AspectRatio.SQUARE, 
         number_of_images:int = 1, 
-        language = BaseAIClient.AILang.EN,
-        person_generation = BaseAIClient.PersonGeneration.ALLOW_ADULT,
-        safety_filter_level = BaseAIClient.SafetyFilterLevel.BLOCK_MEDIUM_AND_ABOVE,
+        language = BaseGeminiClient.AILang.EN,
+        person_generation = BaseGeminiClient.PersonGeneration.ALLOW_ADULT,
+        safety_filter_level = BaseGeminiClient.SafetyFilterLevel.BLOCK_MEDIUM_AND_ABOVE,
         include_row: bool = False) -> dict:
         
         """

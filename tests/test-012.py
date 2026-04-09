@@ -15,7 +15,7 @@ try:
     # 画像解析を実行
     result = client.generate_text(
         prompt=prompt,
-        model=GeminiClient.GeminiModel.GEMINI_3_0_FLASH_PREVIEW.value
+        model=GeminiClient.GeminiModel.GEMINI_2_5_FLASH_LITE.value
     )
     
     # 解析結果を出力
