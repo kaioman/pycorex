@@ -1,4 +1,3 @@
-from __future__ import annotations
 import importlib
 from typing import Type, Dict, Optional, Any
 from pycorex.core.base_prompt_generator import BasePromptGenerator

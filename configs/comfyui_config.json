@@ -1,0 +1,5 @@
+{
+    "comfyui": {
+        "workflow_path": "tests/comfyui_workflow/ipadapter_faceid.json"
+    }
+}
