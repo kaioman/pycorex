@@ -1,0 +1,30 @@
+{
+    "core_quality": {
+        "score_tags": "score_9, score_8_up, score_7_up, masterpiece, high quality",
+        "style_base": "anime style, flat color, (high contrast:1.1), (vibrant colors:1.1)",
+        "technical": "8k wallpaper, extremely detailed CG, unity 8k wallpaper"
+    },
+    "negative_prompts": {
+        "default": "score_6, score_5, score_4, (nude:1.3), (naked:1.3), (worst quality:1.4), (low quality:1.4), (normal quality:1.2), lowres, extra fingers, fewer fingers, strange fingers, bad anatomy, bad hands, error, missing fingers, extra digit, fewer digits, cropped, jpeg artifacts, signature, watermark, username, blurry",
+        "//": "Lv.0~3の時はここに露出禁止タグを動的に追加し、Lv.4の時だけ解除するロジックをPython側に持たせる"
+    },
+    "environment_defaults": {
+        "lighting": "cinematic lighting, soft shadows",
+        "camera": "dynamic angle, depth of field"
+    },
+    "gaze_control": {
+        "options": [
+            { "tags": "looking at viewer", "weight": 0.4 },
+            { "tags": "looking away", "weight": 0.3 },
+            { "tags": "looking at side", "weight": 0.15 },
+            { "tags": "looking down", "weight": 0.1 },
+            { "tags": "looking up", "weight": 0.05 }
+        ]
+    },
+    "camera_logic": {
+        "extreme_perspective": {
+            "tags": "(extreme perspective:1.3), (dynamic pose:1.2), (kinetic lines:1.1)",
+            "probability": 0.2
+        }
+    }
+}

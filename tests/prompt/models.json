@@ -1,0 +1,97 @@
+{
+    "situations": [
+        {
+            "id": "server_room",
+            "name": "深夜のサーバー室",
+            "background": "**midnight, server room, server rack, glowing blue leds, cable bundles, dark room, (monitor glow:1.2)**",
+            "camera_angles": [
+                "from below, low angle", 
+                "from side, profile", 
+                "eye level, close-up",
+                "wide angle, fisheye lens look"
+            ],
+            "pose_variations": [
+                "leaning against server rack",
+                "squatting on floor, checking cables",
+                "sitting on a small stool",
+                "standing, arms crossed"
+            ],
+            "default_outfit": "oversized_hoodie, hot_pants",
+            "lighting": "cyan and magenta lighting, cinematic lighting, (hardware_self-illumination:1.2)",
+            "recommended_poses": ["04", "10"],
+            "vibe": "tech_heavy"
+        },
+        {
+            "id": "cyber_alley",
+            "name": "雨のネオン街",
+            "background": "cyberpunk_city, neon_signs, wet_pavement, rainy_night",
+            "camera_angles": [
+                "low angle, from below, looking up at character",
+                "reflection on wet pavement, ground-level shot",
+                "side view, profile, walking through neon light",
+                "wide angle, vanishing point perspective",
+                "close-up, face partially obscured by shadow"
+            ],
+            "pose_variations": [
+                "standing under a transparent umbrella",
+                "leaning against a neon-lit brick wall",
+                "walking away, looking over shoulder",
+                "squatting near a puddle, looking at reflection",
+                "holding a jacket collar, cold expression"
+            ],
+            "default_outfit": "techwear_jacket, pleated_skirt, tactical_boots",
+            "lighting": "neon_reflection, wet_skin_shimmer",
+            "recommended_poses": ["01", "08"],
+            "vibe": "atmospheric"
+        },
+        {
+            "id": "private_room",
+            "name": "Aoiの自室",
+            "background": "gaming_room, multi-monitor_setup, messy_desk, soft_bed_background",
+            "camera_angles": [
+                "from above, high angle",
+                "looking down at viewer",
+                "over the shoulder",
+                "dutch angle"
+            ],
+            "pose_variations": [
+                "lying on bed, legs up",
+                "sitting cross-legged on chair",
+                "stretching arms",
+                "leaning back, feet on desk"
+            ],
+            "default_outfit": "camisole, loose_cardigan, dolphin_shorts",
+            "lighting": "monitor_glow, warm_indoor_lighting",
+            "recommended_poses": ["02", "07"],
+            "vibe": "relaxed"
+        },
+        {
+            "id": "abandoned_factory",
+            "name": "廃工場のアジト",
+            "background": "abandoned_factory, rusty_pipes, dust_motes, sunlight_beams",
+            "camera_angles": [
+                "high angle, bird's eye view from catwalk",
+                "dutch angle, tilted horizon, dramatic tension",
+                "back view, looking at the sunlight beams",
+                "eye level, through rusty pipes, framed shot",
+                "long shot, small character in massive machinery"
+            ],
+            "pose_variations": [
+                "sitting on a rusted steel beam, dangling legs",
+                "standing in a beam of sunlight, dust motes around",
+                "holding a heavy wrench, looking at hand",
+                "crouching behind a crate, hiding",
+                "leaning against a large rusty turbine, looking up"
+            ],
+            "default_outfit": "damaged_tank_top, denim_shorts, belts",
+            "lighting": "hard_shadows, cinematic_sunlight",
+            "recommended_poses": ["05", "11"],
+            "vibe": "gritty"
+        }
+    ],
+    "global_logic": {
+        "//": "シチュエーションに関わらず適用される抽選ルール",
+        "random_outfit_chance": 0.2,
+        "time_of_day": ["morning", "afternoon", "evening", "night"]
+    }
+}

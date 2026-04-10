@@ -1,0 +1,56 @@
+{
+    "template": "{prefix}, {camera}, {angle}, {detail}, {nuance}, {hair}, {outfit}. Wearing {core_item}. {style}.",
+    "view_nuances": [
+        "subtle 10-degree head turn",
+        "natural head tilt",
+        "showing the curve of the jawline",
+        "slight side-view perspective",
+        "angled composition"
+    ],
+    "camera_relations": [
+        "tightly cropped headshot",
+        "macro-style portrait focusing on the head",
+        "magnified view of the head and headphones",
+        "frame-filling headshot"
+    ],
+    "camera_types": {
+        "close": [
+            "extreme close-up headshot",
+            "macro shot focusing on the head",
+            "tightly cropped portrait"
+        ],
+        "mid": [
+            "upper body shot",
+            "portrait from the chest up",
+            "medium shot showing head and shoulders",
+            "waist-up shot with natural depth"
+        ]
+    },
+    "prefix": "Extreme close-up shot, face and headphones occupying the entire frame, no shoulders",
+    "core_item": "detailed chain headband headphone, pink earcups, link chain pattern on headband, heart logo, boom microphone with blue tip",
+    "style": "pure white background, anime style, clean line art, detailed rendering",
+    "hair_styles": [
+        "black long straight hair with blunt bangs",
+        "brown messy bob cut",
+        "silver twintails, waist-length",
+        "blonde hair in a high ponytail",
+        "purple wavy medium-length hair",
+        "blue pixie cut, short hair"
+    ],
+    "outfits": [
+        "loose-fitting cyberpunk hoodie",
+        "techwear tactical vest",
+        "oversized bomber jacket",
+        "sci-fi high-collar bodysuit",
+        "streetwear windbreaker",
+        "futuristic oversized sweater"
+    ],
+    "angles": [
+        {"id": "front", "prefix": "Upper body portrait, luminous silver hair, brilliant white lighting", "angle": "nearly frontal view", "detail": "high-contrast between silver hair and outfit, nearly frontal", "camera_type": "mid", "count": 1},
+        {"id": "tilted", "prefix": "Tilted perspective, dramatic angle", "angle": "dynamic tilted headshot", "detail": "diagonal view of the headphones, extreme close-up", "camera_type": "close", "count": 1},
+        {"id": "three-quarter", "prefix": "Three-quarter view, dynamic composition", "angle": "angled 3/4 view of the head", "detail": "close-up on the side of the headphone earcup and chain", "camera_type": "close","count": 3},
+        {"id": "full-profile", "prefix": "Extreme close-up profile shot, side view of the head", "angle": "perfect 90-degree profile view", "detail": "focusing on the side of the headphone earcup, showing the full link chain texture and heart logo from the side", "camera_type": "close", "count": 1},        
+        {"id": "high", "prefix": "High-angle shot, dramatic perspective", "angle": "dramatic high-angle shot from above the head", "detail": "looking down at the character, top surface of the chain headband is the focal point, hair parting is visible", "camera_type": "close", "count": 1},
+        {"id": "low", "prefix": "Low-angle shot, dominant perspective", "angle": "extreme low-angle shot from below the chin", "detail": "looking up at the character, showing the underside of the jaw and the bottom of the pink earcups, dominant perspective", "camera_type": "close", "count": 1}
+    ]
+}

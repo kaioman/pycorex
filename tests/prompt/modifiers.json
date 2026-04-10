@@ -1,0 +1,35 @@
+{
+    "intensity_definitions": {
+        "level_0": {
+            "label": "Pure",
+            "rating": "rating_safe",
+            "eye_logic": "focusing, calm, (looking at viewer:1.2)",
+            "forbidden_eyes": ["vacant eyes", "lifeless eyes", "rolling eyes"]
+        },
+        "level_1": {
+            "label": "Active",
+            "rating": "rating_safe",
+            "eye_logic": "bright eyes, (slight blush:1.2), (looking at viewer:1.2)",
+            "forbidden_eyes": ["vacant eyes", "lifeless eyes", "rolling eyes"]
+        },
+        "level_2": {
+            "label": "Suggestive",
+            "rating": "rating_questionable",
+            "eye_logic": "shakerato expression, (blushing:1.3), looking away",
+            "forbidden_eyes": ["vacant eyes", "lifeless eyes", "rolling eyes"]
+        },
+        "level_3": {
+            "label": "Extreme",
+            "rating": "rating_explicit",
+            "eye_logic": "shakerato expression, (heavily blushing:1.4), (teary eyes:1.2), (glossy eyes:1.2), looking at viewer",
+            "forbidden_eyes": ["vacant eyes", "lifeless eyes", "rolling eyes"]
+        },
+        "level_4": {
+            "label": "Gachi-Extreme",
+            "rating": "rating_explicit",
+            "eye_logic": "(teary eyes:1.2), (moist eyes:1.1), (glaring:1.3), (intense gaze:1.2), constricted pupils",
+            "forbidden_eyes": ["vacant eyes", "lifeless eyes", "rolling eyes"],
+            "exclusive_tags": ["(blushing:1.4)", "panting", "sweat", "trembling"]
+        }
+    }
+}

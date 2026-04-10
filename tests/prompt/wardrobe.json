@@ -1,0 +1,34 @@
+{
+    "outfits": [
+        { "id": "classic_sailor", "tags": "classic sailor school uniform, pleated skirt, red neckerchief", "vibe": "school", "min_lv": 1, "max_lv": 4, "destructible": true, "parts": ["shirt", "skirt", "neckerchief"] },
+        { "id": "blazer_style", "tags": "school blazer, plaid skirt, ribbon tie", "vibe": "school", "min_lv": 1, "max_lv": 4, "destructible": true, "parts": ["blazer", "shirt", "skirt"] },
+        { "id": "gym_uniform", "tags": "bloomers, gym shirt, (white socks:1.1)", "vibe": "school", "min_lv": 1, "max_lv": 4, "destructible": true, "parts": ["t-shirt", "bloomers"] },
+        { "id": "oversized_hoodie", "tags": "oversized techwear hoodie, tactical joggers, sneakers", "vibe": "cyberpunk", "min_lv": 1, "max_lv": 3, "destructible": false, "parts": ["hoodie", "pants"] },
+        { "id": "bodysuit", "tags": "sleek cyber bodysuit, metallic accents, glowing lines", "vibe": "cyberpunk", "min_lv": 1, "max_lv": 4, "destructible": false, "parts": ["suit"] },
+        { "id": "pilot_suit", "tags": "80s mecha pilot suit, form-fitting, shoulder pads", "vibe": "cyberpunk", "min_lv": 1, "max_lv": 4, "destructible": false, "parts": ["suit"] },
+        { "id": "off_shoulder", "tags": "oversized off-shoulder knit sweater, denim shorts", "vibe": "casual", "min_lv": 1, "max_lv": 4, "destructible": true, "parts": ["knit", "shorts"] },
+        { "id": "sundress", "tags": "white summer sundress, straw hat, (thin fabric:1.1)", "vibe": "casual", "min_lv": 1, "max_lv": 4, "destructible": true, "parts": ["dress"] },
+        { "id": "tracksuit", "tags": "80s retro tracksuit, side stripes, zip-up jacket", "vibe": "casual", "min_lv": 1, "max_lv": 4, "destructible": true, "parts": ["jacket", "pants"] },
+        { "id": "office_lady", "tags": "office blouse, tight pencil skirt, pantyhose", "vibe": "mature", "min_lv": 1, "max_lv": 4, "destructible": true, "parts": ["blouse", "skirt", "pantyhose"] },
+        { "id": "evening_dress", "tags": "elegant backless evening dress, high slit", "vibe": "mature", "min_lv": 1, "max_lv": 4, "destructible": true, "parts": ["dress"] },
+        { "id": "turtleneck", "tags": "tight sleeveless turtleneck, mini skirt", "vibe": "mature", "min_lv": 1, "max_lv": 4, "destructible": true, "parts": ["knit", "skirt"] },
+        { "id": "bikini_armor", "tags": "fantasy bikini armor, metallic plating, leather straps", "vibe": "fantasy", "min_lv": 2, "max_lv": 4, "destructible": false, "parts": ["armor", "straps"] },
+        { "id": "miko_outfit", "tags": "traditional miko priestess outfit, white kosode, red hakama", "vibe": "traditional", "min_lv": 1, "max_lv": 4, "destructible": true, "parts": ["kosode", "hakama"] },
+        { "id": "yukata", "tags": "floral pattern yukata, obi sash, wooden geta", "vibe": "traditional", "min_lv": 1, "max_lv": 4, "destructible": true, "parts": ["yukata", "obi"] },
+        { "id": "bunny_suit", "tags": "high-leg bunny suit, bow tie, wrist cuffs", "vibe": "sexy", "min_lv": 2, "max_lv": 4, "destructible": false, "parts": ["suit"] },
+        { "id": "lingerie_only", "tags": "sheer babydoll, lace trim, matching stockings", "vibe": "sexy", "min_lv": 3, "max_lv": 4, "destructible": true, "parts": ["babydoll", "stockings"] },
+        { "id": "nurse_outfit", "tags": "retro nurse uniform, nurse cap, white stockings", "vibe": "sexy", "min_lv": 2, "max_lv": 4, "destructible": true, "parts": ["dress", "cap", "stockings"] },
+        { "id": "china_dress", "tags": "short china dress, deep side slit, silk embroidery", "vibe": "sexy", "min_lv": 1, "max_lv": 4, "destructible": true, "parts": ["dress"] },
+        { "id": "swimsuit_80s", "tags": "high-leg one-piece swimsuit, neon colors, 80s style", "vibe": "sexy", "min_lv": 2, "max_lv": 4, "destructible": false, "parts": ["swimsuit"] }
+    ],
+    "innerwear_sets": {
+        "styles": [
+            { "id": "black_lace", "tags": "black_lace_bra, black_lace_panties, (see-through:1.1)", "vibe": "mature", "min_lv": 2 },
+            { "id": "cyber_blue", "tags": "blue_sport_bra, techwear_underwear, neon_trim", "vibe": "cyberpunk", "min_lv": 1 },
+            { "id": "pink_striped", "tags": "pink_and_white_striped_bra, shimapan, cute_bow", "vibe": "cute", "min_lv": 1 },
+            { "id": "minimal_black", "tags": "micro_bikini_style_bra, black_thong, (strappy:1.2)", "vibe": "sexy", "min_lv": 3 },
+            { "id": "white_pure", "tags": "simple_white_bra, white_panties, (satin:1.1)", "vibe": "school", "min_lv": 1 },
+            { "id": "no_bra_mode", "tags": "no_bra, (nipples_visible_through_fabric:1.3)", "min_lv": 3 }
+        ]
+    }
+}

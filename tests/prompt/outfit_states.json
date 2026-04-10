@@ -1,0 +1,25 @@
+{
+    "outfit_tags": {
+        "tops": {
+            "0": "neatly_clothed, buttoned_up, tucked_in",
+            "1": "rolled_sleeves, unbuttoned_top_button, loosened_necktie",
+            "2": "off_shoulder, (shirt_tug:1.3), midriff_visible, unbuttoned",
+            "3": "(disheveled_clothes:1.3), (shoulder_drop:1.2), (shirt_tug:1.1), unbuttoned, (breast_curvatures:1.1), chest_focus",
+            "4": "torn_clothes, (clothed_pull_aside:1.5), (breast_out:1.4), nipple_exposure"
+        },
+        "bottoms": {
+            "0": "standard_fit, smooth_skirt",
+            "1": "slightly_lifted_skirt, adjusting_socks",
+            "2": "skirt_hold, (panting_visibility:1.2), high_thigh_exposure",
+            "3": "(panties_visible:1.3), low_waist, skirt_tucked_up, thigh_highs_exposure",
+            "4": "(pussy_exposure:1.5), (skirt_pulled_up:1.4), (bottomless:1.3), torn_tights"
+        },
+        "legwear_extra": {
+            "0": "intact_tights, clean_socks",
+            "1": "slightly_loose_socks",
+            "2": "thigh_highs_sliding_down",
+            "3": "denier_focus, (tights_tug:1.3), runs_in_tights",
+            "4": "shredded_tights, (bare_legs:1.2), toe_focus"
+        }
+    }
+}
