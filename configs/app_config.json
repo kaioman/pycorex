@@ -1,0 +1,16 @@
+{
+    "logging": {
+        "logfile_name": "pycorex.log",
+        "logfile_name_suffix": 0,
+        "logfolder_name": "./logs",
+        "logformat": "%(levelname)-7s : %(asctime)s : %(message)s",
+        "loglevel": 20,
+        "log_prefix_format": "[ {} {} ]",
+        "log_depth": "+",
+        "log_interval": 1,
+        "log_backupCount": 7,
+        "log_rotation_when": "midnight",
+        "log_file_encording": "utf-8",
+        "log_rotation_utc_time": false
+    }
+}
