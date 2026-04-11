@@ -3,7 +3,7 @@ from pycorex.gemini_client import GeminiClient
 from pycorex.exceptions.no_candidates_error import NoCandidatesError
 
 # アプリ初期化
-app.init_app(__file__, "app_config.json", "pycorex.json.enc")
+app.init_app(__file__, "app_config.json", "gcp_config.json", "pycorex.json.enc")
 
 # ImagenClientを初期化
 client = GeminiClient(
