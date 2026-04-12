@@ -12,10 +12,10 @@ class PonyPromptGenerator(BasePromptGenerator):
 
     def __init__(
         self, 
-        api_path: str = "tests/prompt/persona/Aoi.json",
+        aoi_path: str = "tests/prompt/persona/Aoi.json",
         camera_path: str = "tests/prompt/camera_angules.json",
         wardrobe_path: str = "tests/prompt/wardrobe.json"):
-        self.data = self._load_json(api_path)
+        self.data = self._load_json(aoi_path)
         self.camera_data = self._load_json(camera_path)
         self.wardrobe_data = self._load_json(wardrobe_path)
     

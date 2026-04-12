@@ -5,10 +5,11 @@ import uuid
 import requests
 import libcore_hng.utils.app_logger as app_logger
 from http import HTTPStatus
-from typing import Dict, Any, Union
+from typing import Dict, Any, Union, Optional
 from pathlib import Path
 from datetime import datetime, timezone
 from pycorex.core.base_ai_client import BaseAIClient
+from pycorex.core.base_prompt_generator import BasePromptGenerator
 from pycorex.exceptions.comfyui_exceptions import ComfyUIAPIError
 
 class ComfyUIClient(BaseAIClient):
@@ -16,7 +17,13 @@ class ComfyUIClient(BaseAIClient):
     ComfyUI APIとの通信クライアントクラス
     """
 
-    def __init__(self, base_url: str):
+    def __init__(
+        self, 
+        base_url: str,
+        prompt_generator: Optional[BasePromptGenerator],
+        timeout_seconds: int = 120,
+        polling_interval: int = 1
+        ):
         """
         コンストラクタ
         
@@ -29,7 +36,11 @@ class ComfyUIClient(BaseAIClient):
         
         self.base_url = base_url
         self.logger = app_logger
-    
+        self.prompt_generator = prompt_generator
+        self.timeout_seconds = timeout_seconds
+        self.polling_interval = polling_interval
+        self._configuration_client()
+
     def _configuration_client(self):
         """
         _configuration_clientの実装（BaseAIClientの抽象メソッドの実装）
@@ -114,7 +125,13 @@ class ComfyUIClient(BaseAIClient):
         # 生成された画像のバイナリデータを返す
         return images_data
 
-    def generate_image(self, workflow_data: Union[Dict[str, Any], str], **params) -> list[bytes]:
+    def generate_image(
+        self, 
+        workflow_data: Union[Dict[str, Any], str], 
+        prompt_level: int = 1,
+        target_scene_id: Optional[str] = None,
+        **params) -> list[bytes]:
+        
         """
         ComfyUI APIを呼び出して画像を生成する
 
@@ -170,6 +187,19 @@ class ComfyUIClient(BaseAIClient):
         else:
             raise ComfyUIAPIError("Invalid workflow_data type. Must be dict or a file path string.")
 
+        if self.prompt_generator and workflow_data_json:
+            positive_prompt, negative_prompt = self.prompt_generator.generate_prompt(
+                level=prompt_level,
+                target_scene_id=target_scene_id
+            )
+            self.logger.info(f"Generated Positive Prompt: {positive_prompt[:100]}...")
+            self.logger.info(f"Generated Negative Prompt: {negative_prompt[:100]}...")
+            
+            if "12" in workflow_data_json and workflow_data_json["12"].get("class_type") == "CLIPTextEncode":
+                workflow_data_json["12"]["inputs"]["text"] = positive_prompt
+            if "13" in workflow_data_json and workflow_data_json["13"].get("class_type") == "CLIPTextEncode":
+                workflow_data_json["13"]["inputs"]["text"] = negative_prompt
+                
         for _, node_data in workflow_data_json.items():
             if node_data.get("class_type") == "KSampler":
                 node_data["inputs"]["seed"] = random.randint(1, 1125899906842624)
