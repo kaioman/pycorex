@@ -1,4 +1,4 @@
-log/
+logs/
 env/
 pycorex/__pycache__
 pycorex.egg-info/

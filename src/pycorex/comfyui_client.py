@@ -1,7 +1,10 @@
 import json
+import random
 import time
+import uuid
 import requests
 import libcore_hng.utils.app_logger as app_logger
+from http import HTTPStatus
 from typing import Dict, Any, Union
 from pathlib import Path
 from datetime import datetime, timezone
@@ -26,6 +29,12 @@ class ComfyUIClient(BaseAIClient):
         
         self.base_url = base_url
         self.logger = app_logger
+    
+    def _configuration_client(self):
+        """
+        _configuration_clientの実装（BaseAIClientの抽象メソッドの実装）
+        """
+        return super()._configuration_client()
     
     def _get_image(self, filename: str, subfolder: str, folder_type: str) -> bytes:
         """
@@ -61,9 +70,14 @@ class ComfyUIClient(BaseAIClient):
             if (time.time() - start_time) > timeout_seconds:
                 raise ComfyUIAPIError(f"Timeout while waiting for image generation. Prompt ID: {prompt_id}")
 
-            # historyエンドポイントから画像をダウンロードする
+            # historyエンドポイントからダウンロード対象となる画像を取得する
             history_url = f"{self.base_url}/history/{prompt_id}"
-            history_response = requests.get(f"{history_url}/{prompt_id}")
+            history_response = requests.get(history_url)
+            if history_response.raise_for_status() == HTTPStatus.NOT_FOUND:
+                self.logger.info(f"History for prompt ID {prompt_id} not yet available. Retrying...")
+                time.sleep(polling_interval)
+                continue
+            
             history_response.raise_for_status()
             history = history_response.json()
             
@@ -73,19 +87,23 @@ class ComfyUIClient(BaseAIClient):
             for node_id, node_output in output_nodes.items():
                 if 'images' in node_output:
                     for image_info in node_output['images']:
-                        filename = image_info.get('images')
+                        filename = image_info.get('filename')
                         subfolder = image_info.get('subfolder', '')
                         folder_type = image_info.get('type', 'output')
                         
                         if filename:
-                            if not any(image_data == self._get_image(filename, subfolder, folder_type) for image_data in images_data):
-                                self.logger.info(f"Found image: {filename} in {subfolder}/{folder_type}")
-                                try:
-                                    image_bytes = self._get_image(filename, subfolder, folder_type)
+                            # すでにダウンロードした画像と同じものがないかチェックする
+                            try:
+                                # 画像をダウンロードしてバイナリデータを取得する
+                                image_bytes = self._get_image(filename, subfolder, folder_type)
+                                
+                                # ダウンロード済リストに無い場合のみ追加する
+                                if image_bytes not in images_data:
+                                    self.logger.info(f"Found image: {filename} in {subfolder}/{folder_type}")                                    
                                     current_images.append(image_bytes)
-                                except ComfyUIAPIError as e:
-                                    self.logger.warning(f"Cloud not download image {filename}: {e}")
-            
+                            except ComfyUIAPIError as e:
+                                self.logger.warning(f"Cloud not download image {filename}: {e}")
+                        
             images_data.extend(current_images)
             if not current_images and images_data:
                 self.logger.info("No new images found in history. Assuming generation is complete.")
@@ -131,6 +149,7 @@ class ComfyUIClient(BaseAIClient):
         
         original_workflow_data = workflow_data
         
+        workflow_data_json = None
         if isinstance(workflow_data, str):
             # ファイルパスが指定された場合
             file_path = Path(workflow_data)
@@ -138,7 +157,8 @@ class ComfyUIClient(BaseAIClient):
                 raise ComfyUIAPIError(f"Workflow JSON file not found: {workflow_data}")
             try:
                 with open(file_path, 'r', encoding='utf-8') as f:
-                    payload = f.read()
+                    workflow_data_json = json.load(f)
+            
                 self.logger.info(f"Loaded workflow JSON from file: {workflow_data}")
             except json.JSONDecodeError as e:
                 raise ComfyUIAPIError(f"Failed to decode workflow JSON from file: {workflow_data}: {e}")            
@@ -146,9 +166,19 @@ class ComfyUIClient(BaseAIClient):
                 raise ComfyUIAPIError(f"Failed to read workflow JSON file: {workflow_data}: {e}")
         elif isinstance(workflow_data, dict):
             # 辞書が直接指定された場合
-            payload = workflow_data
+            workflow_data_json = workflow_data
         else:
             raise ComfyUIAPIError("Invalid workflow_data type. Must be dict or a file path string.")
+
+        for _, node_data in workflow_data_json.items():
+            if node_data.get("class_type") == "KSampler":
+                node_data["inputs"]["seed"] = random.randint(1, 1125899906842624)
+                break
+
+        payload = {
+            "prompt": workflow_data_json,
+            "client_id": str(uuid.uuid4())
+        }
         
         url = f"{self.base_url}/prompt"
         headers = {"Content-Type": "application/json"}

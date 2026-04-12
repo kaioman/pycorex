@@ -1,5 +1,7 @@
+import uuid
 import imghdr
 from abc import ABC, abstractmethod
+from datetime import datetime, timezone
 
 class BaseAIClient(ABC):
     """
@@ -49,3 +51,12 @@ class BaseAIClient(ABC):
             return "image/webp"
         else:
             return "application/octet-stream"
+
+    def get_gen_filename(self):
+        """
+        生成画像のファイル名を取得する(例: "20240601T123456Z_abcdef123456.png")
+        """
+        
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+        unique = uuid.uuid4().hex
+        return f"{timestamp}_{unique}.png"

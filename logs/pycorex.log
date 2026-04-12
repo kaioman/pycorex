@@ -1,1 +1,59 @@
-INFO    : 2026-04-11 16:31:04,086 :  [ 🔵 PROC   ] This is a test function from testmodule.py
+INFO    : 2026-04-12 12:04:43,054 :  [ 🔵 PROC   ] Sending workflow to ComfyUI API.
+ERROR   : 2026-04-12 12:04:48,475 :  [ ❌ ERROR  ] Exception [24c832af-fac4-4b6f-b980-6fcce5621ed1]: Message: Failed to communicate with ComfyUI API: 400 Client Error: Bad Request for url: http://127.0.0.1:8188/prompt
+INFO    : 2026-04-12 12:05:31,715 :  [ 🔵 PROC   ] Sending workflow to ComfyUI API.
+ERROR   : 2026-04-12 12:05:31,721 :  [ ❌ ERROR  ] Exception [0f2b59e6-87a2-4b77-8ad6-d494a9e1b423]: Message: Failed to communicate with ComfyUI API: 400 Client Error: Bad Request for url: http://127.0.0.1:8188/prompt
+INFO    : 2026-04-12 12:10:46,319 :  [ 🔵 PROC   ] Sending workflow to ComfyUI API.
+INFO    : 2026-04-12 12:10:57,666 :  [ 🔵 PROC   ] ComfyUI API prompt request successful. Prompt ID: 78e0aa87-ca79-47e1-99f4-4d1d2baab6ca
+INFO    : 2026-04-12 12:44:44,126 :  [ 🔵 PROC   ] Sending workflow to ComfyUI API.
+INFO    : 2026-04-12 12:44:49,885 :  [ 🔵 PROC   ] ComfyUI API prompt request successful. Prompt ID: 4185506e-0904-410d-a3ac-a75bdd1c5e0f
+INFO    : 2026-04-12 12:49:38,594 :  [ 🔵 PROC   ] Sending workflow to ComfyUI API.
+INFO    : 2026-04-12 12:49:38,603 :  [ 🔵 PROC   ] ComfyUI API prompt request successful. Prompt ID: 432c8714-f814-4da5-afeb-68448c76d738
+INFO    : 2026-04-12 13:02:46,568 :  [ 🔵 PROC   ] Sending workflow to ComfyUI API.
+INFO    : 2026-04-12 13:02:46,578 :  [ 🔵 PROC   ] ComfyUI API prompt request successful. Prompt ID: b5c77c47-7fae-459a-aae3-1aba5ad0039b
+INFO    : 2026-04-12 13:20:47,699 :  [ 🔵 PROC   ] Sending workflow to ComfyUI API.
+INFO    : 2026-04-12 13:20:47,782 :  [ 🔵 PROC   ] ComfyUI API prompt request successful. Prompt ID: 401a5bc6-4aac-456a-8812-59c09d8f4558
+ERROR   : 2026-04-12 13:22:48,374 :  [ ❌ ERROR  ] Exception [856d48b6-d731-4647-95f9-de3bea0db45a]: Message: Timeout while waiting for image generation. Prompt ID: 401a5bc6-4aac-456a-8812-59c09d8f4558
+INFO    : 2026-04-12 13:32:18,145 :  [ 🔵 PROC   ] Sending workflow to ComfyUI API.
+INFO    : 2026-04-12 13:32:21,663 :  [ 🔵 PROC   ] ComfyUI API prompt request successful. Prompt ID: 2950d24c-e067-4525-abfa-ee6695c0bab6
+ERROR   : 2026-04-12 13:34:22,243 :  [ ❌ ERROR  ] Exception [bceca06d-ab8e-46eb-a8c4-d4cf841fdaf0]: Message: Timeout while waiting for image generation. Prompt ID: 2950d24c-e067-4525-abfa-ee6695c0bab6
+INFO    : 2026-04-12 14:33:15,863 :  [ 🔵 PROC   ] Sending workflow to ComfyUI API.
+INFO    : 2026-04-12 14:33:15,877 :  [ 🔵 PROC   ] ComfyUI API prompt request successful. Prompt ID: e0ff5b68-f3d8-4b86-a122-8537b971884c
+ERROR   : 2026-04-12 14:35:16,486 :  [ ❌ ERROR  ] Exception [60ee6533-dd36-43ae-abdc-334cfbb87d64]: Message: Timeout while waiting for image generation. Prompt ID: e0ff5b68-f3d8-4b86-a122-8537b971884c
+INFO    : 2026-04-12 14:46:51,654 :  [ 🔵 PROC   ] Sending workflow to ComfyUI API.
+INFO    : 2026-04-12 14:46:51,663 :  [ 🔵 PROC   ] ComfyUI API prompt request successful. Prompt ID: 59801e79-b86b-410f-81fa-e5dc466dde0c
+ERROR   : 2026-04-12 14:48:52,268 :  [ ❌ ERROR  ] Exception [a9992fa1-da92-4716-bb00-a83b1febe2bc]: Message: Timeout while waiting for image generation. Prompt ID: 59801e79-b86b-410f-81fa-e5dc466dde0c
+INFO    : 2026-04-12 14:56:21,541 :  [ 🔵 PROC   ] Sending workflow to ComfyUI API.
+INFO    : 2026-04-12 14:56:27,164 :  [ 🔵 PROC   ] ComfyUI API prompt request successful. Prompt ID: a3f5299f-c942-4f16-8fa7-1e4535a092a7
+ERROR   : 2026-04-12 14:58:27,326 :  [ ❌ ERROR  ] Exception [493ecc52-5934-4fd6-8066-592d80759476]: Message: Timeout while waiting for image generation. Prompt ID: a3f5299f-c942-4f16-8fa7-1e4535a092a7
+INFO    : 2026-04-12 15:10:24,100 :  [ 🔵 PROC   ] Sending workflow to ComfyUI API.
+INFO    : 2026-04-12 15:10:24,112 :  [ 🔵 PROC   ] ComfyUI API prompt request successful. Prompt ID: fde40ae0-7950-4f8e-a42e-ffebe2701fc7
+ERROR   : 2026-04-12 15:12:24,730 :  [ ❌ ERROR  ] Exception [4288ff58-4847-426e-a424-2d2b377a5dcc]: Message: Timeout while waiting for image generation. Prompt ID: fde40ae0-7950-4f8e-a42e-ffebe2701fc7
+INFO    : 2026-04-12 15:13:00,669 :  [ 🔵 PROC   ] Sending workflow to ComfyUI API.
+INFO    : 2026-04-12 15:13:00,679 :  [ 🔵 PROC   ] ComfyUI API prompt request successful. Prompt ID: 26d9395f-cdbe-46e8-8105-3c03de8e5268
+ERROR   : 2026-04-12 15:15:00,913 :  [ ❌ ERROR  ] Exception [41b323d5-3f08-4c1a-b642-57b987a29f8f]: Message: Timeout while waiting for image generation. Prompt ID: 26d9395f-cdbe-46e8-8105-3c03de8e5268
+INFO    : 2026-04-12 15:20:14,463 :  [ 🔵 PROC   ] Sending workflow to ComfyUI API.
+ERROR   : 2026-04-12 15:20:14,477 :  [ ❌ ERROR  ] Exception [aedbca36-41d0-4c9c-bd89-ee63e0d5a6b5]: Message: Failed to communicate with ComfyUI API: 400 Client Error: Bad Request for url: http://127.0.0.1:8188/prompt
+INFO    : 2026-04-12 15:21:33,924 :  [ 🔵 PROC   ] Sending workflow to ComfyUI API.
+INFO    : 2026-04-12 15:21:33,935 :  [ 🔵 PROC   ] ComfyUI API prompt request successful. Prompt ID: a4815fd6-0803-4617-8224-1d8d949d4cc4
+INFO    : 2026-04-12 15:22:02,101 :  [ 🔵 PROC   ] Found image: aoi_00562_.png in /output
+INFO    : 2026-04-12 15:22:03,116 :  [ 🔵 PROC   ] No new images found in history. Assuming generation is complete.
+INFO    : 2026-04-12 15:26:00,532 :  [ 🔵 PROC   ] Sending workflow to ComfyUI API.
+INFO    : 2026-04-12 15:26:00,540 :  [ 🔵 PROC   ] ComfyUI API prompt request successful. Prompt ID: 006e0c89-1f16-4191-9c7f-a291c82c330d
+INFO    : 2026-04-12 15:26:27,699 :  [ 🔵 PROC   ] Found image: aoi_00563_.png in /output
+INFO    : 2026-04-12 15:26:28,714 :  [ 🔵 PROC   ] No new images found in history. Assuming generation is complete.
+INFO    : 2026-04-12 16:21:17,735 :  [ 🔵 PROC   ] Sending workflow to ComfyUI API.
+INFO    : 2026-04-12 16:21:18,115 :  [ 🔵 PROC   ] ComfyUI API prompt request successful. Prompt ID: dff4abee-cc19-4c18-b47a-891083736e0e
+INFO    : 2026-04-12 16:21:47,313 :  [ 🔵 PROC   ] Found image: aoi_00564_.png in /output
+INFO    : 2026-04-12 16:21:48,330 :  [ 🔵 PROC   ] No new images found in history. Assuming generation is complete.
+INFO    : 2026-04-12 16:28:53,424 :  [ 🔵 PROC   ] Sending workflow to ComfyUI API.
+INFO    : 2026-04-12 16:28:53,433 :  [ 🔵 PROC   ] ComfyUI API prompt request successful. Prompt ID: a36c8cdb-0fb2-425d-ba22-d899a016484d
+INFO    : 2026-04-12 16:29:20,591 :  [ 🔵 PROC   ] Found image: aoi_00565_.png in /output
+INFO    : 2026-04-12 16:29:21,614 :  [ 🔵 PROC   ] No new images found in history. Assuming generation is complete.
+INFO    : 2026-04-12 16:29:46,806 :  [ 🔵 PROC   ] Sending workflow to ComfyUI API.
+INFO    : 2026-04-12 16:29:46,814 :  [ 🔵 PROC   ] ComfyUI API prompt request successful. Prompt ID: 7822af9e-62ff-49fa-831f-8b72478814f5
+INFO    : 2026-04-12 16:30:14,984 :  [ 🔵 PROC   ] Found image: aoi_00566_.png in /output
+INFO    : 2026-04-12 16:30:16,033 :  [ 🔵 PROC   ] No new images found in history. Assuming generation is complete.
+INFO    : 2026-04-12 16:31:32,042 :  [ 🔵 PROC   ] Sending workflow to ComfyUI API.
+INFO    : 2026-04-12 16:31:32,050 :  [ 🔵 PROC   ] ComfyUI API prompt request successful. Prompt ID: 21ba4984-ec95-476a-9181-275980d5e968
+INFO    : 2026-04-12 16:31:59,219 :  [ 🔵 PROC   ] Found image: aoi_00567_.png in /output
+INFO    : 2026-04-12 16:32:00,232 :  [ 🔵 PROC   ] No new images found in history. Assuming generation is complete.
