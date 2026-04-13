@@ -1,6 +1,50 @@
 {
     "outfits": [
-        { "id": "classic_sailor", "tags": "classic sailor school uniform, pleated skirt, red neckerchief", "vibe": "school", "min_lv": 1, "max_lv": 4, "destructible": true, "parts": ["shirt", "skirt", "neckerchief"] },
+        { 
+            "id": "classic_sailor", 
+            "tags": "classic sailor school uniform, pleated skirt, red neckerchief", 
+            "vibe": "school", 
+            "min_lv": 1, 
+            "max_lv": 4, 
+            "destructible": true, 
+            "parts": ["shirt", "skirt", "neckerchief"] ,
+            "compatible_scene_logic": [
+                "lv1_window_side_dreaming", 
+                "lv1_reading_immersion", 
+                "lv1_afterschool_napping", 
+                "lv1_listening_music", 
+                "lv1_adjusting_choker",
+                "lv1_tucking_hair_behind_ear",
+                "lv1_walking_corridor",
+                "lv2_fixing_uniform_button",
+                "lv2_leaning_against_railing",
+                "lv2_whisper_close",
+                "lv2_shy_glance",
+                "lv2_staring_contest",
+                "lv2_leaning_on_shoulder",
+                "lv2_fixing_hair_tie",
+                "lv2_phys_cleavage_peek",
+                "lv2_5_phys_sitting_gap",
+                "lv2_5_env_stair_climb",
+                "lv2_5_phys_high_reach",
+                "lv2_5_phys_bending_peek",
+                "lv2_5_env_windy_front",
+                "lv2_5_env_windy_back",
+                "lv3_phys_deep_squat",
+                "lv3_true_shirt_disarray",
+                "lv3_true_skirt_torn",
+                "lv3_phys_sitting_triangle",
+                "lv4_phys_bent_fabric_rip",
+                "lv4_phys_bound_tension",
+                "lv4_lost_in_ecstasy_sprawl"
+            ],
+            "compatible_emotional_range": [
+                "lv1_default", 
+                "lv1_daydream"
+            ],
+            "destructible_tags": 
+                "(shredded classic_sailor:1.2), (torn classic_sailor:1.4), (ripped classic_sailor:1.4), (skirt torn vertically:1.4), (fabric clinging to thighs:1.2)" 
+        },
         { "id": "blazer_style", "tags": "school blazer, plaid skirt, ribbon tie", "vibe": "school", "min_lv": 1, "max_lv": 4, "destructible": true, "parts": ["blazer", "shirt", "skirt"] },
         { "id": "gym_uniform", "tags": "bloomers, gym shirt, (white socks:1.1)", "vibe": "school", "min_lv": 1, "max_lv": 4, "destructible": true, "parts": ["t-shirt", "bloomers"] },
         { "id": "oversized_hoodie", "tags": "oversized techwear hoodie, tactical joggers, sneakers", "vibe": "cyberpunk", "min_lv": 1, "max_lv": 3, "destructible": false, "parts": ["hoodie", "pants"] },
@@ -15,20 +59,70 @@
         { "id": "bikini_armor", "tags": "fantasy bikini armor, metallic plating, leather straps", "vibe": "fantasy", "min_lv": 2, "max_lv": 4, "destructible": false, "parts": ["armor", "straps"] },
         { "id": "miko_outfit", "tags": "traditional miko priestess outfit, white kosode, red hakama", "vibe": "traditional", "min_lv": 1, "max_lv": 4, "destructible": true, "parts": ["kosode", "hakama"] },
         { "id": "yukata", "tags": "floral pattern yukata, obi sash, wooden geta", "vibe": "traditional", "min_lv": 1, "max_lv": 4, "destructible": true, "parts": ["yukata", "obi"] },
-        { "id": "bunny_suit", "tags": "high-leg bunny suit, bow tie, wrist cuffs", "vibe": "sexy", "min_lv": 2, "max_lv": 4, "destructible": false, "parts": ["suit"] },
+        { "id": "bunny_suit", "tags": "(high-leg bunny suit:1.5), bow tie, wrist cuffs", "vibe": "sexy", "min_lv": 2, "max_lv": 4, "destructible": false, "parts": ["suit"] },
         { "id": "lingerie_only", "tags": "sheer babydoll, lace trim, matching stockings", "vibe": "sexy", "min_lv": 3, "max_lv": 4, "destructible": true, "parts": ["babydoll", "stockings"] },
         { "id": "nurse_outfit", "tags": "retro nurse uniform, nurse cap, white stockings", "vibe": "sexy", "min_lv": 2, "max_lv": 4, "destructible": true, "parts": ["dress", "cap", "stockings"] },
-        { "id": "china_dress", "tags": "short china dress, deep side slit, silk embroidery", "vibe": "sexy", "min_lv": 1, "max_lv": 4, "destructible": true, "parts": ["dress"] },
+        { 
+            "id": "china_dress", 
+            "tags": "short china dress, (deep side slit:1.5), (silk embroidery:1.2)", 
+            "vibe": "sexy", 
+            "min_lv": 1, 
+            "max_lv": 4, 
+            "destructible": true, 
+            "parts": ["dress"] ,
+            "compatible_scene_logic": [
+                "lv1_tucking_hair_behind_ear",
+                "lv1_window_side_dreaming",
+                "lv2_fixing_uniform_button",
+                "lv2_whisper_close",
+                "lv2_shy_glance",
+                "lv2_staring_contest",
+                "lv2_leaning_on_shoulder",
+                "lv2_fixing_hair_tie",
+                "lv2_leaning_closer_curiosity",
+                "lv3_true_shirt_disarray",
+                "lv3_true_bent_over_tease",
+                "lv3_true_hand_exploration",
+                "lv3_true_fetish_constriction",
+                "lv3_true_fetish_transparency",
+                "lv3_true_shirt_shredded",
+                "lv3_true_skirt_torn",
+                "lv3_true_struggle_remnants",
+                "lv3_true_skirt_shredded_stable",
+                "lv3_true_shirt_shredded_stable",
+                "lv3_true_bent_over_tease_stable",
+                "lv3_true_hand_exploration_stable",
+                "lv3_true_fetish_transparency_stable",
+                "lv3_shredded_skirt_reveal",
+                "lv3_shredded_top_bra_reveal",
+                "lv3_back_destruction_tease",
+                "lv4_phys_torn_ecstasy",
+                "lv4_phys_toy_compression",
+                "lv4_phys_bent_fabric_rip",
+                "lv4_phys_bound_tension",
+                "lv4_lost_in_ecstasy_sprawl"
+            ],
+            "compatible_emotional_range": [
+                "lv2_shy_standard",
+                "lv2_stare",
+                "lv3_fever_standard",
+                "lv3_shy_fevered",
+                "lv4_ecstasy_standard",
+                "lv4_lost_in_thought"
+            ],
+            "destructible_tags": 
+                "(shredded china dress:1.2), (torn china dress:1.4), (ripped china dress:1.4), (skirt torn vertically:1.4), (fabric clinging to thighs:1.2)" 
+        },
         { "id": "swimsuit_80s", "tags": "high-leg one-piece swimsuit, neon colors, 80s style", "vibe": "sexy", "min_lv": 2, "max_lv": 4, "destructible": false, "parts": ["swimsuit"] }
     ],
     "innerwear_sets": {
         "styles": [
-            { "id": "black_lace", "tags": "black_lace_bra, black_lace_panties, (see-through:1.1)", "vibe": "mature", "min_lv": 2 },
-            { "id": "cyber_blue", "tags": "blue_sport_bra, techwear_underwear, neon_trim", "vibe": "cyberpunk", "min_lv": 1 },
+            { "id": "black_lace", "tags": "black_lace_bra, black_lace_panties", "vibe": "mature", "min_lv": 2 },
+            { "id": "cyber_blue", "tags": "blue_sport_bra, blue_panties", "vibe": "cyberpunk", "min_lv": 1 },
             { "id": "pink_striped", "tags": "pink_and_white_striped_bra, shimapan, cute_bow", "vibe": "cute", "min_lv": 1 },
             { "id": "minimal_black", "tags": "micro_bikini_style_bra, black_thong, (strappy:1.2)", "vibe": "sexy", "min_lv": 3 },
             { "id": "white_pure", "tags": "simple_white_bra, white_panties, (satin:1.1)", "vibe": "school", "min_lv": 1 },
-            { "id": "no_bra_mode", "tags": "no_bra, (nipples_visible_through_fabric:1.3)", "min_lv": 3 }
+            { "id": "no_bra_mode", "tags": "no_bra, (nipples_visible_through_fabric:1.3)", "min_lv": 4 }
         ]
     }
 }

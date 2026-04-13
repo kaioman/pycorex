@@ -130,6 +130,9 @@ class ComfyUIClient(BaseAIClient):
         workflow_data: Union[Dict[str, Any], str], 
         prompt_level: int = 1,
         target_scene_id: Optional[str] = None,
+        test_outfit_id: Optional[str] = None,
+        test_scene_id_override: Optional[str] = None,
+        test_camera_name: Optional[str] = None,
         **params) -> list[bytes]:
         
         """
@@ -190,7 +193,10 @@ class ComfyUIClient(BaseAIClient):
         if self.prompt_generator and workflow_data_json:
             positive_prompt, negative_prompt = self.prompt_generator.generate_prompt(
                 level=prompt_level,
-                target_scene_id=target_scene_id
+                target_scene_id=target_scene_id,
+                test_outfit_id=test_outfit_id,
+                test_scene_id_override=test_scene_id_override,
+                test_camera_name=test_camera_name,
             )
             self.logger.info(f"Generated Positive Prompt: {positive_prompt[:100]}...")
             self.logger.info(f"Generated Negative Prompt: {negative_prompt[:100]}...")

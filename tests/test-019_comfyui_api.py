@@ -30,7 +30,8 @@ polling_interval = app.core.config.comfyui.polling_interval
 pony_generator = PonyPromptGenerator(
     aoi_path="tests/prompt/persona/Aoi.json",
     camera_path="tests/prompt/camera_angules.json",
-    wardrobe_path="tests/prompt/wardrobe.json"
+    wardrobe_path="tests/prompt/wardrobe.json",
+    environment_path="tests/prompt/environments.json"
 )
 
 # ComfyUIクライアントを初期化する
@@ -42,7 +43,13 @@ client = ComfyUIClient(
 )
 
 try:
-    result = client.generate_image(workflow_data=workflow, prompt_level=2)
+    result = client.generate_image(
+        workflow_data=workflow, 
+        prompt_level=1,
+        test_outfit_id="china_dress",
+        test_scene_id_override="lv1_window_side_dreaming",
+        #test_camera_name="背面視点・バックビュー"
+    )
     
     if result and result["images"]:
         for i, image_bytes in enumerate(result["images"]):
