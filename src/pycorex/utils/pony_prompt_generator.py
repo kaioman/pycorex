@@ -12,10 +12,10 @@ class PonyPromptGenerator(BasePromptGenerator):
 
     def __init__(
         self, 
-        aoi_path: str = "tests/prompt/persona/Aoi.json",
-        camera_path: str = "tests/prompt/camera_angules.json",
-        wardrobe_path: str = "tests/prompt/wardrobe.json",
-        environment_path: str = "tests/prompt/environments.json"):
+        aoi_path: str = "tests/prompt/pony/persona/Aoi.json",
+        camera_path: str = "tests/prompt/pony/camera_angules.json",
+        wardrobe_path: str = "tests/prompt/pony/wardrobe.json",
+        environment_path: str = "tests/prompt/pony/environments.json"):
         self.environment_data = self._load_json(environment_path)
         self.data = self._load_json(aoi_path)
         self.camera_data = self._load_json(camera_path)
@@ -118,7 +118,13 @@ class PonyPromptGenerator(BasePromptGenerator):
         """
         
         # --- [1. 基礎・画風設定] ---
-        rating = "rating_explicit" if level >= 3 else "rating_safe"
+        if level <= 2:
+            rating = "rating_safe"
+        elif level == 3:
+            rating = "rating_questionable"
+        elif level >= 4:
+            rating = "rating_explicit"
+        
         quality = f"(score_9, score_8_up:1.2), {rating}"
         core = self.data["base_identity_tags"]
         style = self.data["base_style"]
@@ -132,7 +138,11 @@ class PonyPromptGenerator(BasePromptGenerator):
         else:
             outfit = self._pick_weighted_item(self.wardrobe_data["outfits"], level)
         
+        # {color}プレースホルダ―をランダムな色に置換
         wardrobe_tags = outfit['tags']
+        if "{color}" in wardrobe_tags:
+            random_color = random.choice(self.wardrobe_data.get("colors", [""]))
+            wardrobe_tags = wardrobe_tags.replace("{color}", random_color)
         
         # innerwearの結合判定
         roll = random.random() * 100
@@ -145,34 +155,31 @@ class PonyPromptGenerator(BasePromptGenerator):
         
         target_fabric = random.choice(outfit["parts"]) if outfit["parts"] else "clothing"
 
-        # --- [3. 感情・シーン・カメラの抽選] ---
-        exp_data = self._pick_weighted_item(self.data["expression_logic"]["emotional_range"], level)
+        ## --- [3. シーン(衣服破壊含む)・カメラの抽選] ---
 
-        # outfitに定義されたcompatible_emotional_rangeを考慮して感情データを抽選
-        compatible_emotional_range_ids = outfit.get("compatible_emotional_range")
-        if compatible_emotional_range_ids:
-            filtered_emotional_range = [item for item in self.data["expression_logic"]["emotional_range"] if item["id"] in compatible_emotional_range_ids]
-            exp_data = self._pick_weighted_item(filtered_emotional_range, level)
-        else:
-            exp_data = self._pick_weighted_item(self.data["expression_logic"]["emotional_range"], level)
-
-        # outfitに定義されたcompatible_scene_logicを考慮してシーンデータを抽選
-        compatible_scene_logic_ids = outfit.get("compatible_scene_logic")
-        if compatible_scene_logic_ids:
-            filtered_scene_logic = [item for item in self.data["scene_logic"]["items"] if item["id"] in compatible_scene_logic_ids]
-            if test_scene_id_override:
-                scene_data = self._pick_weighted_item(filtered_scene_logic, level, test_scene_id_override)
-            else:
-                scene_data = self._pick_weighted_item(filtered_scene_logic, level, target_scene_id)
-        else:
-            scene_data = self._pick_weighted_item(self.data["scene_logic"]["items"], level, target_scene_id)
+        # target_scene_idのoverride
+        if test_scene_id_override:
+            target_scene_id = test_scene_id_override
         
-        # 破壊可能シーン判定
-        if scene_data and scene_data.get("destructible_scene", False):
-            target_fabric = outfit.get("destructible_tags", "clothing")
+        # outfitに定義されたincompatible_scene_logicを考慮してシーンデータを抽選
+        incompatible_scene_logic_ids = outfit.get("incompatible_scene_logic", [])
+        all_scene_logic_items = self.data["scene_logic"]["items"]
+        if incompatible_scene_logic_ids:
+            filtered_scene_logic = [item for item in all_scene_logic_items if item["id"] not in incompatible_scene_logic_ids]
+            scene_data = self._pick_weighted_item(filtered_scene_logic, level, target_scene_id)
         else:
-            target_fabric = random.choice(outfit["parts"]) if outfit["parts"] else "clothing"
+            scene_data = self._pick_weighted_item(all_scene_logic_items, level, target_scene_id)
         
+        ## 破壊可能シーン判定
+        #if scene_data and scene_data.get("destructible_scene", False):
+        #    if outfit.get("parts"):
+        #        target_fabric = ", ".join(outfit["parts"])
+        #    else:
+        #        target_fabric = "clothing"
+        #else:
+        #    target_fabric = random.choice(outfit["parts"]) if outfit["parts"] else "clothing"
+        
+        # カメラアングルの抽選
         if test_camera_name:
             cam_data = next((item for item in self.camera_data["camera_angles"] if item["name"] == test_camera_name), None)
             if not cam_data:
@@ -186,12 +193,34 @@ class PonyPromptGenerator(BasePromptGenerator):
         environment_tags = self._get_environment_tags(scene_data["tags"], outfit["id"])
             
         # --- [4. プレースホルダーの置換] ---
-        #expression = exp_data["tags"] if exp_data else "soft_expression"
         scene_raw = scene_data["tags"] if scene_data else ""
         # 置換実行
+        ## カメラアングルタグ
         scene = scene_raw.replace("{camera}", cam_data["tags"])
-        scene = scene.replace("{target_fabric}", target_fabric)
-        scene = scene.replace("{target_edge}", f"{target_fabric}_edge")
+        ## 衣服破壊ベースタグ
+        if scene_data:
+            if scene_data.get("destructible_scene", False):
+                dest_tags_key = scene_data.get("destructible_tags_key", "normal")
+                if self.wardrobe_data.get("destructible_base_tags"):
+                    dest_tags_str = ", ".join(self.wardrobe_data["destructible_base_tags"][dest_tags_key])
+                    scene = scene.replace("{destructible_fabric}", dest_tags_str)
+        ## 
+        #scene = scene.replace("{target_edge}", f"{target_fabric}_edge")
+
+        ## 対象衣服のトップス、ボトムス取得
+        outer_top_tags_str = "clothing"
+        outer_bottom_tags_str = "clothing"
+        if scene_data and outfit.get("outer_tags"):
+            if outfit["outer_tags"]["top"]:
+                outer_top_tags_str = outfit["outer_tags"]["top"]
+            if outfit["outer_tags"]["bottom"]:
+                outer_bottom_tags_str = outfit["outer_tags"]["bottom"]
+        ## 衣服破壊
+        scene = scene.replace("{target_destructible_top}", outer_top_tags_str)
+        scene = scene.replace("{target_destructible_bottom}", outer_bottom_tags_str)
+        ## フィジカル・インタラクション
+        scene = scene.replace("{target_fabric_outer_top}", outer_top_tags_str)
+        scene = scene.replace("{target_fabric_outer_bottom}", outer_bottom_tags_str)
         
         # 構図と衣装の解決ロジック
         if "sitting" in scene_raw:
@@ -214,32 +243,35 @@ class PonyPromptGenerator(BasePromptGenerator):
                 if t in wardrobe_tags:
                     wardrobe_tags = wardrobe_tags.replace(f", {t}", "").replace(t, "")
 
-        # --- [5. 環境・ネガティブ設定] ---
-        #env = self.data.get("default_environment", {})
-        #env_tags = f"{env['location']}, {env['lighting']}, {env['texture']}"
-        
         # シーン側で「外を見る」系のタグがある場合、coreの「こちらを見る」を無効化する
         if "looking_out_window" in scene or "looking_away" in scene:
             core = core.replace("looking_at_viewer", "(looking away:1.2)")
         
-        # --- [6. プロンプト結合] ---
+        # --- [5. プロンプト結合] ---
         # 黄金比：品質 -> 画風 -> 核心 -> 状況 -> 表情 -> 環境
+        # positive = " BREAK ".join([
+        #     quality, 
+        #     style, 
+        #     core, 
+        #     scene + ", " + environment_tags, 
+        #     wardrobe_tags,
+        #     "masterpiece, high quality"
+        # ])
         positive = " BREAK ".join([
             quality, 
             style, 
             core, 
-            scene + ", " + environment_tags, 
+            scene,
             wardrobe_tags,
-            #expression, 
-            #env_tags, 
+            environment_tags,
             "masterpiece, high quality"
         ])
-
-        # --- [7. 鉄壁のネガティブプロンプト] ---
-        # 1. 全レベル共通の『聖域』を取得
+        
+        # --- [6. 鉄壁のネガティブプロンプト] ---
+        ## 1. 全レベル共通の『聖域』を取得
         holy_grail = self.data.get("negative_holy_grail", "")
 
-        # 2. 【新設】レベルに応じた追加の拒絶要素を抽選/取得
+        ## 2. 【新設】レベルに応じた追加の拒絶要素を抽選/取得
         neg_logic_items = self.data.get("negative_logic", {}).get("items", [])
         active_tier_negs = [
             item["tags"] for item in neg_logic_items
@@ -247,15 +279,14 @@ class PonyPromptGenerator(BasePromptGenerator):
         ]
         tier_neg_tags = ", ".join(active_tier_negs)
         
-        # 3. 低品質排除のベース
+        ## 3. 低品質排除のベース
         base_neg = "(worst quality:1.4), (low quality:1.4), lowres, bad anatomy, bad hands, text, error, blurry"
         
-        # 4. 全てを融合
-        # 聖域(基本) + ティア別防壁(動的) + 品質ベース
+        ## 4. 全てを融合
+        ## 聖域(基本) + ティア別防壁(動的) + 品質ベース
         negative = f"{holy_grail}, {tier_neg_tags}, {base_neg}"
-        #negative = f"{holy_grail}, {base_neg}"
         
-        # --- [8. ログ出力] ---
+        # --- [7. ログ出力] ---
         print(f"--- [Lv{level}] Dynamic Synthesis Log ---")
         print(f"Outfit:   {outfit['id']} (Target: {target_fabric})")
         if inner:

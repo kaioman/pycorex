@@ -28,10 +28,10 @@ polling_interval = app.core.config.comfyui.polling_interval
 
 # PonyPromptGeneratorのインスタンスを作成
 pony_generator = PonyPromptGenerator(
-    aoi_path="tests/prompt/persona/Aoi.json",
-    camera_path="tests/prompt/camera_angules.json",
-    wardrobe_path="tests/prompt/wardrobe.json",
-    environment_path="tests/prompt/environments.json"
+    aoi_path="tests/prompt/pony/persona/Aoi.json",
+    camera_path="tests/prompt/pony/camera_angules.json",
+    wardrobe_path="tests/prompt/pony/wardrobe.json",
+    environment_path="tests/prompt/pony/environments.json"
 )
 
 # ComfyUIクライアントを初期化する
@@ -45,9 +45,9 @@ client = ComfyUIClient(
 try:
     result = client.generate_image(
         workflow_data=workflow, 
-        prompt_level=1,
-        test_outfit_id="china_dress",
-        test_scene_id_override="lv1_window_side_dreaming",
+        prompt_level=3,
+        test_outfit_id="turtleneck",
+        test_scene_id_override="lv3_phys_deep_squat",
         #test_camera_name="背面視点・バックビュー"
     )
     
