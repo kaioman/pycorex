@@ -7,17 +7,18 @@ from pycorex.core.base_prompt_generator import BasePromptGenerator
 class PonyPromptGenerator(BasePromptGenerator):
     """
     Ponyモデル専用のtxt2img用ランダムプロンプトジェネレータークラス。
-    「Aoi」という架空のアンドロイドをモチーフとしたキャラを生成するためのメソッドを備えています。
+    personaに基づくコアなアイデンティティタグ、衣装の抽選、シーンロジック、
+    カメラアングル、環境要素を組み合わせて、レベルに応じたプロンプトを生成する
     """
 
     def __init__(
         self, 
-        aoi_path: str = "tests/prompt/pony/persona/Aoi.json",
+        persona_path: str = "tests/prompt/pony/persona/Aoi.json",
         camera_path: str = "tests/prompt/pony/camera_angules.json",
         wardrobe_path: str = "tests/prompt/pony/wardrobe.json",
         environment_path: str = "tests/prompt/pony/environments.json"):
         self.environment_data = self._load_json(environment_path)
-        self.data = self._load_json(aoi_path)
+        self.data = self._load_json(persona_path)
         self.camera_data = self._load_json(camera_path)
         self.wardrobe_data = self._load_json(wardrobe_path)
     
@@ -59,6 +60,11 @@ class PonyPromptGenerator(BasePromptGenerator):
         return random.choices(candidates, weights=weights, k=1)[0]
     
     def _get_environment_tags(self, scene_tags: str, outfit_id: str) -> str:
+        """
+        scene_tagsにlocation, lighting, textureのタグが含まれていない場合に、
+        環境データから互換性のあるアイテムを抽選してタグを取得する
+        """
+        
         location_tag = self._get_specific_env_tag(scene_tags, self.environment_data["locations"], outfit_id)
         lighting_tag = self._get_specific_env_tag(scene_tags, self.environment_data["lightings"], outfit_id)
         texture_tag = self._get_specific_env_tag(scene_tags, self.environment_data["textures"], outfit_id)
@@ -68,10 +74,12 @@ class PonyPromptGenerator(BasePromptGenerator):
         return env_tags
 
     def _get_specific_env_tag(self, scene_tags: str, env_list: list[dict], outfit_id: str) -> Optional[str]:
-
+        """
+        シーンタグに既存の環境要素が含まれていないかチェックし、
+        互換性のあるアイテムをフィルタリングしてからランダム抽選する
+        """
+        
         # シーンタグに既存の環境要素が含まれているかチェック
-        #if any(f' {env_item["tags"]}' in f' {scene_tags}' or scene_tags.startswith(env_item["tags"]) for env_item in env_list):
-        #    return None # シーンタグに存在する場合は抽選しない
         scene_tag_names = set()
         for tag in scene_tags.split(","):
             cleaned_tag = tag.strip()
@@ -94,6 +102,34 @@ class PonyPromptGenerator(BasePromptGenerator):
         # ランダム抽選
         return random.choice(compatible_items)["tags"]
 
+    def _get_base_indentity(self) -> dict[str, Any]:
+        """
+        personaのbody_partsセクションを再帰的に処理して、カテゴリごとのタグを収集し、base_identity_tagsとして統合する
+        """
+
+        active_body_parts_by_category = {}
+        if "body_parts" in self.data:
+            # body_partsを再帰的に処理してtagを収集
+            def collect_tags_by_category(data, prefix=""):
+                for key, value in data.items():
+                    full_key = f"{prefix}_{key}" if prefix else key
+                    if isinstance(value, list):
+                        active_body_parts_by_category[f"{full_key}_parts_tags"] = ", ".join(value)
+                    elif isinstance(value, dict):
+                        collect_tags_by_category(value, full_key)
+            
+            collect_tags_by_category(self.data["body_parts"])
+        
+        all_tags = []
+        for _, v in active_body_parts_by_category.items():
+            all_tags.append(v)
+        base_identity_tags = ", ".join(all_tags)
+        
+        # base_identity_tagsとして統合
+        active_body_parts_by_category["base_identity_tags"] = base_identity_tags
+        
+        return active_body_parts_by_category
+    
     def generate_prompt(
         self, 
         level: int = 1, 
@@ -119,14 +155,16 @@ class PonyPromptGenerator(BasePromptGenerator):
         
         # --- [1. 基礎・画風設定] ---
         if level <= 2:
-            rating = "rating_safe"
+            rating = self.data.get("rating", {}).get("safe", "rating_safe")
         elif level == 3:
-            rating = "rating_questionable"
+            rating = self.data.get("rating", {}).get("questionable", "rating_questionable")
         elif level >= 4:
-            rating = "rating_explicit"
+            rating = self.data.get("rating", {}).get("explicit", "rating_explicit")
         
-        quality = f"(score_9, score_8_up:1.2), {rating}"
-        core = self.data["base_identity_tags"]
+        base_score_tags = self.data.get("base_score_tags", "(score_9, score_8_up:1.2)")
+        quality = f"{base_score_tags}, {rating}"
+        body_parts_data = self._get_base_indentity()
+        core = body_parts_data.get("base_identity_tags", "")
         style = self.data["base_style"]
         
         # --- [2. 衣装の抽選 (Outfits & Innerwear)] ---
@@ -144,17 +182,6 @@ class PonyPromptGenerator(BasePromptGenerator):
             random_color = random.choice(self.wardrobe_data.get("colors", [""]))
             wardrobe_tags = wardrobe_tags.replace("{color}", random_color)
         
-        # innerwearの結合判定
-        roll = random.random() * 100
-        threshold = {1: 0, 2:20, 3: 85, 4:100}.get(level, 100)
-        inner = {}
-        if roll < threshold:
-            inner = self._pick_weighted_item(self.wardrobe_data["innerwear_sets"]["styles"], level)
-            if inner:
-                wardrobe_tags += f",{inner['tags']}"
-        
-        target_fabric = random.choice(outfit["parts"]) if outfit["parts"] else "clothing"
-
         ## --- [3. シーン(衣服破壊含む)・カメラの抽選] ---
 
         # target_scene_idのoverride
@@ -170,15 +197,42 @@ class PonyPromptGenerator(BasePromptGenerator):
         else:
             scene_data = self._pick_weighted_item(all_scene_logic_items, level, target_scene_id)
         
-        ## 破壊可能シーン判定
-        #if scene_data and scene_data.get("destructible_scene", False):
-        #    if outfit.get("parts"):
-        #        target_fabric = ", ".join(outfit["parts"])
-        #    else:
-        #        target_fabric = "clothing"
-        #else:
-        #    target_fabric = random.choice(outfit["parts"]) if outfit["parts"] else "clothing"
-        
+        # innerwearの抽選
+        roll = random.random() * 100
+        threshold = {1: 0, 2:20, 3: 85, 4:100}.get(level, 100)
+        inner = {}
+        inner_top_tags = ""
+        inner_bottom_tags = ""
+        if roll < threshold:
+            # シーンデータのinner_inclusionを考慮して、必要に応じてinnerwearを抽選
+            inner = self._pick_weighted_item(self.wardrobe_data["innerwear_sets"]["styles"], level)
+            if inner:
+                # scene_dataのinner_inclusionに基づいて、innerwearのタグを衣装タグに追加
+                inner_tags = inner.get("tags", "")
+                inner_top_tags = inner_tags.get("top", "")
+                inner_top_other_tags = inner_tags.get("top_other", "")
+                inner_bottom_tags = inner_tags.get("bottom", "")
+                inner_bottom_other_tags = inner_tags.get("bottom_other", "")
+                inner_inclusion = scene_data.get("inner_inclusion")
+                
+                # inner_inclusionのtop, bottomの両方がTrueの場合、
+                # innerwearのトップとボトム両方のタグを衣装タグに追加する
+                inner_top_included = False
+                inner_bottom_included = False
+                if inner_inclusion:
+                    inner_top_included = inner_inclusion.get("top", False)
+                    inner_bottom_included = inner_inclusion.get("bottom", False)
+                if inner_top_included:
+                    if inner_top_tags:
+                        wardrobe_tags += f", {inner_top_tags}"
+                    if inner_top_other_tags:
+                        wardrobe_tags += f", {inner_top_other_tags}"
+                if inner_bottom_included:
+                    if inner_bottom_tags:
+                        wardrobe_tags += f", {inner_bottom_tags}"
+                    if inner_bottom_other_tags:
+                        wardrobe_tags += f", {inner_bottom_other_tags}"
+
         # カメラアングルの抽選
         if test_camera_name:
             cam_data = next((item for item in self.camera_data["camera_angles"] if item["name"] == test_camera_name), None)
@@ -204,23 +258,29 @@ class PonyPromptGenerator(BasePromptGenerator):
                 if self.wardrobe_data.get("destructible_base_tags"):
                     dest_tags_str = ", ".join(self.wardrobe_data["destructible_base_tags"][dest_tags_key])
                     scene = scene.replace("{destructible_fabric}", dest_tags_str)
-        ## 
-        #scene = scene.replace("{target_edge}", f"{target_fabric}_edge")
 
         ## 対象衣服のトップス、ボトムス取得
         outer_top_tags_str = "clothing"
         outer_bottom_tags_str = "clothing"
+        outer_socks_tags_str = ""
         if scene_data and outfit.get("outer_tags"):
             if outfit["outer_tags"]["top"]:
                 outer_top_tags_str = outfit["outer_tags"]["top"]
             if outfit["outer_tags"]["bottom"]:
                 outer_bottom_tags_str = outfit["outer_tags"]["bottom"]
+            if outfit["outer_tags"].get("socks"):
+                outer_socks_tags_str = outfit["outer_tags"]["socks"]
+
         ## 衣服破壊
         scene = scene.replace("{target_destructible_top}", outer_top_tags_str)
         scene = scene.replace("{target_destructible_bottom}", outer_bottom_tags_str)
         ## フィジカル・インタラクション
         scene = scene.replace("{target_fabric_outer_top}", outer_top_tags_str)
         scene = scene.replace("{target_fabric_outer_bottom}", outer_bottom_tags_str)
+        ## インナー
+        scene = scene.replace("{target_inner_top}", inner_top_tags)
+        scene = scene.replace("{target_inner_bottom}", inner_bottom_tags)
+        scene = scene.replace("{target_inner_socks}", outer_socks_tags_str)
         
         # 構図と衣装の解決ロジック
         if "sitting" in scene_raw:
@@ -230,33 +290,24 @@ class PonyPromptGenerator(BasePromptGenerator):
             if "sitting" in wardrobe_tags:
                 wardrobe_tags = wardrobe_tags.replace("sitting", "(sitting:0.5)")
         
-        # 構図による映らないタグの自動尾削除
-        if any(clip in scene for clip in ["close-up", "portrait", "upper_body", "sitting"]):
-            # 下半身系のタグをリストアップして一括削除
-            lower_body_tags_to_remove = ["sneakers", "joggers", "pants", "skirt", "shimapan", "boots"]
-
-            if outfit and outfit["id"] == "china_dress":
-                lower_body_tags_to_remove.remove("skirt")
-                
-            for t in lower_body_tags_to_remove:
-                # カンマも含めて綺麗に削除
-                if t in wardrobe_tags:
-                    wardrobe_tags = wardrobe_tags.replace(f", {t}", "").replace(t, "")
-
         # シーン側で「外を見る」系のタグがある場合、coreの「こちらを見る」を無効化する
         if "looking_out_window" in scene or "looking_away" in scene:
             core = core.replace("looking_at_viewer", "(looking away:1.2)")
         
+        # 競合タグの処理
+        if outfit and "conflict_outfits" in outfit:
+            for category, conflict_tag_templates in outfit["conflict_outfits"].items():
+                body_part_key_in_persona = f"{category}_parts_tags"
+                if body_part_key_in_persona in body_parts_data:
+                    placeholder = f"{{{body_part_key_in_persona}}}"
+                    resoleved_conflict_tags = [
+                        template.replace(placeholder, body_parts_data[body_part_key_in_persona])
+                        for template in conflict_tag_templates
+                    ]
+                wardrobe_tags += ", " + ", ".join(resoleved_conflict_tags)
+
         # --- [5. プロンプト結合] ---
         # 黄金比：品質 -> 画風 -> 核心 -> 状況 -> 表情 -> 環境
-        # positive = " BREAK ".join([
-        #     quality, 
-        #     style, 
-        #     core, 
-        #     scene + ", " + environment_tags, 
-        #     wardrobe_tags,
-        #     "masterpiece, high quality"
-        # ])
         positive = " BREAK ".join([
             quality, 
             style, 
@@ -271,7 +322,7 @@ class PonyPromptGenerator(BasePromptGenerator):
         ## 1. 全レベル共通の『聖域』を取得
         holy_grail = self.data.get("negative_holy_grail", "")
 
-        ## 2. 【新設】レベルに応じた追加の拒絶要素を抽選/取得
+        ## 2. レベルに応じた追加の拒絶要素を抽選/取得
         neg_logic_items = self.data.get("negative_logic", {}).get("items", [])
         active_tier_negs = [
             item["tags"] for item in neg_logic_items
@@ -288,7 +339,7 @@ class PonyPromptGenerator(BasePromptGenerator):
         
         # --- [7. ログ出力] ---
         print(f"--- [Lv{level}] Dynamic Synthesis Log ---")
-        print(f"Outfit:   {outfit['id']} (Target: {target_fabric})")
+        print(f"Outfit:   {outfit['id']}")
         if inner:
             print(f"Inner:    {inner['id']}")
         print(f"Scene:    {scene_data['id']}")

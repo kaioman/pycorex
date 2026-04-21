@@ -52,7 +52,7 @@
             "id": "back_view_allure",
             "name": "背面視点・バックビュー",
             "description": "キャラクターの背後からの視点。背中のラインやヒップ、また視線の先にある風景を強調する",
-            "tags": "(back_view:1.3), (view_from_behind:1.2), (from_behind:1.2), (solo:1.5)",
+            "tags": "(back_view:1.4), (view_from_behind:1.4), (from_behind:1.4), (solo:1.2)",
             "vibe": "mysterious",
             "best_for": ["lv1", "lv2", "lv3", "lv4"]
         }

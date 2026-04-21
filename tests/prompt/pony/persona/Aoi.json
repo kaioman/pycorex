@@ -1,8 +1,22 @@
 {
     "name": "Aoi",
-    "base_identity_tags": "1girl, (pure black hair:1.3), long hair, blue eyes, (pink headphones worn on head:1.3), (leather choker:1.2)",
+    "rating": {
+        "safe": "rating_safe",
+        "questionable": "rating_questionable",
+        "explicit": "rating_explicit"
+    },
+    "base_score_tags": "(score_9, score_8_up:1.2)",
+    "base_identity_tags": "1girl",
+    "body_parts": {
+        "hair": ["(pure black hair:1.3)", "long hair"],
+        "eyes": ["blue eyes"],
+        "accesories": {
+            "head": ["(pink headphones worn on head:1.3)"],
+            "neck": ["(leather choker:1.2)"]
+        }
+    },
     "base_style": "1980s retro anime style, Haruhiko Mikimoto style, cinematic grain",
-    "negative_holy_grail": "score_4, score_5, score_6, low quality, bad anatomy, text, watermark, (sunglasses:1.4), (goggles:1.4), (eyewear on head:1.4), (visor:1.3), (head-mounted display:1.2), (glasses:1.2)",
+    "negative_holy_grail": "score_4, score_5, score_6, low quality, bad anatomy, text, watermark, (headphones_around_neck:1.2), (headphones_on_shoulders:1.2), (sunglasses:1.1), (goggles:1.1), (eyewear on head:1.1), (visor:1.1), (head-mounted display:1.2), (glasses:1.1)",
 
     "scene_logic": {
         "items": [
@@ -11,336 +25,550 @@
                 "description": "窓際での物思い。{camera}により、外を眺める横顔だけでなく、室内側からの引きや俯瞰も可能に",
                 "tags": "(looking_out_window:1.5), (looking_afar:1.3), (profile:1.2), (from_side:1.1), {camera}, sitting_at_desk, (head_tilt:1.1), (arm_on_desk:1.1), (sunlight_filtering_through:1.2), (backlighting:1.1), (dust_particles:1.2)",
                 "min_lv": 1, "max_lv": 2, "weight": 4.0,
-                "destructible_scene": false 
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": false,
+                    "bottom": false
+                }
             },
             {
                 "id": "lv1_reading_immersion",
                 "description": "読書に没頭。{camera}を(low_angle)にすれば見上げる読姿、(high_angle)なら手元の本への集中を強調",
-                "tags": "(reading_book:1.5), (holding_open_book:1.4), (looking_down_at_book:1.4), sitting_at_desk, {camera}, leaning_forward, (focus_on_hand:1.1), (hair_falling_over_face:1.3), (delicate_eyelashes:1.2), soft_expression",
+                "tags": "(reading_book:1.4), (holding_open_book:1.3), (looking_down_at_book:1.3), sitting_at_desk, {camera}, leaning_forward, (focus_on_hand:1.1), (hair_falling_over_face:1.3), (delicate_eyelashes:1.2), soft_expression",
                 "min_lv": 1, "max_lv": 2, "weight": 2.0,
-                "destructible_scene": false 
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": false,
+                    "bottom": false
+                } 
             },
             {
                 "id": "lv1_afterschool_napping",
                 "description": "居眠り。{camera}で机に突っ伏した彼女を真上から捉える(high_angle)や、横からの接写が可能",
                 "tags": "(sleeping_at_desk:1.5), (slumped_over_desk:1.5), {camera}, (eye_level:1.2), head_on_arms, (arms_crossed:1.1), (disheveled_hair:1.3), closed_eyes, peaceful_expression, (soft_diffused_light:1.2)",
                 "min_lv": 1, "max_lv": 2, "weight": 1.0,
-                "destructible_scene": false 
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": false,
+                    "bottom": false
+                } 
             },
             {
                 "id": "lv1_listening_music",
                 "description": "ヘッドフォン没入。{camera}が(dutch_angle)ならエモーショナルに、(close-up)なら指先の表情を捉える",
                 "tags": "(listening_to_music:1.4), (Aoi_closed_eyes:1.6), (eyelids_shut:1.4), (hands_on_headphones:1.4), sitting, {camera}, (resting_cheek_on_hand:1.3), (hand_on_face:1.2), (delicate_fingers:1.2), (gentle_shadows:1.1), cinematic_vibe",
                 "min_lv": 1, "max_lv": 2, "weight": 2.0,
-                "destructible_scene": false 
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": false,
+                    "bottom": false
+                } 
             },
             {
                 "id": "lv1_adjusting_choker",
                 "description": "【ボツ】チョーカーを直す。{camera}を(low_angle)にすることで、首筋のラインと顎のラインの重なりを魅せる",
                 "tags": "(hand_near_choker:1.5), (reaching_towards_neck:1.4), (one_hand_raised:1.3), {camera}, standing, (neck_focus:1.3), (looking_at_viewer:1.1), (sole_focus:1.4), (only_one_person:1.3), (fixing_choker_pose:1.2)",
                 "min_lv": 0, "max_lv": 0, "weight": 2.5,
-                "destructible_scene": false 
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": false,
+                    "bottom": false
+                } 
             },
             {
                 "id": "lv1_tucking_hair_behind_ear",
                 "description": "髪を耳にかける。{camera}で(side_profile)や(medium_shot)を組み合わせ、首筋のラインと指先の繊細さを強調",
                 "tags": "{camera}, (tucking_hair_behind_ear:1.4), (hand_to_head:1.2), (solo:1.2)",
                 "min_lv": 1, "max_lv": 2, "weight": 2.5,
-                "destructible_scene": false
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": false,
+                    "bottom": false
+                }
             },
             {
                 "id": "lv1_walking_corridor",
                 "description": "廊下を歩く。{camera}で(wide_shot)なら放課後の静寂、(telephoto)なら彼女を追うような視点に",
                 "tags": "(walking_in_school_corridor:1.3), (walking_away:1.2), {camera}, (cowboy_shot:1.3), (hair_fluttering:1.4), (backlighting:1.2), (looking_sideways:1.1), (detailed_face:1.3)",
                 "min_lv": 1, "max_lv": 2, "weight": 1.5,
-                "destructible_scene": false 
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": false,
+                    "bottom": false
+                } 
+            },
+            {
+                "id": "lv1_walking_path",
+                "description": "場所を問わず歩くシーン。{location}との組み合わせで、放課後、オフィス街、廃墟などに対応可能。",
+                "tags": "(walking:1.3), (walking_away:1.2), (step_forward:1.1), {camera}, (cowboy_shot:1.3), (hair_fluttering:1.4), (backlighting:1.2), (looking_sideways:1.1), (detailed_face:1.3)",
+                "min_lv": 1, "max_lv": 2, "weight": 1.5,
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": false,
+                    "bottom": false
+                }
             },
             {
                 "id": "lv2_shy_glance",
                 "description": "照れ隠し。{camera}を(dutch_angle)にすれば不安定な心情、(high_angle)なら上目遣いの強調に",
                 "tags": "{camera}, (looking_away:1.3), (shy_glance:1.4), (playing_with_hair:1.2), (blushing:1.4), (tucking_hair_behind_ear:1.3), standing, (delicate_fingers:1.2), (shakerato:1.1)",
                 "min_lv": 2, "max_lv": 3, "weight": 2.0,
-                "destructible_scene": false 
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": false,
+                    "bottom": false
+                } 
             },
             {
                 "id": "lv2_staring_contest",
                 "description": "凝視。{camera}を(low_angle)にすれば圧倒的な存在感、(telephoto)なら彼女の瞳の虹彩まで描画",
                 "tags": "{camera}, (staring:1.4), (looking_at_viewer:1.5), (deep_blush:1.2), (parted_lips:0.9), (intense_eyes:1.3), standing, (unwavering_gaze:1.2), (shakerato:1.1)",
                 "min_lv": 2, "max_lv": 3, "weight": 1.0,
-                "destructible_scene": false 
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": false,
+                    "bottom": false
+                }
             },
             {
                 "id": "lv2_leaning_on_shoulder",
                 "description": "無防備な近接。{camera}を(over_the_shoulder)にすれば、彼女の体温を感じるような没入感のある構図に",
                 "tags": "sitting_close, {camera}, (shoulder_touch:0.9), (looking_at_viewer:1.1), (gentle_smile:1.2), (soft_lighting:1.3), evening_light, (hair_touching_viewer:1.1)",
                 "min_lv": 2, "max_lv": 3, "weight": 1.5,
-                "destructible_scene": false 
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": false,
+                    "bottom": false
+                } 
             },
             {
                 "id": "lv2_whisper_close",
                 "description": "内緒話。{camera}に(close-up)や(side_view)を組み合わせることで、吐息が聞こえる距離感を演出",
                 "tags": "{camera}, (leaning_towards_viewer:1.4), (looking_at_viewer:1.2), (whispering:1.1), (blushing:1.3), (parted_lips:1.1), soft_expression, (hand_near_mouth:1.2), (delicate_fingers:1.1)",
                 "min_lv": 2, "max_lv": 3, "weight": 3.0,
-                "destructible_scene": false 
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": false,
+                    "bottom": false
+                } 
             },
             {
                 "id": "lv2_fixing_hair_tie",
                 "description": "髪を結い直す。{camera}で(from_side)や(back_view)を選べば、首筋から脇にかけてのラインを官能的に捉える",
                 "tags": "{camera}, (arms_up:1.4), (fixing_hair:1.3), (exposed_neck:1.3), (exposed_armpits:1.2), (blushing:1.1), standing, (ponytail:1.1), (stretched_fabric:1.2)",
                 "min_lv": 2, "max_lv": 3, "weight": 2.0,
-                "destructible_scene": false 
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": false,
+                    "bottom": false
+                } 
             },
             {
                 "id": "lv2_leaning_closer_curiosity",
                 "description": "覗き込み。{camera}を(low_angle)にすれば、カメラ（視聴者）を上から覗き込むようなドミナントな構図に",
                 "tags": "{camera}, (leaning_forward:1.5), (looking_down_at_viewer:1.4), (curious_expression:1.2), (hair_falling_forward:1.4), (close_distance:1.3), (deep_blush:1.2), (watery_eyes:1.1)",
                 "min_lv": 2, "max_lv": 3, "weight": 1.5,
-                "destructible_scene": false 
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": false,
+                    "bottom": false
+                } 
             },
             {
                 "id": "lv2_phys_cleavage_peek",
                 "description": "胸元の油断。前かがみの姿勢で緩んだ襟元から、ブラジャーのカップや谷間が露わになる",
                 "tags": "(leaning_forward:1.5), (bent_over:1.2), (downblouse:1.4), (view_into_shirt:1.3), (bra_visible:1.2), {camera}, (cowboy_shot:1.3), (foreshortening:1.3), (hands_on_knees:1.2), (looking_up:1.1), (gap_in_clothing:1.3), (upper_body_focus:1.1), (blush:1.2), (solo:1.3)",
                 "min_lv": 2, "max_lv": 3, "weight": 2.5,
-                "destructible_scene": false 
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": true,
+                    "bottom": false
+                } 
             },
             {
                 "id": "lv2_fixing_uniform_button",
                 "description": "制服のボタンを留め直す。{camera}で(close-up)や(upper_body_focus)を組み合わせ、指先の繊細さと胸元のディテールを強調",
-                "tags": "{camera}, (buttoning:1.7), (adjusting_clothes:1.5), (fingers_on_button:1.6), (hands_on_own_chest:1.4), (looking_down:1.4), (waist_up:1.3), (delicate_fingers:1.3), (focused_expression:1.2), (buttons:1.4), (front_buttons:1.2), (white_shirt:1.1), (no_extra_hands:1.5), (solo:1.3)",
+                "tags": "{camera}, (buttoning:1.7), (adjusting_clothes:1.5), (fingers_on_button:1.6), (hands_on_own_chest:1.4), (looking_down:1.4), (waist_up:1.3), (delicate_fingers:1.3), (focused_expression:1.2), (buttons:1.4), (front_buttons:1.2), (no_extra_hands:1.5), (solo:1.3)",
                 "min_lv": 2, "max_lv": 3, "weight": 2.5,
-                "destructible_scene": false
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": true,
+                    "bottom": false
+                }
             },
             {
                 "id": "lv2_leaning_against_railing",
                 "description": "バルコニーや屋上の手摺への寄りかかり。{camera}の(low_angle)で空の広さを、(back_view)で風になびく髪と孤独感を演出",
-                "tags": "(leaning_on_railing:1.5), (looking_at_horizon:1.3), {camera}, (skirt_flip:1.4), (skirt_wind:1.3), (wind_blown_hair:1.4), (school_rooftop:1.3), (distant_cityscape:1.2), (sunset_sky:1.3), (skylight:1.2), (peaceful_moment:1.1)",
+                "tags": "(leaning_on_railing:1.5), (looking_at_horizon:1.3), {camera}, ({target_fabric_outer_bottom}_flip:1.4), ({target_fabric_outer_bottom}_wind:1.3), (wind_blown_hair:1.4), (school_rooftop:1.3), (distant_cityscape:1.2), (sunset_sky:1.3), (skylight:1.2), (peaceful_moment:1.1)",
                 "min_lv": 1, "max_lv": 3, "weight": 2.5,
-                "destructible_scene": false 
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": false,
+                    "bottom": true
+                } 
             },
             {
                 "id": "lv2_5_phys_sitting_gap",
                 "description": "【着座の油断】無防備な足元",
-                "tags": "{camera}, (sitting:1.2), (spread_legs:1.1), (skirt_spread:1.3), (view_from_low_angle:1.4), (panty_peek:1.4), (cluttered_desk:1.1)",
+                "tags": "{camera}, (sitting:1.2), (spread_legs:1.1), ({target_fabric_outer_bottom}_spread:1.3), (view_from_low_angle:1.4), (panty_peek:1.4), (cluttered_desk:1.1)",
                 "min_lv": 2, "max_lv": 3, "weight": 3.0,
-                "destructible_scene": false 
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": true,
+                    "bottom": true
+                } 
             },
             {
                 "id": "lv2_5_env_stair_climb",
                 "description": "【階段の遠近法】高低差による露出",
-                "tags": "(walking_up_stairs:1.4), (from_below:1.5), (upskirt:1.4), (pov_looking_up:1.3), (leg_focus:1.2), (panty_peek:1.3)",
+                "tags": "(walking_up_stairs:1.2), from_below, (upskirt:1.3), (cinematic_angle:1.2), (leg_focus:1.2), (panty_peek:1.3)",
                 "min_lv": 2, "max_lv": 3, "weight": 3.0,
-                "destructible_scene": false 
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": false,
+                    "bottom": true
+                } 
             },
             {
                 "id": "lv2_5_phys_high_reach",
                 "description": "【背伸びと延伸】裾の限界",
-                "tags": "{camera}, (standing on tiptoe:1.4), (reaching up:1.3), (looking up:1.2), (arms above head:1.2), (stretching:1.1), (skirt_lift:1.4), (panty_focus:1.1)",
+                "tags": "{camera}, (standing on tiptoe:1.4), (reaching up:1.3), (looking up:1.2), (arms above head:1.2), (stretching:1.1), ({target_fabric_outer_bottom}_lift:1.4), (panty_focus:1.1)",
                 "min_lv": 2, "max_lv": 3, "weight": 3.0,
-                "destructible_scene": false 
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": true,
+                    "bottom": true
+                } 
             },
             {
                 "id": "lv2_5_phys_bending_peek",
                 "description": "【屈伸の死角】前傾姿勢",
                 "tags": "(bending_over:1.5), (leaning_forward:1.4), (back_three-quarter_view:1.4), (diagonal_view:1.2), (from_side:1.1), (low_angle:1.4), (from_below:1.2), ({target_fabric_outer_bottom}_lift:1.1), (upskirt:1.2), (panty_peek:1.2), (skirt_gap:1.3), (embarrassed:1.2), (accidental:1.1), (looking_at_viewer:1.2), (looking_down:1.1)",
                 "min_lv": 2, "max_lv": 3, "weight": 3.0,
-                "destructible_scene": false 
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": true,
+                    "bottom": true
+                } 
             },
             {
                 "id": "lv2_5_env_windy_front",
                 "description": "【前方・風の悪戯】自然な浮き上がり",
-                "tags": "(from_below:1.5), (low_angle:1.4), (worm's_eye_view:1.2), (looking_up:1.3), (wind_blowing_{target_fabric_outer_bottom}:1.4), (skirt_{target_fabric_outer_bottom}:1.3), (hand_on_{target_fabric_outer_bottom}:1.2), (embarrassed:1.2), (wide eyes:1.2), (panty_peek:1.3)",
+                "tags": "(from_below:1.5), (low_angle:1.4), (worm's_eye_view:1.2), (looking_up:1.3), (wind_blowing_{target_fabric_outer_bottom}:1.4), ({target_fabric_outer_bottom}_lift:1.3), (hand_on_{target_fabric_outer_bottom}:1.2), (embarrassed:1.2), (wide eyes:1.2), (panty_peek:1.3)",
                 "min_lv": 2, "max_lv": 3, "weight": 3.0,
-                "destructible_scene": false 
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": false,
+                    "bottom": true
+                } 
             },
             {
                 "id": "lv2_5_env_windy_back",
                 "description": "【後方・風の悪戯】自然な浮き上がり",
                 "tags": "(view_from_behind:1.5), (back_view:1.4), (looking_back:1.3), (low_angle:1.4), (worm's_eye_view:1.2), (wind_blowing_{target_fabric_outer_bottom}:1.4), ({target_fabric_outer_bottom}_lift:1.3), (hand_on_{target_fabric_outer_bottom}:1.2), (embarrassed:1.2), (wide eyes:1.2), (panty_peek:1.3)",
                 "min_lv": 2, "max_lv": 3, "weight": 3.0,
-                "destructible_scene": false 
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": false,
+                    "bottom": true
+                } 
             },            
             {
                 "id": "lv3_phys_deep_squat",
                 "description": "【Lv3:蹲踞の隙】かかとをつけたままの深いしゃがみ込み。閉じた膝の間から、逃げ場のない露出を捉える",
                 "tags": "(crouching:1.4), (pigeon-toed:1.5), (knees_together:1.4), (knock_knees:1.3), (feet_spread:1.1), (upskirt:1.1), (embarrassed:1.2), (solo:1.2)",
                 "min_lv": 3, "max_lv": 3, "weight": 2.5,
-                "destructible_scene": false 
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": false,
+                    "bottom": true
+                } 
             },
             {
                 "id": "lv3_phys_sitting_triangle",
                 "description": "【Lv3:着座の聖域】椅子や床に座った際、太ももの付け根から覗く下着の「三角ゾーン」",
-                "tags": "(high_angle:1.3), (eye_level:1.3),  (knees_level:1.2), (sitting:1.3),(arms at sides:1.3), (knees_together:1.1), (legs_closed:1.1), (pigeon-toed:1.3), (skirt_lift:1.3), (panty_peek:1.4)",
+                "tags": "(high_angle:1.3), (eye_level:1.1), (knees_level:1.2), (sitting:1.3), (knees_together:1.1), (legs_closed:1.1), (pigeon-toed:1.3), (skirt_lift:1.4), (panty_peek:1.4)",
                 "min_lv": 3, "max_lv": 3, "weight": 2.5,
-                "destructible_scene": false
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": false,
+                    "bottom": true
+                }
             },
             {
                 "id": "lv3_true_shirt_disarray",
                 "description": "【Lv3:衣服の崩壊】肩のラインと胸元の「美樹本流」の影にリソースを集中",
                 "tags": "{camera}, sitting, (off_shoulder:1.5), (shirt_hanging_off_shoulder:1.4), (bra_peeking:1.2), (subtle_cleavage:1.2), (upper_body_focus:1.3), (exposed_skin:1.3), (head_tilted_back:1.2), (half_closed_eyes:1.3), (heavy_breathing:1.2), (sweat:1.1), (no_extra_limbs:1.4)",
                 "min_lv": 3, "max_lv": 3, "weight": 2.5,
-                "destructible_scene": true 
+                "destructible_scene": true,
+                "inner_inclusion": {
+                    "top": true,
+                    "bottom": false
+                } 
             },
             {
                 "id": "lv3_true_bent_over_tease",
                 "description": "【Lv3:屈曲の美】ヒップラインの食い込みと「振り返り」の解剖学的整合性",
                 "tags": "{camera}, (all_fours:1.4), (bent_over:1.5), (looking_back:1.4), ({target_fabric_outer_bottom}_hitched_up:1.4), ({target_fabric_outer_bottom}_digging_into_flesh:1.3), (butt_focus:1.5), (intense_blush:1.3), (heavy_breathing:1.3), (sole_focus:1.2)",
                 "min_lv": 3, "max_lv": 3, "weight": 2.0,
-                "destructible_scene": false 
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": false,
+                    "bottom": true
+                } 
             },
             { 
                 "id": "lv3_true_hand_exploration",
                 "description": "【Lv3:自己愛】指先の湿感と、多指症を防ぐための「1本」制約",
                 "tags": "{camera}, sitting, (fingers_in_mouth:1.5), (hand_on_own_crotch:1.5), (one_hand_on_crotch:1.4), (masturbation_gesture:1.2), ({target_fabric_outer_bottom}_lift:1.3), (spread_legs:1.2), (wet_lips:1.3), (sole_focus:1.4), (no_extra_hands:1.5)",
                 "min_lv": 3, "max_lv": 3, "weight": 2.0,
-                "destructible_scene": false 
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": true,
+                    "bottom": true
+                } 
             },
             {
                 "id": "lv3_true_fetish_constriction",
                 "description": "【食い込みと張力】マクロ視点での肉の段差と、衣装の「締め付け」を強調",
                 "tags": "{camera}, (macro_lens:1.3), (skin_indentation:1.6), (tight_clothing:1.4), ({target_fabric_outer_bottom}_digging_into_skin:1.5), (creasing_skin:1.4), (flesh_excess:1.3), (constriction:1.4), (heavy_breathing:1.2), (sweat_drops_on_skin:1.1)",
                 "min_lv": 3, "max_lv": 3, "weight": 2.5,
-                "destructible_scene": false 
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": true,
+                    "bottom": true
+                } 
             },
             {
                 "id": "lv3_true_fetish_transparency",
                 "description": "【透けと吸着】『乳首禁止』を前提とした、布越しのシルエット描写",
-                "tags": "{camera}, (wet_clothes:1.6), (translucent_{target_fabric_outer_top}:1.5), (see-through:1.3), ({target_fabric_outer_top}_clinging_to_body:1.5), (bra_visible_under_{target_fabric_outer_top}:1.4), (shivering:1.1), (watery_eyes:1.2), (sole_focus:1.3)",
+                "tags": "{camera}, (wet_clothes:1.4), (translucent_{target_fabric_outer_top}:1.4), (see-through:1.1), ({target_fabric_outer_top}_clinging_to_body:1.5), (bra_visible_under_{target_fabric_outer_top}:1.2), (shivering:1.1), (watery_eyes:1.2), (sole_focus:1.3)",
                 "min_lv": 3, "max_lv": 3, "weight": 2.5,
-                "destructible_scene": false 
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": true,
+                    "bottom": true
+                } 
             },
             {
                 "id": "lv3_true_shirt_shredded",
                 "description": "【Lv3:衣服の損壊】上着が激しく引き裂かれ、肩や背中が露出。布の破片が肌に張り付く。{camera}で(low_angle)にすれば、破れた布の立体感が強調される",
                 "tags": "{camera}, (shredded_shirt:1.6), (torn_fabric:1.5), (ripped_clothes:1.4), (hanging_shreds_of_fabric:1.3), (bra_peeking:1.2), (exposed_skin:1.4), (heavy_breathing:1.3), (sweat:1.2), (disheveled_hair:1.2), (desperate_expression:1.1)",
                 "min_lv": 3, "max_lv": 3, "weight": 2.5,
-                "destructible_scene": true 
+                "destructible_scene": true,
+                "inner_inclusion": {
+                    "top": true,
+                    "bottom": true
+                } 
             },
             {
                 "id": "lv3_true_skirt_torn",
                 "description": "【Lv3:下衣の崩壊】{destructible_fabric}が縦に裂け、脚のラインが剥き出しになる。{camera}の(side_view)で裂け目のエッジを強調",
                 "tags": "{camera}, {destructible_fabric}, (ripped_hem:1.2), (fabric_tears:1.2), (showing_thigh:1.2), (panty_peeking:1.5), (shivering:1.2), (looking_at_viewer:1.1)",
                 "min_lv": 3, "max_lv": 3, "weight": 2.5,
-                "destructible_scene": true 
+                "destructible_scene": true,
+                "inner_inclusion": {
+                    "top": true,
+                    "bottom": true
+                } 
             },
             {
                 "id": "lv3_true_struggle_remnants",
                 "description": "【Lv3:抵抗の痕跡】襟元や袖が引きちぎられた状態。{camera}の(close-up)で、破れた布の『繊維のほつれ』を美樹本流の線で描く",
                 "tags": "{camera}, (ripped_collar:1.5), (torn_sleeves:1.4), (damaged_clothing:1.3), (tattered_edges:1.4), (exposed_collarbone:1.3), (choker_visible:1.2), (ink_lines_on_torn_fabric:1.3), (rough_sketch_edges:1.1), (sobbing:1.1)",
                 "min_lv": 3, "max_lv": 3, "weight": 2.0,
-                "destructible_scene": true 
+                "destructible_scene": true,
+                "inner_inclusion": {
+                    "top": true,
+                    "bottom": true
+                } 
             },
             {
                 "id": "lv3_true_skirt_shredded_stable",
                 "description": "顔の崩れを防ぎつつ、下半身の破壊を確定させるハイブリッド画角",
                 "tags": "{camera}, (cowboy_shot:1.3), (from_below:1.4), (lower_body_focus:1.2), (torn_{target_fabric_outer_bottom}:1.6), (panty_peeking:1.2), (shimapan:1.4), (crotch_focus:1.3), (Aoi:1.3), (detailed_face:1.2), (no_wounds:1.4)",
                 "min_lv": 3, "max_lv": 3, "weight": 2.0,
-                "destructible_scene": true 
+                "destructible_scene": true,
+                "inner_inclusion": {
+                    "top": true,
+                    "bottom": true
+                } 
             },
             {
                 "id": "lv3_true_shirt_shredded_stable",
                 "description": "【上半身の損壊】{camera}によるドラマチックな画角と、激しい布の損壊を両立",
                 "tags": "{camera}, (upper_body_focus:1.3), (cowboy_shot:1.2), (shredded_shirt:1.6), (torn_fabric:1.5), (ripped_clothes:1.4), (hanging_shreds_of_fabric:1.3), (bra_peeking:1.2), (subtle_cleavage:1.2), (exposed_skin:1.3), (Aoi:1.3), (no_wounds:1.4), (clean_skin:1.3)",
                 "min_lv": 3, "max_lv": 3, "weight": 2.5,
-                "destructible_scene": true 
+                "destructible_scene": true,
+                "inner_inclusion": {
+                    "top": true,
+                    "bottom": false
+                } 
             },
             {
                 "id": "lv3_true_bent_over_tease_stable",
                 "description": "【屈曲の美】背後や横からの{camera}演出を活かし、ヒップラインの食い込みを描く",
                 "tags": "{camera}, (knee_up:1.3), (all_fours:1.4), (bent_over:1.5), (looking_back:1.4), ({target_fabric_outer_bottom}_hitched_up:1.4), ({target_fabric_outer_bottom}_digging_into_flesh:1.5), (butt_focus:1.5), (panty_visible:1.7), (shimapan:1.5), (intense_blush:1.3), (Aoi:1.3), (no_wounds:1.4), (clean_skin:1.3), (crotch_exposure:1.6), (underwear_visible:1.6)",
                 "min_lv": 3, "max_lv": 3, "weight": 2.0,
-                "destructible_scene": false 
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": true,
+                    "bottom": true
+                } 
             },
             { 
                 "id": "lv3_true_hand_exploration_stable",
                 "description": "【自己愛】{camera}の寄り具合を制御しつつ、一人での行為に限定",
                 "tags": "{camera}, (cowboy_shot:1.3), (fingers_in_mouth:1.5), (hand_on_own_crotch:1.6), (one_hand_on_crotch:1.5), (masturbation_gesture:1.2), ({target_fabric_outer_bottom}_lift:1.4), (spread_legs:1.3), (wet_lips:1.3), (Aoi:1.3), (sole_focus:1.5), (no_extra_hands:1.6), (no_wounds:1.4)",
-                "min_lv": 3, "max_lv": 3, "weight": 2.0,
-                "destructible_scene": false 
+                "min_lv": 3, "max_lv": 4, "weight": 2.0,
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": true,
+                    "bottom": true
+                } 
             },
             {
                 "id": "lv3_true_fetish_transparency_stable",
                 "description": "【透けと吸着】{camera}によるフェティッシュなアングルで、布越しの下着を描写",
                 "tags": "{camera}, (cowboy_shot:1.3), (wet_clothes:1.6), (translucent_{target_fabric_outer_bottom}:1.5), (see-through:1.3), ({target_fabric_outer_bottom}_clinging_to_body:1.5), (bra_visible_under_{target_fabric_outer_top}:1.4), (panty_lines:1.3), (shivering:1.1), (Aoi:1.3), (no_wounds:1.4), (clean_skin:1.3)",
                 "min_lv": 3, "max_lv": 3, "weight": 2.5,
-                "destructible_scene": false 
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": true,
+                    "bottom": true
+                } 
             },
             {
                 "id": "lv3_shredded_skirt_reveal",
                 "description": "【Lv3:下半身の決壊】スカートが縦に大きく裂け、太ももから腰の下着が露わになる。{camera}で(low_angle)を指定すれば、裂け目の奥行きが強調される",
                 "tags": "{camera}, (torn_{target_fabric_outer_bottom}:1.4), (ripped_{target_fabric_outer_bottom}:1.4), (exposed_panties:1.3), (knees_up:1.4), (holding_knees:1.3), (sitting:1.3), (thigh_focus:1.3), (crotch_focus:1.2), (Aoi:1.3), (no_standing:1.2)",
                 "min_lv": 3, "max_lv": 3, "weight": 3.0,
-                "destructible_scene": true 
+                "destructible_scene": true,
+                "inner_inclusion": {
+                    "top": true,
+                    "bottom": true
+                } 
             },
             {
                 "id": "lv3_shredded_top_bra_reveal",
                 "description": "【Lv3:胸元の損壊】上着の前面が激しく引き裂かれ、中のブラジャーが完全に露出。{camera}を(close-up)にすれば、破れた布の繊維と肌の質感が際立つ",
                 "tags": "{camera}, (upper_body_focus:1.4), (shredded_shirt:1.7), (torn_clothing:1.6), (ripped_front:1.5), (bra_visible:1.7), (cleavage_focus:1.5), clothed_nipples, (Aoi:1.3), (detailed_face:1.2), (clean_skin:1.4), (no_wounds:1.5)",
                 "min_lv": 3, "max_lv": 3, "weight": 2.5,
-                "destructible_scene": true 
+                "destructible_scene": true,
+                "inner_inclusion": {
+                    "top": true,
+                    "bottom": true
+                } 
+            },
+            {
+                "id": "lv3_phys_panty_pull_down",
+                "description": "【Lv3:ギリギリの境界線】前かがみの姿勢で、両手で下着の端をわずかに押し下げる仕草。性器露出を避けつつ背徳感を強調",
+                "tags": "(leaning_forward:1.4), (bent_over:1.2), (pulling_down_own_panties:1.3), (no_panties:1.4), (point_of_view:1.2), (partial_obscured_view:1.1), (waist_up:1.3), (foreshortening:1.2), (looking_at_viewer:1.2), (blush:1.3), (embarrassed:1.1), (tight_clothing:1.1), (soft_skin_texture:1.2), (solo:1.3)",
+                "min_lv": 3, "max_lv": 3, "weight": 2.0,
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": false,
+                    "bottom": false
+                } 
             },
             {
                 "id": "lv3_back_destruction_tease",
                 "description": "【Lv3:背面の崩落】背中から腰にかけて衣装が消失。{camera}を(back_view)にすれば、食い込む下着のラインと無傷の背中が強調される",
                 "tags": "(back_view:1.5), (looking_back:1.3), (torn_back_of_{target_fabric_outer_top}:1.4), (torn_{target_fabric_outer_bottom}:1.4), (shredded_fabric:1.4), (exposed_back:1.4), (panty_lines_subtle:1.3), (waist_focus:1.3), (Aoi:1.3), (clean_skin:1.4), (no_wounds:1.5), (blushing:1.2)",
                 "min_lv": 3, "max_lv": 3, "weight": 2.5,
-                "destructible_scene": true 
+                "destructible_scene": true,
+                "inner_inclusion": {
+                    "top": true,
+                    "bottom": true
+                }
             },
             {
                 "id": "lv4_phys_torn_ecstasy",
                 "description": "ボツ【衣服破壊の極致】自らの手で{target_fabric_outer_top}の襟元を掴み、左右に引き裂く。{camera}で(low_angle)にすれば、絶頂の表情と破壊された布のコントラストが際立つ",
                 "tags": "completely_undressed, naked, {camera}, (grabbing_own_{target_fabric_outer_top}:1.4), (ripped_{target_fabric_outer_top}_in_hands:1.3), (shredded_fabric_on_skin:1.3), (clutching_cloth:1.2), (Aoi_closed_eyes:1.4), (head_tilted_back:1.3), (climax:1.4), (nipples:1.1), (pussy:1.2), (sweat_on_collarbone:1.2), (saliva_thread:1.1)",
                 "min_lv": 99, "max_lv": 99, "weight": 3.0,
-                "destructible_scene": true 
+                "destructible_scene": true,
+                "inner_inclusion": {
+                    "top": true,
+                    "bottom": true
+                } 
             },
             {
                 "id": "lv4_phys_forced_torn_ecstasy",
                 "description": "【他動的破壊の極致】何者かに襟元を強く掴まれ、左右に引き裂かれる。{camera}で(low_angle)にすれば、翻弄される絶頂の表情と、無残に破られた布地のコントラストが際立つ",
                 "tags": "{camera}, {destructible_fabric} ,(shredded_fabric_on_skin:1.5), (damaged_silk:1.4), (barely_covered:1.3), (disheveled_clothes:1.3),(off_shoulder:1.1),(Aoi_closed_eyes:1.4), (head_tilted_back:1.3),(climax:1.1),(wet_skin:1.3),(sweat_on_collarbone:1.2),(nipples_visible_through_disarray:0.9),(saliva_thread:1.1),(disheveled_hair:1.2),(helpless:1.3), (lying_down:1.1), (no_extra_hands:1.5)",
                 "min_lv": 4, "max_lv": 5, "weight": 3.0,
-                "destructible_scene": true
+                "destructible_scene": true,
+                "inner_inclusion": {
+                    "top": true,
+                    "bottom": true
+                }
             },
             {
                 "id": "lv4_phys_forced_torn_ecstasy_backview",
                 "description": "【他動的破壊の極致】背面・バックビュー",
-                "tags": "(back_view:1.3), (view_from_behind:1.2), (from_behind:1.2), {destructible_fabric}, (shredded_fabric_on_skin:1.5), (damaged_silk:1.4), (barely_covered:1.3), (disheveled_clothes:1.3), (off_shoulder:1.1), (Aoi_closed_eyes:1.1), (exhausted:1.2), (wet_skin:1.3), (nipples_visible_through_disarray:0.9), (saliva_thread:1.1), (disheveled_hair:1.2), (helpless:1.3), (lying_down:1.1), (no_extra_hands:1.5)",
+                "tags": "(back_view:1.4), (view_from_behind:1.4), (from_behind:1.3), {destructible_fabric}, (shredded_fabric_on_skin:1.5), (damaged_silk:1.4), (barely_covered:1.3), (disheveled_clothes:1.3), (off_shoulder:1.1), (Aoi_closed_eyes:1.1), (exhausted:1.2), (wet_skin:1.3), (nipples_visible_through_disarray:0.9), (saliva_thread:1.1), (disheveled_hair:1.2), (helpless:1.3), (lying_down:1.1), (no_extra_hands:1.5)",
                 "min_lv": 4, "max_lv": 5, "weight": 3.0,
-                "destructible_scene": true
+                "destructible_scene": true,
+                "inner_inclusion": {
+                    "top": true,
+                    "bottom": true
+                }
             },
             {
                 "id": "lv4_phys_disheveled_ecstasy",
                 "description": "【着崩れの極致】自らの手で襟元を押し下げ、肌を露出させる。{camera}で(low_angle)にすれば、指が布地に食い込む質感と絶頂の表情が際立つ",
                 "tags": "{camera}, (pulling_down_collar:1.4), (off_shoulder:1.3), (fingers_under_fabric:1.4), (disheveled_clothes:1.3), (Aoi_closed_eyes:1.1), (head_tilted_back:1.1), (climax:1.1), (nipples_visible_through_disarray:1.2), (sweat_on_collarbone:1.1), (saliva_thread:1.1), (skin_redness:1.1)",
                 "min_lv": 4, "max_lv": 5, "weight": 3.0,
-                "destructible_scene": false
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": true,
+                    "bottom": true
+                }
             },
             {
                 "id": "lv4_phys_toy_compression",
                 "description": "【性具の圧着】バイブレーターを{target_fabric}（下着や裾）の隙間から押し当てる。{camera}で(close-up)にすれば、道具と肌の『食い込み』の質感を逃さない",
                 "tags": "{camera}, (completely_undressed:1.2), (holding_vibrator:1.2), (pressing_vibrator_against_pussy:1.4), (skin_indentation_by_toy:1.4), (arms between legs:1.3), (spread_legs:1.3), (wet_pussy:1.4), (pussy_focus:1.1), (deep_blush:1.4), (watery_eyes:1.2), (only_one_girl:1.5), chiaroscuro",
                 "min_lv": 4, "max_lv": 5, "weight": 2.5,
-                "destructible_scene": true 
+                "destructible_scene": true,
+                "inner_inclusion": {
+                    "top": true,
+                    "bottom": true
+                } 
             },
             {
                 "id": "lv4_phys_bent_fabric_rip",
                 "description": "NG【背面と素材の干渉】四つん這いで、自らの指を{target_fabric}の穴や裾に引っ掛け、引き裂き広げる仕草。{camera}は(back_view)系を推奨",
                 "tags": "(back_view:1.2), (from_behind:1.4), (all_fours:1.3), (bent_over:1.4), (completely_undressed:1.2), (looking_down:1.1), (crotch_focus:1.5), (fingers_hooked_into_{target_fabric_outer_bottom}:1.5), (pulling_{target_fabric_outer_bottom}_aside:1.4), (pussy_visible:1.3), (hand_between_legs:1.2), (butt_focus:1.4), (sweat_on_back:1.1), (solo:0.9), detailed_ink_lines",
                 "min_lv": 4, "max_lv": 5, "weight": 2.0,
-                "destructible_scene": true 
+                "destructible_scene": true,
+                "inner_inclusion": {
+                    "top": true,
+                    "bottom": true
+                } 
             },
             {
                 "id": "lv4_phys_bound_tension",
                 "description": "【拘束の張力】手首を縛られ、自ら上に引っ張ることで背中の反りを強調。{camera}で(side_view)や(low_angle)を選べば、体のラインが最も美しく描かれる",
                 "tags": "{camera}, completely_undressed, (wrists_tied_above_head:1.8), (pulling_rope:1.7), (arching_back:1.7), (strained_neck:1.3), (climax:1.4), (body_fluids:1.2), (saliva_thread:1.4), (skirt_lift:1.6),(skirt_up:1.5),(wet_pussy:1.5),(thigh_highs_under_skirt:1.2), (partially_undressed:1.5), (half_closed_eyes:1.3), (lust:1.3), (solo:1.5), (restrained:1.5)",
                 "min_lv": 4, "max_lv": 5, "weight": 2.0,
-                "destructible_scene": false 
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": true,
+                    "bottom": true
+                }
             },
             {
                 "id": "lv4_lost_in_ecstasy_sprawl",
                 "description": "【脱力と余韻】絶頂の後に力なく横たわる。{camera}を(high_angle)にすれば、散らばった{destructible_fabric}の残骸とAoiの対比が美しい",
                 "tags": "lying_on_back, {camera}, (completely_undressed:1.3), (spread_legs:1.2), (disheveled_hair:1.2), (empty_eyes:1.2), (parted_lips:1.3), (deep_blush:1.2), (heavy_breathing:1.3), {destructible_fabric}, (pussy_visible:1.3), (wet_pussy:1.3), (sweat_glistening:1.1), (afterglow:1.2)",
                 "min_lv": 4, "max_lv": 5, "weight": 1.5,
-                "destructible_scene": true 
+                "destructible_scene": true,
+                "inner_inclusion": {
+                    "top": true,
+                    "bottom": true
+                }
             }
         ]
     },
@@ -355,7 +583,7 @@
             {
                 "id": "neg_lv3_borderline",
                 "description": "Lv1-3専用：下着は許可するが、乳首・性器・直接的露出を厳禁する防壁",
-                "tags": "(nipples:1.0), (pussy:1.0), sex, (man:1.5), (male:1.5), (extra fingers:1.5), (other's hand:1.4), (hand on shoulder:1.4), (hug:1.3), (interacting:1.3), (2multiple girls:1.3), (group:1.2)",
+                "tags": "(nipples:1.0), (pussy:1.0), (extra fingers:1.2), (other's hand:1.4), (hand on shoulder:1.1), (hug:1.1), (interacting:1.1), (2multiple girls:1.1), (group:1.2)",
                 "min_lv": 3, "max_lv": 3, "weight": 1.2
             },
             {
