@@ -45,9 +45,9 @@ client = ComfyUIClient(
 try:
     result = client.generate_image(
         workflow_data=workflow, 
-        prompt_level=1,
-        test_outfit_id="office_lady",
-        test_scene_id_override="lv1_walking_path",
+        prompt_level=3,
+        test_outfit_id="classic_sailor_highsocks",
+        test_scene_id_override="lv3_true_fetish_transparency_stable",
         #test_camera_name="背面視点・バックビュー"
     )
     

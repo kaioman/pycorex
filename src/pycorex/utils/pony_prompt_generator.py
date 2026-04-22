@@ -199,7 +199,7 @@ class PonyPromptGenerator(BasePromptGenerator):
         
         # innerwearの抽選
         roll = random.random() * 100
-        threshold = {1: 0, 2:20, 3: 85, 4:100}.get(level, 100)
+        threshold = self.data.get("innerwear_thresholds", {}).get(str(level), 100)
         inner = {}
         inner_top_tags = ""
         inner_bottom_tags = ""
