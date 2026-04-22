@@ -269,6 +269,30 @@
             "compatible_scene_logic": [],
             "destructible_tags_key": "normal",
             "outer_tags": { "top": "one-piece_swimsuit", "bottom": "one-piece_swimsuit" }
+        },
+        { 
+            "id": "denim_setup", 
+            "tags": "denim_jacket, button_front, denim_skirt, matching_denim_outfit, blue_denim, (thighhighs:1.2)", 
+            "vibe": "casual", 
+            "min_lv": 1, 
+            "max_lv": 4, 
+            "destructible": true, 
+            "parts": ["jacket", "skirt"],
+            "incompatible_scene_logic": [],
+            "destructible_tags_key": "normal",
+            "outer_tags": { "top": "denim_jacket", "bottom": "denim_skirt" }
+        },
+        { 
+            "id": "culottes_white_shirt", 
+            "tags": "white_dress_shirt, tucked_in, collared_shirt, navy_blue_culottes, skirt_pants", 
+            "vibe": "school", 
+            "min_lv": 1, 
+            "max_lv": 4, 
+            "destructible": true, 
+            "parts": ["shirt", "culottes"],
+            "incompatible_scene_logic": [],
+            "destructible_tags_key": "normal",
+            "outer_tags": { "top": "shirt", "bottom": "culottes" }
         }
     ],
     "innerwear_sets": {
