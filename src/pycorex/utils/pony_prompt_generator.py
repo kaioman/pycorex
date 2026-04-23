@@ -1,6 +1,7 @@
 import json
 import os
 import random
+import libcore_hng.utils.app_logger as app_logger
 from typing import Optional, Any
 from pycorex.core.base_prompt_generator import BasePromptGenerator
 
@@ -102,7 +103,7 @@ class PonyPromptGenerator(BasePromptGenerator):
         # ランダム抽選
         return random.choice(compatible_items)["tags"]
 
-    def _get_base_indentity(self) -> dict[str, Any]:
+    def _get_base_identity(self) -> dict[str, Any]:
         """
         personaのbody_partsセクションを再帰的に処理して、カテゴリごとのタグを収集し、base_identity_tagsとして統合する
         """
@@ -163,7 +164,7 @@ class PonyPromptGenerator(BasePromptGenerator):
         
         base_score_tags = self.data.get("base_score_tags", "(score_9, score_8_up:1.2)")
         quality = f"{base_score_tags}, {rating}"
-        body_parts_data = self._get_base_indentity()
+        body_parts_data = self._get_base_identity()
         core = body_parts_data.get("base_identity_tags", "")
         style = self.data["base_style"]
         
@@ -171,7 +172,7 @@ class PonyPromptGenerator(BasePromptGenerator):
         if test_outfit_id:
             outfit = next((item for item in self.wardrobe_data["outfits"] if item["id"] == test_outfit_id), None)
             if not outfit:
-                self.logger.warning(f"Test outfit ID {test_outfit_id} not found. Falling back to random selection.")
+                app_logger.warning(f"Test outfit ID {test_outfit_id} not found. Falling back to random selection.")
                 outfit = self._pick_weighted_item(self.wardrobe_data["outfits"], level)
         else:
             outfit = self._pick_weighted_item(self.wardrobe_data["outfits"], level)
@@ -196,6 +197,9 @@ class PonyPromptGenerator(BasePromptGenerator):
             scene_data = self._pick_weighted_item(filtered_scene_logic, level, target_scene_id)
         else:
             scene_data = self._pick_weighted_item(all_scene_logic_items, level, target_scene_id)
+
+        # scene_rawを取得
+        scene_raw = scene_data["tags"] if scene_data else ""
         
         # innerwearの抽選
         roll = random.random() * 100
@@ -237,27 +241,37 @@ class PonyPromptGenerator(BasePromptGenerator):
         if test_camera_name:
             cam_data = next((item for item in self.camera_data["camera_angles"] if item["name"] == test_camera_name), None)
             if not cam_data:
-                self.logger.warning(f"Test camera name {test_camera_name} not found. Falling back to random selection.")
+                app_logger.warning(f"Test camera name {test_camera_name} not found. Falling back to random selection.")
                 cam_data = random.choice(self.camera_data["camera_angles"])
         else:
-            cam_data = random.choice(self.camera_data["camera_angles"])
+            # scene_dataにある除外対象となるカメラアングルを取得
+            excluded_angles = scene_data.get("camera_angle_exclude", [])
+            
+            # 除外リストに含まれないカメラアングルのみ抽選対象とする
+            eligible_camera_angles = [
+                cam for cam in self.camera_data["camera_angles"]
+                if cam["id"] not in excluded_angles
+            ]
+            if not eligible_camera_angles:
+                app_logger.warning("No eligible camera angles found after applying exclusion. Falling back to full list.")
+                eligible_camera_angles = self.camera_data["camera_angles"]
+            cam_data = random.choice(eligible_camera_angles)
         
         # --- [3.5. 環境の抽選]
         # scene_logicにlocation, lighting, textureのタグが含まれていない場合に抽選する
         environment_tags = self._get_environment_tags(scene_data["tags"], outfit["id"])
         
         # --- [4. プレースホルダーの置換] ---
-        scene_raw = scene_data["tags"] if scene_data else ""
-        # 置換実行
-        ## カメラアングルタグ
+
+        ## 置換実行：カメラアングルタグ
         scene = scene_raw.replace("{camera}", cam_data["tags"])
-        ## 衣服破壊ベースタグ
+        ## 置換実行：衣服破壊ベースタグ
         if scene_data.get("destructible_scene", False):
             dest_tags_key = scene_data.get("destructible_tags_key", "normal")
             if self.wardrobe_data.get("destructible_base_tags"):
                 dest_tags_str = ", ".join(self.wardrobe_data["destructible_base_tags"][dest_tags_key])
                 scene = scene.replace("{destructible_fabric}", dest_tags_str)
-
+    
         ## カメラアングルから解像度の推奨値を取得
         ## scene側にsuggested_resolutionがあればそちらを優先
         image_width = scene_data.get("suggested_resolution", {}).get("width", 1024)
@@ -278,13 +292,13 @@ class PonyPromptGenerator(BasePromptGenerator):
             if outfit["outer_tags"].get("socks"):
                 outer_socks_tags_str = outfit["outer_tags"]["socks"]
 
-        ## 衣服破壊
+        ## 置換実行：衣服破壊
         scene = scene.replace("{target_destructible_top}", outer_top_tags_str)
         scene = scene.replace("{target_destructible_bottom}", outer_bottom_tags_str)
-        ## フィジカル・インタラクション
+        ## 置換実行：フィジカル・インタラクション
         scene = scene.replace("{target_fabric_outer_top}", outer_top_tags_str)
         scene = scene.replace("{target_fabric_outer_bottom}", outer_bottom_tags_str)
-        ## インナー
+        ## 置換実行：インナー
         scene = scene.replace("{target_inner_top}", inner_top_tags)
         scene = scene.replace("{target_inner_bottom}", inner_bottom_tags)
         scene = scene.replace("{target_inner_socks}", outer_socks_tags_str)
@@ -345,19 +359,19 @@ class PonyPromptGenerator(BasePromptGenerator):
         negative = f"{holy_grail}, {tier_neg_tags}, {base_neg}"
         
         # --- [7. ログ出力] ---
-        print(f"--- [Lv{level}] Dynamic Synthesis Log ---")
-        print(f"Outfit:   {outfit['id']}")
+        app_logger.info(f"--- [Lv{level}] Dynamic Synthesis Log ---")
+        app_logger.info(f"Outfit:   {outfit['id']}")
         if inner:
-            print(f"Inner:    {inner['id']}")
-        print(f"Scene:    {scene_data['id']}")
-        print(f"Environment:   {environment_tags}")
-        print(f"Camera:   {cam_data['name']}")
-        print(f"Image Resolution: {image_width}x{image_height}")
-        print(f'Final Scene Tags: {scene + ", " + environment_tags}') 
-        print(f"--- Prompt ---") 
-        print(f"Positive Prompt:") 
-        print(f"{positive}") 
-        print(f"Negative Prompt:") 
-        print(f"{negative}") 
+            app_logger.info(f"Inner:    {inner['id']}")
+        app_logger.info(f"Scene:    {scene_data['id']}")
+        app_logger.info(f"Environment:   {environment_tags}")
+        app_logger.info(f"Camera:   {cam_data['name']}")
+        app_logger.info(f"Image Resolution: {image_width}x{image_height}")
+        app_logger.info(f'Final Scene Tags: {scene + ", " + environment_tags}') 
+        app_logger.info(f"--- Prompt ---") 
+        app_logger.info(f"Positive Prompt:") 
+        app_logger.info(f"{positive}") 
+        app_logger.info(f"Negative Prompt:") 
+        app_logger.info(f"{negative}") 
         
         return positive, negative, image_width, image_height

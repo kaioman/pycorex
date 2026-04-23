@@ -501,9 +501,9 @@
             },
             {
                 "id": "lv4_phys_torn_ecstasy",
-                "description": "ボツ【衣服破壊の極致】自らの手で{target_fabric_outer_top}の襟元を掴み、左右に引き裂く。{camera}で(low_angle)にすれば、絶頂の表情と破壊された布のコントラストが際立つ",
-                "tags": "completely_undressed, naked, {camera}, (grabbing_own_{target_fabric_outer_top}:1.4), (ripped_{target_fabric_outer_top}_in_hands:1.3), (shredded_fabric_on_skin:1.3), (clutching_cloth:1.2), (closed_eyes:1.4), (head_tilted_back:1.3), (climax:1.4), (nipples:1.1), (pussy:1.2), (sweat_on_collarbone:1.2), (saliva_thread:1.1)",
-                "min_lv": 99, "max_lv": 99, "weight": 3.0,
+                "description": "【衣服破壊の極致】自らの手で{target_fabric_outer_top}の襟元を掴み、左右に引き裂く。{camera}で(low_angle)にすれば、絶頂の表情と破壊された布のコントラストが際立つ",
+                "tags": "{camera}, {destructible_fabric}, (shredded_fabric_on_skin:1.3), (clutching_cloth:1.2), (head_tilted_back:1.3), (climax:1.1), (nipples:1.1), (pussy:1.2), (sweat_on_collarbone:1.2), (saliva_thread:1.1)",
+                "min_lv": 3, "max_lv": 4, "weight": 3.0,
                 "destructible_scene": true,
                 "inner_inclusion": {
                     "top": true,
@@ -522,17 +522,6 @@
                 }
             },
             {
-                "id": "lv4_phys_forced_torn_ecstasy_backview",
-                "description": "【他動的破壊の極致】背面・バックビュー",
-                "tags": "(back_view:1.4), (view_from_behind:1.4), (from_behind:1.3), {destructible_fabric}, (shredded_fabric_on_skin:1.5), (damaged_silk:1.4), (barely_covered:1.3), (disheveled_clothes:1.3), (off_shoulder:1.1), (closed_eyes:1.1), (exhausted:1.2), (wet_skin:1.3), (nipples_visible_through_disarray:0.9), (saliva_thread:1.1), (disheveled_hair:1.2), (helpless:1.3), (lying_down:1.1), (no_extra_hands:1.5)",
-                "min_lv": 4, "max_lv": 5, "weight": 3.0,
-                "destructible_scene": true,
-                "inner_inclusion": {
-                    "top": true,
-                    "bottom": true
-                }
-            },
-            {
                 "id": "lv4_phys_disheveled_ecstasy",
                 "description": "【着崩れの極致】自らの手で襟元を押し下げ、肌を露出させる。{camera}で(low_angle)にすれば、指が布地に食い込む質感と絶頂の表情が際立つ",
                 "tags": "{camera}, (pulling_down_collar:1.4), (off_shoulder:1.3), (fingers_under_fabric:1.4), (disheveled_clothes:1.3), (closed_eyes:1.1), (head_tilted_back:1.1), (climax:1.1), (nipples_visible_through_disarray:1.2), (sweat_on_collarbone:1.1), (saliva_thread:1.1), (skin_redness:1.1)",
@@ -541,12 +530,15 @@
                 "inner_inclusion": {
                     "top": true,
                     "bottom": true
-                }
-            },
+                },
+                "camera_angle_exclude": [
+                    "back_view_allure"
+                ]
+            },            
             {
                 "id": "lv4_phys_toy_compression",
                 "description": "【性具の圧着】バイブレーターを{target_fabric}（下着や裾）の隙間から押し当てる。{camera}で(close-up)にすれば、道具と肌の『食い込み』の質感を逃さない",
-                "tags": "{camera}, (completely_undressed:1.2), (holding_vibrator:1.2), (pressing_vibrator_against_pussy:1.4), (skin_indentation_by_toy:1.4), (arms between legs:1.3), (spread_legs:1.3), (wet_pussy:1.4), (pussy_focus:1.1), (deep_blush:1.4), (watery_eyes:1.2), (only_one_girl:1.5), chiaroscuro",
+                "tags": "{camera}, (completely_undressed:1.2), (holding_vibrator:1.2), (pressing_vibrator_against_pussy:1.4), (skin_indentation_by_toy:1.4), (arms between legs:1.3), (spread_legs:1.3), (wet_pussy:1.4), (pussy_focus:1.1), (deep_blush:1.4), (watery_eyes:1.2), (only_one_girl:1.2), chiaroscuro",
                 "min_lv": 4, "max_lv": 5, "weight": 2.5,
                 "destructible_scene": true,
                 "inner_inclusion": {
@@ -556,14 +548,15 @@
             },
             {
                 "id": "lv4_phys_bent_fabric_rip",
-                "description": "NG【背面と素材の干渉】四つん這いで、自らの指を{target_fabric}の穴や裾に引っ掛け、引き裂き広げる仕草。{camera}は(back_view)系を推奨",
-                "tags": "(back_view:1.2), (from_behind:1.4), (all_fours:1.3), (bent_over:1.4), (completely_undressed:1.2), (looking_down:1.1), (crotch_focus:1.5), (fingers_hooked_into_{target_fabric_outer_bottom}:1.5), (pulling_{target_fabric_outer_bottom}_aside:1.4), (pussy_visible:1.3), (hand_between_legs:1.2), (butt_focus:1.4), (sweat_on_back:1.1), (solo:0.9), detailed_ink_lines",
+                "description": "【背面と素材の干渉】四つん這いで、自らの指を{target_fabric}の穴や裾に引っ掛け、引き裂き広げる仕草。{camera}は(back_view)系を推奨",
+                "tags": "(back_view:1.2), (from_behind:1.4), (all_fours:1.3), (bent_over:1.4), (completely_undressed:1.2), (looking_down:1.1), (crotch_focus:1.5), (self_spreading_skirt:1.4), (hands_on_own_thighs:1.3), (skirt_tugging:1.2), (pussy_visible:1.3), (wet_pussy:1.5), (hand_between_legs:1.2), (butt_focus:1.4), (sweat_on_back:1.1), (solo:1.5), detailed_ink_lines",
                 "min_lv": 4, "max_lv": 5, "weight": 2.0,
                 "destructible_scene": true,
                 "inner_inclusion": {
                     "top": true,
                     "bottom": true
-                } 
+                },
+                "suggested_resolution": { "width": 1216, "height" : 832 }
             },
             {
                 "id": "lv4_phys_bound_tension",
