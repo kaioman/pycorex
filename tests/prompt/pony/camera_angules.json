@@ -3,6 +3,7 @@
         {
             "id": "80s_dramatic_slant",
             "name": "斜め構図（ダッチアングル）",
+            "suggested_resolution": { "width": 1024, "height" : 1024 },
             "description": "心理的な揺らぎやドラマチックな転換点を示す、80年代OVAの象徴的アングル",
             "tags": "(dutch_angle:1.2), (tilted_frame:1.3), (cinematic_composition:1.2)",
             "vibe": "dramatic",
@@ -11,6 +12,7 @@
         {
             "id": "telephoto_intimacy",
             "name": "望遠レンズ・圧縮効果",
+            "suggested_resolution": { "width": 832, "height" : 1216 },
             "description": "背景をぼかし、Aoiの存在感と繊細なディテール（髪、瞳）を際立たせる",
             "tags": "(extreme_close-up:1.4), (shallow_depth_of_field:1.5), (bokeh:1.3), (telephoto_lens:1.2), (long_focus:1.2)",
             "vibe": "intimate",
@@ -19,6 +21,7 @@
         {
             "id": "wide_angle_distortion",
             "name": "広角レンズ・パース強調",
+            "suggested_resolution": { "width": 1216, "height" : 832 },
             "description": "手前を大きく、奥を小さく。室内での圧迫感や、四つん這い時のパースを強調する",
             "tags": "(wide_angle_lens:1.3), (perspective_distortion:1.2), (foreshortening:1.4), (fish-eye_lens:0.8)",
             "vibe": "dynamic",
@@ -27,6 +30,7 @@
         {
             "id": "low_angle_authority",
             "name": "ローアングル・煽り",
+            "suggested_resolution": { "width": 768, "height" : 1344 },
             "description": "見上げる視点。Aoiの脚のラインや、圧倒的な存在感を強調する",
             "tags": "(from_below:1.5), (low_angle:1.4), (worm's_eye_view:1.2), (looking_up_at_Aoi:1.3)",
             "vibe": "powerful",
@@ -35,6 +39,7 @@
         {
             "id": "high_angle_fragility",
             "name": "ハイアングル・俯瞰",
+            "suggested_resolution": { "width": 1216, "height" : 832 },
             "description": "見下ろす視点。Aoiの小ささや、守ってあげたくなるような脆弱さを演出",
             "tags": "(from_above:1.5), (high_angle:1.4), (bird's_eye_view:1.2), (looking_down_at_Aoi:1.3)",
             "vibe": "observational",
@@ -44,6 +49,7 @@
             "id": "over_the_shoulder_voyer",
             "name": "肩越し・覗き見視点",
             "description": "第三者の存在を感じさせる、没入感と背徳感のある構図",
+            "suggested_resolution": { "width": 1216, "height" : 832 },
             "tags": "(over_the_shoulder:1.4), (point_of_view:1.2), (partial_obscured_view:1.1), (voyeuristic_shot:1.3)",
             "vibe": "storytelling",
             "best_for": ["lv1", "lv4"]
@@ -51,6 +57,7 @@
         {
             "id": "back_view_allure",
             "name": "背面視点・バックビュー",
+            "suggested_resolution": { "width": 1024, "height" : 1024 },
             "description": "キャラクターの背後からの視点。背中のラインやヒップ、また視線の先にある風景を強調する",
             "tags": "(back_view:1.4), (view_from_behind:1.4), (from_behind:1.4), (solo:1.2)",
             "vibe": "mysterious",

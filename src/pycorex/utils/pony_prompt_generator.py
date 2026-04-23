@@ -132,7 +132,7 @@ class PonyPromptGenerator(BasePromptGenerator):
     
     def generate_prompt(
         self, 
-        level: int = 1, 
+        level: BasePromptGenerator.RatingLevel = BasePromptGenerator.RatingLevel.SAFE, 
         target_scene_id: Optional[str] = None,
         test_outfit_id: Optional[str] = None,
         test_scene_id_override: Optional[str] = None, # target_scene_id とは別にテスト用
@@ -142,7 +142,7 @@ class PonyPromptGenerator(BasePromptGenerator):
 
         Parameters
         ----------
-        level : int
+        level : BasePromptGenerator.RatingLevel
             生成するプロンプトのレベル。高レベルほど詳細なプロンプトが生成される場合があります。
         target_scene_id : str, optional
             特定のシーンID。指定された場合、そのシーンに特化したプロンプトが生成されます。
@@ -154,11 +154,11 @@ class PonyPromptGenerator(BasePromptGenerator):
         """
         
         # --- [1. 基礎・画風設定] ---
-        if level <= 2:
+        if level <= BasePromptGenerator.RatingLevel.EMOTIVE:
             rating = self.data.get("rating", {}).get("safe", "rating_safe")
-        elif level == 3:
+        elif level == BasePromptGenerator.RatingLevel.QUESTIONABLE:
             rating = self.data.get("rating", {}).get("questionable", "rating_questionable")
-        elif level >= 4:
+        elif level >= BasePromptGenerator.RatingLevel.EXPLICIT:
             rating = self.data.get("rating", {}).get("explicit", "rating_explicit")
         
         base_score_tags = self.data.get("base_score_tags", "(score_9, score_8_up:1.2)")
@@ -241,23 +241,30 @@ class PonyPromptGenerator(BasePromptGenerator):
                 cam_data = random.choice(self.camera_data["camera_angles"])
         else:
             cam_data = random.choice(self.camera_data["camera_angles"])
-
+        
         # --- [3.5. 環境の抽選]
         # scene_logicにlocation, lighting, textureのタグが含まれていない場合に抽選する
         environment_tags = self._get_environment_tags(scene_data["tags"], outfit["id"])
-            
+        
         # --- [4. プレースホルダーの置換] ---
         scene_raw = scene_data["tags"] if scene_data else ""
         # 置換実行
         ## カメラアングルタグ
         scene = scene_raw.replace("{camera}", cam_data["tags"])
         ## 衣服破壊ベースタグ
-        if scene_data:
-            if scene_data.get("destructible_scene", False):
-                dest_tags_key = scene_data.get("destructible_tags_key", "normal")
-                if self.wardrobe_data.get("destructible_base_tags"):
-                    dest_tags_str = ", ".join(self.wardrobe_data["destructible_base_tags"][dest_tags_key])
-                    scene = scene.replace("{destructible_fabric}", dest_tags_str)
+        if scene_data.get("destructible_scene", False):
+            dest_tags_key = scene_data.get("destructible_tags_key", "normal")
+            if self.wardrobe_data.get("destructible_base_tags"):
+                dest_tags_str = ", ".join(self.wardrobe_data["destructible_base_tags"][dest_tags_key])
+                scene = scene.replace("{destructible_fabric}", dest_tags_str)
+
+        ## カメラアングルから解像度の推奨値を取得
+        ## scene側にsuggested_resolutionがあればそちらを優先
+        image_width = scene_data.get("suggested_resolution", {}).get("width", 1024)
+        image_height = scene_data.get("suggested_resolution", {}).get("height", 1024)
+        if "{camera}" in scene_raw:
+            image_width = cam_data.get("suggested_resolution", {}).get("width", 1024)
+            image_height = cam_data.get("suggested_resolution", {}).get("height", 1024)
 
         ## 対象衣服のトップス、ボトムス取得
         outer_top_tags_str = "clothing"
@@ -345,6 +352,7 @@ class PonyPromptGenerator(BasePromptGenerator):
         print(f"Scene:    {scene_data['id']}")
         print(f"Environment:   {environment_tags}")
         print(f"Camera:   {cam_data['name']}")
+        print(f"Image Resolution: {image_width}x{image_height}")
         print(f'Final Scene Tags: {scene + ", " + environment_tags}') 
         print(f"--- Prompt ---") 
         print(f"Positive Prompt:") 
@@ -352,4 +360,4 @@ class PonyPromptGenerator(BasePromptGenerator):
         print(f"Negative Prompt:") 
         print(f"{negative}") 
         
-        return positive, negative
+        return positive, negative, image_width, image_height

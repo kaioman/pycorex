@@ -45,10 +45,12 @@ client = ComfyUIClient(
 try:
     result = client.generate_image(
         workflow_data=workflow, 
-        prompt_level=3,
-        test_outfit_id="classic_sailor_highsocks",
-        test_scene_id_override="lv3_true_fetish_transparency_stable",
+        prompt_level=PonyPromptGenerator.RatingLevel.EMOTIVE,
+        batch_size=2,
+        test_outfit_id="blazer_style",
+        test_scene_id_override="lv2_5_env_windy_front",
         #test_camera_name="背面視点・バックビュー"
+        #test_camera_name="広角レンズ・パース強調"
     )
     
     if result and result["images"]:

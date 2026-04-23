@@ -128,8 +128,9 @@ class ComfyUIClient(BaseAIClient):
     def generate_image(
         self, 
         workflow_data: Union[Dict[str, Any], str], 
-        prompt_level: int = 1,
+        prompt_level: BasePromptGenerator.RatingLevel = BasePromptGenerator.RatingLevel.SAFE,
         target_scene_id: Optional[str] = None,
+        batch_size: int = 1,
         test_outfit_id: Optional[str] = None,
         test_scene_id_override: Optional[str] = None,
         test_camera_name: Optional[str] = None,
@@ -191,7 +192,9 @@ class ComfyUIClient(BaseAIClient):
             raise ComfyUIAPIError("Invalid workflow_data type. Must be dict or a file path string.")
 
         if self.prompt_generator and workflow_data_json:
-            positive_prompt, negative_prompt = self.prompt_generator.generate_prompt(
+            
+            # プロンプトを生成
+            positive_prompt, negative_prompt, image_width, image_height = self.prompt_generator.generate_prompt(
                 level=prompt_level,
                 target_scene_id=target_scene_id,
                 test_outfit_id=test_outfit_id,
@@ -200,12 +203,19 @@ class ComfyUIClient(BaseAIClient):
             )
             self.logger.info(f"Generated Positive Prompt: {positive_prompt[:100]}...")
             self.logger.info(f"Generated Negative Prompt: {negative_prompt[:100]}...")
-            
+            self.logger.info(f"Generated Image Resolution: {image_width}x{image_height}")
+
+            # ポジティブプロンプトとネガティブプロンプトをワークフローデータの該当ノードに書き込む
             if "12" in workflow_data_json and workflow_data_json["12"].get("class_type") == "CLIPTextEncode":
                 workflow_data_json["12"]["inputs"]["text"] = positive_prompt
             if "13" in workflow_data_json and workflow_data_json["13"].get("class_type") == "CLIPTextEncode":
                 workflow_data_json["13"]["inputs"]["text"] = negative_prompt
-                
+            # ワークフローデータの該当ノードに画像解像度とbatch_sizeを設定する（例: EmptyLatentImageノードのwidthとheight）
+            if "6" in workflow_data_json and workflow_data_json["6"].get("class_type") == "EmptyLatentImage":
+                workflow_data_json["6"]["inputs"]["width"] = image_width
+                workflow_data_json["6"]["inputs"]["height"] = image_height
+                workflow_data_json["6"]["inputs"]["batch_size"] = batch_size
+
         for _, node_data in workflow_data_json.items():
             if node_data.get("class_type") == "KSampler":
                 node_data["inputs"]["seed"] = random.randint(1, 1125899906842624)

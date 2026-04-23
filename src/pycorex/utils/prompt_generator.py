@@ -1,11 +1,10 @@
-import importlib
-from typing import Type, Dict, Optional, Any
+from typing import Type, Dict, Any
 from pycorex.core.base_prompt_generator import BasePromptGenerator
 
 class PromptGenerator:
     """
     様々なモデルのプロンプトジェネレーターを管理するファクトリクラス。
-    設定に基づいて適切なプロンプトジェネレーターのインスタンスを生成し、提供します。
+    設定に基づいて適切なプロンプトジェネレーターのインスタンスを生成して提供する
     """
 
     _generators: Dict[str, Type[BasePromptGenerator]] = {}
@@ -29,7 +28,7 @@ class PromptGenerator:
     @classmethod
     def get_generator(cls, name: str, **kwargs: Any) -> BasePromptGenerator:
         """
-        登録されているプロンプトジェネレーターのインスタンスを取得します。
+        登録されているプロンプトジェネレーターのインスタンスを取得する
 
         Parameters
         ----------
