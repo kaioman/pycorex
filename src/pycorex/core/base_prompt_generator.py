@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from enum import IntEnum
+from pycorex.models.prompt import PromptContextModel
 
 class BasePromptGenerator(ABC):
     """
@@ -29,7 +30,7 @@ class BasePromptGenerator(ABC):
         """ 制限なし。ナイトメアレベル """
     
     @abstractmethod
-    def generate_prompt(self, level: RatingLevel, target_scene_id: str | None = None) -> tuple[str, str]:
+    def generate_prompt(self, level: RatingLevel, target_scene_id: str | None = None) -> PromptContextModel:
         """
         指定されたレベルとシーンIDに基づき、ポジティブおよびネガティブプロンプトを生成します。
 
@@ -42,7 +43,7 @@ class BasePromptGenerator(ABC):
 
         Returns
         -------
-        tuple[str, str]
-            ポジティブプロンプトとネガティブプロンプトのタプルを返します。
+        PromptContextModel
+            プロンプトコンテキストモデルを返します。
         """
         pass

@@ -11,6 +11,7 @@ from datetime import datetime, timezone
 from pycorex.core.base_ai_client import BaseAIClient
 from pycorex.core.base_prompt_generator import BasePromptGenerator
 from pycorex.exceptions.comfyui_exceptions import ComfyUIAPIError
+from pycorex.models.prompt import PromptContextModel
 
 class ComfyUIClient(BaseAIClient):
     """
@@ -31,6 +32,15 @@ class ComfyUIClient(BaseAIClient):
         ----------
         base_url : str
             ComfyUI APIのベースURL
+        
+        prompt_generator : Optional[BasePromptGenerator]
+            プロンプト生成器のインスタンス。プロンプト生成が必要な
+                    
+        timeout_seconds : int, optional
+            画像生成のタイムアウト時間（秒）。デフォルトは120秒。
+            
+        polling_interval : int, optional
+            画像生成の進捗を確認するためのポーリング間隔（秒）。デフォルトは1秒。
         """
         super().__init__()
         
@@ -194,26 +204,26 @@ class ComfyUIClient(BaseAIClient):
         if self.prompt_generator and workflow_data_json:
             
             # プロンプトを生成
-            positive_prompt, negative_prompt, image_width, image_height = self.prompt_generator.generate_prompt(
+            prompt_context: PromptContextModel = self.prompt_generator.generate_prompt(
                 level=prompt_level,
                 target_scene_id=target_scene_id,
                 test_outfit_id=test_outfit_id,
                 test_scene_id_override=test_scene_id_override,
                 test_camera_name=test_camera_name,
             )
-            self.logger.info(f"Generated Positive Prompt: {positive_prompt[:100]}...")
-            self.logger.info(f"Generated Negative Prompt: {negative_prompt[:100]}...")
-            self.logger.info(f"Generated Image Resolution: {image_width}x{image_height}")
+            self.logger.info(f"Generated Positive Prompt: {prompt_context.positive_prompt[:100]}...")
+            self.logger.info(f"Generated Negative Prompt: {prompt_context.negative_prompt[:100]}...")
+            self.logger.info(f"Generated Image Resolution: {prompt_context.image_width}x{prompt_context.image_height}")
 
             # ポジティブプロンプトとネガティブプロンプトをワークフローデータの該当ノードに書き込む
             if "12" in workflow_data_json and workflow_data_json["12"].get("class_type") == "CLIPTextEncode":
-                workflow_data_json["12"]["inputs"]["text"] = positive_prompt
+                workflow_data_json["12"]["inputs"]["text"] = prompt_context.positive_prompt
             if "13" in workflow_data_json and workflow_data_json["13"].get("class_type") == "CLIPTextEncode":
-                workflow_data_json["13"]["inputs"]["text"] = negative_prompt
+                workflow_data_json["13"]["inputs"]["text"] = prompt_context.negative_prompt
             # ワークフローデータの該当ノードに画像解像度とbatch_sizeを設定する（例: EmptyLatentImageノードのwidthとheight）
             if "6" in workflow_data_json and workflow_data_json["6"].get("class_type") == "EmptyLatentImage":
-                workflow_data_json["6"]["inputs"]["width"] = image_width
-                workflow_data_json["6"]["inputs"]["height"] = image_height
+                workflow_data_json["6"]["inputs"]["width"] = prompt_context.image_width
+                workflow_data_json["6"]["inputs"]["height"] = prompt_context.image_height
                 workflow_data_json["6"]["inputs"]["batch_size"] = batch_size
 
         for _, node_data in workflow_data_json.items():

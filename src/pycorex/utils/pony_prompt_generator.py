@@ -4,6 +4,7 @@ import random
 import libcore_hng.utils.app_logger as app_logger
 from typing import Optional, Any
 from pycorex.core.base_prompt_generator import BasePromptGenerator
+from pycorex.models.prompt import PromptContextModel
 
 class PonyPromptGenerator(BasePromptGenerator):
     """
@@ -137,7 +138,7 @@ class PonyPromptGenerator(BasePromptGenerator):
         target_scene_id: Optional[str] = None,
         test_outfit_id: Optional[str] = None,
         test_scene_id_override: Optional[str] = None, # target_scene_id とは別にテスト用
-        test_camera_name: Optional[str] = None) -> tuple[str, str]:
+        test_camera_name: Optional[str] = None) -> PromptContextModel:
         """
         指定されたレベルに基づき、画風を死守したプロンプトを生成する。
 
@@ -150,8 +151,8 @@ class PonyPromptGenerator(BasePromptGenerator):
 
         Returns
         -------
-        tuple[str, str]
-            ポジティブプロンプトとネガティブプロンプトのタプルを返します。
+        PromptContextModel
+            プロンプトコンテキストモデルを返す
         """
         
         # --- [1. 基礎・画風設定] ---
@@ -374,4 +375,10 @@ class PonyPromptGenerator(BasePromptGenerator):
         app_logger.info(f"Negative Prompt:") 
         app_logger.info(f"{negative}") 
         
-        return positive, negative, image_width, image_height
+        #return positive, negative, image_width, image_height
+        return PromptContextModel(
+            positive_prompt=positive,
+            negative_prompt=negative,
+            image_width=image_width,
+            image_height=image_height
+        )

@@ -16,3 +16,4 @@ class ComfyUIModel(BaseConfigModel):
 
     polling_interval: int = 1
     """ ワークフロー実行のポーリング間隔（秒） """
+    
