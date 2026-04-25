@@ -41,7 +41,7 @@ pony_generator = PonyPromptGenerator(
 )
 # PromptContextを生成
 prompt_context = pony_generator.generate_prompt(
-    rating_level=PonyPromptGenerator.RatingLevel.EXPLICIT,
+    rating_level=PonyPromptGenerator.RatingLevel.SAFE,
     #test_outfit_id="china_dress",
     #test_scene_id_override="lv3_true_hand_exploration",
     #test_camera_name="背面視点・バックビュー"
@@ -66,11 +66,11 @@ client = ComfyUIClient(
 
 try:
     # ワークフローを実行する
-    result = client.run_workflow(workflow_data=workflow)
+    response = client.run_workflow(workflow_data=workflow)
     
     # 生成された画像を保存する
-    if result and result["images"]:
-        for i, image_bytes in enumerate(result["images"]):
+    if response and response["result"]:
+        for i, image_bytes in enumerate(response["result"]):
             output_dir = "gen_images"
             os.makedirs(output_dir, exist_ok=True)
             image_path = os.path.join(output_dir, client.get_gen_filename())

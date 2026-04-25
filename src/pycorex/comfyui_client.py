@@ -226,7 +226,7 @@ class ComfyUIClient(BaseAIClient):
         result = {
             "type": "image",
             "model": params.get("model", "ComfyUI"),
-            "images": images_data,
+            "result": images_data,
             "metadata": {
                 "workflow": workflow_data_json,
                 "mode": "generate",
