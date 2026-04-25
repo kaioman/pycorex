@@ -2,7 +2,7 @@ import json
 import os
 import random
 import libcore_hng.utils.app_logger as app_logger
-from typing import Optional, Any
+from typing import Optional, Union, Any
 from pycorex.core.base_prompt_generator import BasePromptGenerator
 from pycorex.models.prompt import PromptContextModel
 
@@ -15,29 +15,65 @@ class PonyPromptGenerator(BasePromptGenerator):
 
     def __init__(
         self, 
-        persona_path: str = "tests/prompt/pony/persona/Aoi.json",
-        camera_path: str = "tests/prompt/pony/camera_angules.json",
-        wardrobe_path: str = "tests/prompt/pony/wardrobe.json",
-        environment_path: str = "tests/prompt/pony/environments.json"):
-        self.environment_data = self._load_json(environment_path)
-        self.data = self._load_json(persona_path)
-        self.camera_data = self._load_json(camera_path)
-        self.wardrobe_data = self._load_json(wardrobe_path)
-    
-    def _load_json(self, path: str) -> dict[str, Any]:
+        persona_conf: Union[str, dict] = "tests/prompt/pony/persona/Aoi.json",
+        camera_conf: Union[str, dict] = "tests/prompt/pony/camera_angules.json",
+        wardrobe_conf: Union[str, dict] = "tests/prompt/pony/wardrobe.json",
+        environment_conf: Union[str, dict] = "tests/prompt/pony/environments.json"):
+        self.data = self._get_conf(persona_conf)
+        self.camera_data = self._get_conf(camera_conf)
+        self.wardrobe_data = self._get_conf(wardrobe_conf)
+        self.environment_data = self._get_conf(environment_conf)
+
+    def _get_conf(self, conf: Union[str, dict]) -> dict[str, Any]:
         """
-        指定されたパスからJSONファイルをロードします。
+        指定されたパスからJSONファイルをロードする
+        pathがdict型の場合はそのまま返す
+
+        Parameters
+        ----------
+        conf : Union[str, dict]
+            プロンプト生成に関連する設定。JSONファイルへのpath、もしくは設定のdictそのものが入る
+
+        Returns
+        -------
+        dict[str, Any]
+            指定した設定のdict
         """
-        if not os.path.exists(path):
-            raise FileNotFoundError(f"{path} が見つかりません。")
-            
-        with open(path, "r", encoding="utf-8") as f:
+        
+        # dict型の場合はそのまま返す
+        if isinstance(conf, dict):
+            return conf
+        
+        # JSONファイルパスチェック
+        if not os.path.exists(conf):
+            raise FileNotFoundError(f"{conf} が見つかりません。")
+        
+        # JSONファイルをloadして返す
+        with open(conf, "r", encoding="utf-8") as f:
             return json.load(f)
         
-    def _pick_weighted_item(self, item_list: list[dict], current_level: int, target_id: Optional[str] = None) -> Optional[dict]:
+    def _pick_weighted_item(
+        self, 
+        item_list: list[dict], 
+        current_level: int, 
+        target_id: Optional[str] = None) -> Optional[dict]:
         """
         【共通ロジック】
-        min_lv, max_lv の範囲内にあり、かつ weight に基づいた抽選を行う。
+        min_lv, max_lv の範囲内にあり、かつ weight に基づいた抽選を行う
+        
+        Parameters
+        ----------
+        item_list : list[dict]
+            重み付けされている設定のリスト
+        current_level : int
+            対象Ratingレベル
+        target_id : Optional[str]
+            対象ID
+            
+        Returns
+        -------
+        Optional[dict]
+            ランダム抽選されたtarget_idに対する設定
         """
         
         # ID直接指定
@@ -65,6 +101,18 @@ class PonyPromptGenerator(BasePromptGenerator):
         """
         scene_tagsにlocation, lighting, textureのタグが含まれていない場合に、
         環境データから互換性のあるアイテムを抽選してタグを取得する
+
+        Parameters
+        ----------
+        scene_tags : str
+            検査するsceneタグ
+        outfit_id : str
+            対象outfit_id
+
+        Returns
+        -------
+        str
+            environmentタグ
         """
         
         location_tag = self._get_specific_env_tag(scene_tags, self.environment_data["locations"], outfit_id)
@@ -79,6 +127,20 @@ class PonyPromptGenerator(BasePromptGenerator):
         """
         シーンタグに既存の環境要素が含まれていないかチェックし、
         互換性のあるアイテムをフィルタリングしてからランダム抽選する
+
+        Parameters
+        ----------
+        scene_tags : str
+            検査するsceneタグ
+        env_list : list[dict]
+            environmentタグリスト
+        outfit_id : str
+            対象outfit_id
+
+        Returns
+        -------
+        Optional[str]
+            sceneタグに対して互換性のあるenvironmentタグ
         """
         
         # シーンタグに既存の環境要素が含まれているかチェック
@@ -107,6 +169,11 @@ class PonyPromptGenerator(BasePromptGenerator):
     def _get_base_identity(self) -> dict[str, Any]:
         """
         personaのbody_partsセクションを再帰的に処理して、カテゴリごとのタグを収集し、base_identity_tagsとして統合する
+
+        Returns
+        -------
+        dict[str, Any]
+            base_identity_tagsのdict
         """
 
         active_body_parts_by_category = {}

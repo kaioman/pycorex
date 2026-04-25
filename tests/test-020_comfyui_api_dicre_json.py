@@ -6,6 +6,10 @@ from pycorex.utils.pony_prompt_generator import PonyPromptGenerator
 from pycorex.utils.workflow_editor import WorkflowEditor
 from comfyui_workflow.modifications.aoi_mod import AoiWorkflowMod
 
+def _load_json(path):
+    with open(path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
 # アプリ初期化
 app.init_app(
     __file__, 
@@ -30,10 +34,10 @@ polling_interval = app.core.config.comfyui.polling_interval
 
 # PonyPromptGeneratorのインスタンスを作成
 pony_generator = PonyPromptGenerator(
-    persona_conf="tests/prompt/pony/persona/Aoi.json",
-    camera_conf="tests/prompt/pony/camera_angules.json",
-    wardrobe_conf="tests/prompt/pony/wardrobe.json",
-    environment_conf="tests/prompt/pony/environments.json"
+    persona_conf=_load_json("tests/prompt/pony/persona/Aoi.json"),
+    camera_conf=_load_json("tests/prompt/pony/camera_angules.json"),
+    wardrobe_conf=_load_json("tests/prompt/pony/wardrobe.json"),
+    environment_conf=_load_json("tests/prompt/pony/environments.json")
 )
 # PromptContextを生成
 prompt_context = pony_generator.generate_prompt(
