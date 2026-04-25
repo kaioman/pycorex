@@ -8,7 +8,6 @@ from typing import Dict, Any, List, Union, Optional
 from pathlib import Path
 from datetime import datetime, timezone
 from pycorex.core.base_ai_client import BaseAIClient
-from pycorex.core.base_prompt_generator import BasePromptGenerator
 from pycorex.exceptions.comfyui_exceptions import ComfyUIAPIError
 from pycorex.utils.workflow_editor import NodeModification, WorkflowEditor
 
@@ -20,7 +19,6 @@ class ComfyUIClient(BaseAIClient):
     def __init__(
         self, 
         base_url: str,
-        prompt_generator: Optional[BasePromptGenerator],
         timeout_seconds: int = 120,
         polling_interval: int = 1
         ):
@@ -31,10 +29,7 @@ class ComfyUIClient(BaseAIClient):
         ----------
         base_url : str
             ComfyUI APIのベースURL
-        
-        prompt_generator : Optional[BasePromptGenerator]
-            プロンプト生成器のインスタンス。プロンプト生成が必要な
-                    
+                            
         timeout_seconds : int, optional
             画像生成のタイムアウト時間（秒）。デフォルトは120秒。
             
@@ -45,7 +40,6 @@ class ComfyUIClient(BaseAIClient):
         
         self.base_url = base_url
         self.logger = app_logger
-        self.prompt_generator = prompt_generator
         self.timeout_seconds = timeout_seconds
         self.polling_interval = polling_interval
         self._configuration_client()
