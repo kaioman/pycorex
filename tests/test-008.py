@@ -4,7 +4,7 @@ from pycorex.uwgen_client import UwgenClient
 from pycorex.exceptions.no_candidates_error import NoCandidatesError
 
 # アプリ初期化
-app.init_app(__file__, "app_config.json", "pycorex.json.enc")
+app.init_app(__file__, "app_config.json", "gcp_config.json", "pycorex.json.enc")
 
 # UwgenClientを初期化
 client = UwgenClient()

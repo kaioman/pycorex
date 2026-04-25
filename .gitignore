@@ -1,8 +1,8 @@
-log/
+logs/
 env/
 pycorex/__pycache__
 pycorex.egg-info/
-configs/app_config.json
+configs/gcp_config.json
 configs/pycorex.json.enc
 __pycache__
 *.png

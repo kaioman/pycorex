@@ -2,7 +2,7 @@ import pycorex.configs.app_init as app
 from pycorex.gemini_client import GeminiClient
 
 # アプリ初期化
-app.init_app(__file__, "app_config.json", "pycorex.json.enc")
+app.init_app(__file__, "app_config.json", "gcp_config.json", "pycorex.json.enc")
 
 # GeminiClientを初期化
 client = GeminiClient(

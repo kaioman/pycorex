@@ -1,0 +1,8 @@
+{
+    "comfyui": {
+        "comfyui_endpoint": "http://127.0.0.1:8188",
+        "workflow_path": "tests/comfyui_workflow/aoi-IPAdapter9.json",
+        "timeout_seconds": 120,
+        "polling_interval": 1
+    }
+}

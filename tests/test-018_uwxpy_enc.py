@@ -2,7 +2,7 @@ import pycorex.configs.app_init as app
 import libcore_hng.utils.crypto as crypto
 
 # アプリ初期化
-app.init_app(__file__, "app_config.json", "pycorex.json")
+app.init_app(__file__, "app_config.json", "gcp_config.json","pycorex.json")
 
 # 設定ファイルを暗号化して新規ファイルとして作成
 key = crypto.create_encryption_file_from_secret_manager("configs/pycorex.json", "DECRYPTION_KEY")

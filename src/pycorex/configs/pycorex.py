@@ -3,6 +3,7 @@ from pycorex.models.gemini import GeminiModel
 from pycorex.models.vertexai import VertexaiModel
 from pycorex.models.prompt import PromptModel
 from pycorex.models.uwgen import UwgenModel
+from pycorex.models.comfyui import ComfyUIModel
 
 class PyCorexConfig(BaseConfig):
     """
@@ -21,3 +22,5 @@ class PyCorexConfig(BaseConfig):
     uwgen: UwgenModel = UwgenModel()
     """ Uwgen設定クラスモデル"""
     
+    comfyui: ComfyUIModel = ComfyUIModel()
+    """ ComfyUI設定クラスモデル """

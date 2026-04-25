@@ -3,9 +3,9 @@ from pycorex.gemini_client import GeminiClient
 from pycorex.exceptions.no_candidates_error import NoCandidatesError
 
 # アプリ初期化
-app.init_app(__file__, "app_config.json", "pycorex.json.enc")
+app.init_app(__file__, "app_config.json", "gcp_config.json", "pycorex.json.enc")
 
-# ImagenClientを初期化
+# GeminiClientを初期化
 client = GeminiClient(
     api_key=app.core.config.gemini.api_key_vertexai,
     project_id=app.core.config.vertexai.project_id,
@@ -13,10 +13,7 @@ client = GeminiClient(
 )
 
 # プロンプトを設定
-#prompt = "ビキニ姿の日本人女性が就職活動をしている"
-#prompt = "12月10日は「アロースタートの日」。1945年のこの日、日本で初めてアローインディアカ（羽根つきバレーボール）の講習会が開かれたことに由来します。"
-#prompt = "Two elegant figures with sharp, sophisticated facial features and slender proportions dance amidst a torrential downpour on a sunset beach, their voluminous hair flowing in the gale and rendered with extremely delicate fine lines. Captured in the signature premium 1980s OVA aesthetic with high-contrast cel shading and shimmering iris highlights, they wear flowing ballroom gowns that twist like silk ribbons against the crashing, high waves. The atmosphere is thick with an urban city-pop color palette, where dramatic ray-traced sunset light illuminates their messy buns and an expression of haunting vulnerability, their slender forms trembling slightly with a delicate, wide-eyed trepidation as they embrace the overwhelming majesty of the storm. Dynamic wind trails spiral around them, merging the roar of the ocean with a sophisticated, cinematic intensity that eschews soft curves for sharp, detailed precision. (safe for work, no nudity, high quality art)"
-prompt = "リクルートスーツの女性が居酒屋で酒をあおっている。少しブラジャーが見える"
+prompt = "リクルートスーツの女性が居酒屋で酒をあおっている"
 
 try:
     # 画像生成を実行　

@@ -3,10 +3,10 @@ from google import genai as image_genai
 from google.genai.types import GenerateContentConfig, Modality, ImageConfig, Part, ThinkingConfig
 from enum import Enum
 from datetime import datetime, timezone
-from pycorex.core.base_ai_client import BaseAIClient
+from pycorex.core.base_gemini_client import BaseGeminiClient
 from pycorex.exceptions.no_candidates_error import NoCandidatesError
 
-class GeminiClient(BaseAIClient):
+class GeminiClient(BaseGeminiClient):
     """
     Google Gemini API を利用してテキスト生成を行うクライアントクラス。
 
@@ -76,7 +76,7 @@ class GeminiClient(BaseAIClient):
 
         FOUR_K = "4K"
         """ "4K" 解像度。非常に高解像度の出力を生成する場合に利用 """
-        
+    
     def __init__(self, api_key: str, project_id: str = None, location: str = None):
         """
         コンストラクタ
@@ -177,7 +177,7 @@ class GeminiClient(BaseAIClient):
     def generate_text(self, 
         prompt: str, 
         model: GeminiModel,
-        language = BaseAIClient.AILang.JP, 
+        language = BaseGeminiClient.AILang.JP, 
         system_instruction: str=None,
         temperature=0.7,
         max_output_tokens=2048,
@@ -267,11 +267,11 @@ class GeminiClient(BaseAIClient):
     def generate_image(self, 
         prompt: str, 
         model: GeminiModel,
-        aspect_ratio:BaseAIClient.AspectRatio = BaseAIClient.AspectRatio.SQUARE,
+        aspect_ratio:BaseGeminiClient.AspectRatio = BaseGeminiClient.AspectRatio.SQUARE,
         image_size = ImageSize.ONE_K,
         number_of_images:int = 1, 
-        harm_category = BaseAIClient.HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
-        safety_filter_level = BaseAIClient.SafetyFilterLevel.BLOCK_MEDIUM_AND_ABOVE,
+        harm_category = BaseGeminiClient.HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+        safety_filter_level = BaseGeminiClient.SafetyFilterLevel.BLOCK_MEDIUM_AND_ABOVE,
         include_row: bool = False) -> dict:
         """
         画像生成メソッド【試験用】
@@ -315,7 +315,7 @@ class GeminiClient(BaseAIClient):
             contents = [prompt],
             config = GenerateContentConfig(
                 response_modalities = [Modality.IMAGE],
-                candidate_count = number_of_images,                
+                candidate_count = number_of_images, 
                 safety_settings = [
                     {"category": harm_category.value},
                     {"threshold": safety_filter_level.value.upper()},
@@ -372,11 +372,11 @@ class GeminiClient(BaseAIClient):
         base_image,
         prompt: str, 
         model: GeminiModel,
-        aspect_ratio:BaseAIClient.AspectRatio = BaseAIClient.AspectRatio.SQUARE,
+        aspect_ratio:BaseGeminiClient.AspectRatio = BaseGeminiClient.AspectRatio.SQUARE,
         image_size = ImageSize.ONE_K,
         number_of_images:int = 1, 
-        harm_category = BaseAIClient.HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
-        safety_filter_level = BaseAIClient.SafetyFilterLevel.BLOCK_MEDIUM_AND_ABOVE,
+        harm_category = BaseGeminiClient.HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+        safety_filter_level = BaseGeminiClient.SafetyFilterLevel.BLOCK_MEDIUM_AND_ABOVE,
         include_row: bool = False) -> dict:
         """
         元画像を指定して変化させる画像生成メソッド
