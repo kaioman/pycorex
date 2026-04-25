@@ -1,5 +1,5 @@
 [version]
-current = "1.0.17"
+current = "1.0.18"
 
 # バージョン番号のフォーマット
 regex = '''
