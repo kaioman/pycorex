@@ -151,3 +151,147 @@ ComfyUI との連携に関する設定を定義します。
     * `tags`: インナーウェアを表現するためのプロンプトタグ。`top`, `bottom` などのキーを持つ。
     * `vibe`: インナーウェアが持つ雰囲気。
     * `min_lv`: インナーウェアが利用可能な最低レベル。
+
+### ワークフロー修正設定クラス（WorkflowModificationConfig）
+
+ComfyUI ワークフローを実行する際、プロンプトや画像解像度などの動的なパラメータをワークフローノードに反映させる必要があります。`WorkflowModificationConfig` クラスを使用することで、ワークフロー修正内容を体系的に管理できます。
+
+#### 使用方法
+
+##### 1. 修正設定クラスの作成
+
+ワークフロー種ごとに修正設定クラスを作成します。例として Aoi キャラクター用の IPAdapter9 ワークフロー向け修正設定を示します：
+
+```python
+# tests/comfyui_workflow/modifications/aoi_mod.py
+
+import random
+from typing import List
+from pycorex.utils.workflow_editor import NodeModification
+from pycorex.models.prompt import PromptContextModel
+
+class AoiWorkflowMod:
+    """Aoi生成ワークフロー修正設定クラス"""
+    
+    @staticmethod
+    def create_modifications(
+        prompt_context: PromptContextModel,
+        batch_size: int = 1
+    ) -> List[NodeModification]:
+        """
+        Aoi生成ワークフロー用の修正リストを作成
+        
+        Parameters
+        ----------
+        prompt_context : PromptContextModel
+            PonyPromptGeneratorで生成されたプロンプトコンテキスト
+        batch_size : int
+            バッチサイズ（デフォルト: 1）
+        
+        Returns
+        -------
+        List[NodeModification]
+            ワークフロー修正リスト
+        """
+        return [
+            # ポジティブプロンプト（CLIPTextEncode node_id=12）
+            NodeModification(
+                node_id="12",
+                modifications={
+                    "inputs": {"text": prompt_context.positive_prompt}
+                },
+                condition=lambda node: node.get("class_type") == "CLIPTextEncode"
+            ),
+            # ネガティブプロンプト（CLIPTextEncode node_id=13）
+            NodeModification(
+                node_id="13",
+                modifications={
+                    "inputs": {"text": prompt_context.negative_prompt}
+                },
+                condition=lambda node: node.get("class_type") == "CLIPTextEncode"
+            ),
+            # 画像解像度（EmptyLatentImage node_id=6）
+            NodeModification(
+                node_id="6",
+                modifications={
+                    "inputs": {
+                        "width": prompt_context.image_width,
+                        "height": prompt_context.image_height,
+                        "batch_size": batch_size
+                    }
+                },
+                condition=lambda node: node.get("class_type") == "EmptyLatentImage"
+            ),
+            # ランダムシード（KSampler node_id=5）
+            NodeModification(
+                node_id="5",
+                modifications=lambda node: {
+                    "inputs": {"seed": random.randint(1, 1125899906842624)}
+                },
+                condition=lambda node: node.get("class_type") == "KSampler"
+            ),
+        ]
+```
+
+##### 2. テストコードでの使用例
+
+```python
+import json
+from pycorex.utils.pony_prompt_generator import PonyPromptGenerator
+from pycorex.utils.workflow_editor import WorkflowEditor
+from pycorex.comfyui_client import ComfyUIClient
+from tests.comfyui_workflow.modifications.aoi_mod import AoiWorkflowMod
+
+# ワークフローを読み込む
+with open("tests/comfyui_workflow/aoi-IPAdapter9.json", "r") as f:
+    workflow = json.load(f)
+
+# プロンプトを生成
+pony_generator = PonyPromptGenerator(...)
+prompt_context = pony_generator.generate_prompt(
+    rating_level=PonyPromptGenerator.RatingLevel.QUESTIONABLE,
+    test_outfit_id="denim_setup",
+    test_scene_id_override="lv3_phys_sitting_triangle_stable"
+)
+
+# ワークフロー修正リストを生成
+modification_list = AoiWorkflowMod.create_modifications(
+    prompt_context=prompt_context,
+    batch_size=3
+)
+
+# ワークフローに修正を適用
+workflow = WorkflowEditor.apply_modifications(workflow, modification_list)
+
+# ComfyUI APIで実行
+client = ComfyUIClient(
+    base_url="http://127.0.0.1:8188",
+    prompt_generator=pony_generator,
+    timeout_seconds=120,
+    polling_interval=1
+)
+
+result = client.run_workflow(workflow_data=workflow)
+```
+
+#### 設計の利点
+
+**責務分離**: ワークフロー修正ロジックを `ComfyUIClient` から分離し、関心の分離を実現
+**再利用性**: 異なるテストケースで同じ修正設定を再利用可能
+**拡張性**: 新しいワークフロー種に対応する際は、新しい修正設定クラスを追加するだけ
+**保守性**: ワークフロー固有のノード ID やパラメータ変更を一箇所で管理
+
+#### カスタマイズ方法
+
+別のワークフロー（例：別キャラクター）に対応させる場合：
+
+```python
+class OtherCharacterWorkflowMod:
+    @staticmethod
+    def create_modifications(
+        prompt_context: PromptContextModel,
+        batch_size: int = 1
+    ) -> List[NodeModification]:
+        # ワークフロー固有のノード ID と設定を記述
+        return [...]
+```

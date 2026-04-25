@@ -1,17 +1,16 @@
 import json
-import random
 import time
 import uuid
 import requests
 import libcore_hng.utils.app_logger as app_logger
 from http import HTTPStatus
-from typing import Dict, Any, Union, Optional
+from typing import Dict, Any, List, Union, Optional
 from pathlib import Path
 from datetime import datetime, timezone
 from pycorex.core.base_ai_client import BaseAIClient
 from pycorex.core.base_prompt_generator import BasePromptGenerator
 from pycorex.exceptions.comfyui_exceptions import ComfyUIAPIError
-from pycorex.models.prompt import PromptContextModel
+from pycorex.utils.workflow_editor import NodeModification, WorkflowEditor
 
 class ComfyUIClient(BaseAIClient):
     """
@@ -135,25 +134,22 @@ class ComfyUIClient(BaseAIClient):
         # 生成された画像のバイナリデータを返す
         return images_data
 
-    def generate_image(
+    def run_workflow(
         self, 
-        workflow_data: Union[Dict[str, Any], str], 
-        prompt_level: BasePromptGenerator.RatingLevel = BasePromptGenerator.RatingLevel.SAFE,
-        target_scene_id: Optional[str] = None,
-        batch_size: int = 1,
-        test_outfit_id: Optional[str] = None,
-        test_scene_id_override: Optional[str] = None,
-        test_camera_name: Optional[str] = None,
+        workflow_data: Union[Dict[str, Any], str],
+        modifications: Optional[List[NodeModification]] = None,
         **params) -> list[bytes]:
         
         """
-        ComfyUI APIを呼び出して画像を生成する
+        ComfyUI APIを呼び出してワークフローを実行する
 
         Parameters
         ----------
         workflow_data : Union[Dict[str, Any], str]
             ComfyUIのワークフローデータ
             辞書型、またはワークフローJOSNファイルへのパスを文字列で指定
+        modifications : Optional[List[NodeModification]], optional
+            ワークフローに適用するノード修正のリスト。デフォルトはNone
 
         Returns
         -------
@@ -165,7 +161,7 @@ class ComfyUIClient(BaseAIClient):
                 "model": "ComfyUI",
                 "images": [bytes],
                 "metadata": {
-                    "workflow": original_workflow_data,
+                    "workflow": workflow_data_json,
                     "mode": "generate",
                     "timestamp": datetime.now(timezone.utc).isoformat(),
                     "params": params
@@ -178,9 +174,14 @@ class ComfyUIClient(BaseAIClient):
             API呼び出しに失敗した場合
         """
         
-        original_workflow_data = workflow_data
+        workflow_data_json = workflow_data
         
-        workflow_data_json = None
+        # ワークフローに修正を適用する
+        if modifications:
+            workflow_data_json = WorkflowEditor.apply_modifications(
+                workflow_data_json, modifications
+            )
+        
         if isinstance(workflow_data, str):
             # ファイルパスが指定された場合
             file_path = Path(workflow_data)
@@ -200,37 +201,7 @@ class ComfyUIClient(BaseAIClient):
             workflow_data_json = workflow_data
         else:
             raise ComfyUIAPIError("Invalid workflow_data type. Must be dict or a file path string.")
-
-        if self.prompt_generator and workflow_data_json:
-            
-            # プロンプトを生成
-            prompt_context: PromptContextModel = self.prompt_generator.generate_prompt(
-                level=prompt_level,
-                target_scene_id=target_scene_id,
-                test_outfit_id=test_outfit_id,
-                test_scene_id_override=test_scene_id_override,
-                test_camera_name=test_camera_name,
-            )
-            self.logger.info(f"Generated Positive Prompt: {prompt_context.positive_prompt[:100]}...")
-            self.logger.info(f"Generated Negative Prompt: {prompt_context.negative_prompt[:100]}...")
-            self.logger.info(f"Generated Image Resolution: {prompt_context.image_width}x{prompt_context.image_height}")
-
-            # ポジティブプロンプトとネガティブプロンプトをワークフローデータの該当ノードに書き込む
-            if "12" in workflow_data_json and workflow_data_json["12"].get("class_type") == "CLIPTextEncode":
-                workflow_data_json["12"]["inputs"]["text"] = prompt_context.positive_prompt
-            if "13" in workflow_data_json and workflow_data_json["13"].get("class_type") == "CLIPTextEncode":
-                workflow_data_json["13"]["inputs"]["text"] = prompt_context.negative_prompt
-            # ワークフローデータの該当ノードに画像解像度とbatch_sizeを設定する（例: EmptyLatentImageノードのwidthとheight）
-            if "6" in workflow_data_json and workflow_data_json["6"].get("class_type") == "EmptyLatentImage":
-                workflow_data_json["6"]["inputs"]["width"] = prompt_context.image_width
-                workflow_data_json["6"]["inputs"]["height"] = prompt_context.image_height
-                workflow_data_json["6"]["inputs"]["batch_size"] = batch_size
-
-        for _, node_data in workflow_data_json.items():
-            if node_data.get("class_type") == "KSampler":
-                node_data["inputs"]["seed"] = random.randint(1, 1125899906842624)
-                break
-
+        
         payload = {
             "prompt": workflow_data_json,
             "client_id": str(uuid.uuid4())
@@ -263,7 +234,7 @@ class ComfyUIClient(BaseAIClient):
             "model": params.get("model", "ComfyUI"),
             "images": images_data,
             "metadata": {
-                "workflow": original_workflow_data,
+                "workflow": workflow_data_json,
                 "mode": "generate",
                 "timestamp": datetime.now(timezone.utc).isoformat(),
                 "params": params

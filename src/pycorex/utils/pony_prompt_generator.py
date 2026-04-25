@@ -134,7 +134,7 @@ class PonyPromptGenerator(BasePromptGenerator):
     
     def generate_prompt(
         self, 
-        level: BasePromptGenerator.RatingLevel = BasePromptGenerator.RatingLevel.SAFE, 
+        rating_level: BasePromptGenerator.RatingLevel = BasePromptGenerator.RatingLevel.SAFE, 
         target_scene_id: Optional[str] = None,
         test_outfit_id: Optional[str] = None,
         test_scene_id_override: Optional[str] = None, # target_scene_id とは別にテスト用
@@ -144,7 +144,7 @@ class PonyPromptGenerator(BasePromptGenerator):
 
         Parameters
         ----------
-        level : BasePromptGenerator.RatingLevel
+        rating_level : BasePromptGenerator.RatingLevel
             生成するプロンプトのレベル。高レベルほど詳細なプロンプトが生成される場合があります。
         target_scene_id : str, optional
             特定のシーンID。指定された場合、そのシーンに特化したプロンプトが生成されます。
@@ -156,11 +156,11 @@ class PonyPromptGenerator(BasePromptGenerator):
         """
         
         # --- [1. 基礎・画風設定] ---
-        if level <= BasePromptGenerator.RatingLevel.EMOTIVE:
+        if rating_level <= BasePromptGenerator.RatingLevel.EMOTIVE:
             rating = self.data.get("rating", {}).get("safe", "rating_safe")
-        elif level == BasePromptGenerator.RatingLevel.QUESTIONABLE:
+        elif rating_level == BasePromptGenerator.RatingLevel.QUESTIONABLE:
             rating = self.data.get("rating", {}).get("questionable", "rating_questionable")
-        elif level >= BasePromptGenerator.RatingLevel.EXPLICIT:
+        elif rating_level >= BasePromptGenerator.RatingLevel.EXPLICIT:
             rating = self.data.get("rating", {}).get("explicit", "rating_explicit")
         
         base_score_tags = self.data.get("base_score_tags", "(score_9, score_8_up:1.2)")
@@ -174,9 +174,9 @@ class PonyPromptGenerator(BasePromptGenerator):
             outfit = next((item for item in self.wardrobe_data["outfits"] if item["id"] == test_outfit_id), None)
             if not outfit:
                 app_logger.warning(f"Test outfit ID {test_outfit_id} not found. Falling back to random selection.")
-                outfit = self._pick_weighted_item(self.wardrobe_data["outfits"], level)
+                outfit = self._pick_weighted_item(self.wardrobe_data["outfits"], rating_level)
         else:
-            outfit = self._pick_weighted_item(self.wardrobe_data["outfits"], level)
+            outfit = self._pick_weighted_item(self.wardrobe_data["outfits"], rating_level)
         
         # {color}プレースホルダ―をランダムな色に置換
         wardrobe_tags = outfit['tags']
@@ -195,22 +195,22 @@ class PonyPromptGenerator(BasePromptGenerator):
         all_scene_logic_items = self.data["scene_logic"]["items"]
         if incompatible_scene_logic_ids:
             filtered_scene_logic = [item for item in all_scene_logic_items if item["id"] not in incompatible_scene_logic_ids]
-            scene_data = self._pick_weighted_item(filtered_scene_logic, level, target_scene_id)
+            scene_data = self._pick_weighted_item(filtered_scene_logic, rating_level, target_scene_id)
         else:
-            scene_data = self._pick_weighted_item(all_scene_logic_items, level, target_scene_id)
+            scene_data = self._pick_weighted_item(all_scene_logic_items, rating_level, target_scene_id)
 
         # scene_rawを取得
         scene_raw = scene_data["tags"] if scene_data else ""
         
         # innerwearの抽選
         roll = random.random() * 100
-        threshold = self.data.get("innerwear_thresholds", {}).get(str(level), 100)
+        threshold = self.data.get("innerwear_thresholds", {}).get(str(rating_level), 100)
         inner = {}
         inner_top_tags = ""
         inner_bottom_tags = ""
         if roll < threshold:
             # シーンデータのinner_inclusionを考慮して、必要に応じてinnerwearを抽選
-            inner = self._pick_weighted_item(self.wardrobe_data["innerwear_sets"]["styles"], level)
+            inner = self._pick_weighted_item(self.wardrobe_data["innerwear_sets"]["styles"], rating_level)
             if inner:
                 # scene_dataのinner_inclusionに基づいて、innerwearのタグを衣装タグに追加
                 inner_tags = inner.get("tags", "")
@@ -348,7 +348,7 @@ class PonyPromptGenerator(BasePromptGenerator):
         neg_logic_items = self.data.get("negative_logic", {}).get("items", [])
         active_tier_negs = [
             item["tags"] for item in neg_logic_items
-            if item.get("min_lv", 0) <= level <= item.get("max_lv", 5)
+            if item.get("min_lv", 0) <= rating_level <= item.get("max_lv", 5)
         ]
         tier_neg_tags = ", ".join(active_tier_negs)
         
@@ -360,7 +360,7 @@ class PonyPromptGenerator(BasePromptGenerator):
         negative = f"{holy_grail}, {tier_neg_tags}, {base_neg}"
         
         # --- [7. ログ出力] ---
-        app_logger.info(f"--- [Lv{level}] Dynamic Synthesis Log ---")
+        app_logger.info(f"--- [Lv{rating_level}] Dynamic Synthesis Log ---")
         app_logger.info(f"Outfit:   {outfit['id']}")
         if inner:
             app_logger.info(f"Inner:    {inner['id']}")

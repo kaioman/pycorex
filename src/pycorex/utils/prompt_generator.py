@@ -51,14 +51,3 @@ class PromptGenerator:
         if not generator_class:
             raise ValueError(f"ジェネレーター '{name}' は登録されていません。")
         return generator_class(**kwargs)
-
-# 例: PonyPromptGeneratorを登録
-# from .pony_prompt_generator import PonyPromptGenerator # 循環参照を避けるため、実際の使用時には動的インポートまたは外部からの登録を推奨
-
-# 動的インポートの例 (必要に応じて)
-# def _load_builtin_generators():
-#     from .pony_prompt_generator import PonyPromptGenerator
-#     PromptGenerator.register_generator("pony", PonyPromptGenerator)
-# _load_builtin_generators()
-
-

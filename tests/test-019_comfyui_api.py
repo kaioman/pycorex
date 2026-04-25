@@ -3,6 +3,8 @@ import json
 import pycorex.configs.app_init as app
 from pycorex.comfyui_client import ComfyUIClient
 from pycorex.utils.pony_prompt_generator import PonyPromptGenerator
+from pycorex.utils.workflow_editor import WorkflowEditor
+from comfyui_workflow.modifications.aoi_mod import AoiWorkflowMod
 
 # アプリ初期化
 app.init_app(
@@ -33,6 +35,23 @@ pony_generator = PonyPromptGenerator(
     wardrobe_path="tests/prompt/pony/wardrobe.json",
     environment_path="tests/prompt/pony/environments.json"
 )
+# PromptContextを生成
+prompt_context = pony_generator.generate_prompt(
+    rating_level=PonyPromptGenerator.RatingLevel.QUESTIONABLE,
+    #test_outfit_id="denim_setup",
+    #test_scene_id_override="lv3_phys_sitting_triangle_stable"
+    #test_camera_name="背面視点・バックビュー"
+    #test_camera_name="広角レンズ・パース強調"
+)
+
+# ワークフロー修正定義
+modification_list = AoiWorkflowMod.create_modifications(
+    prompt_context=prompt_context, 
+    batch_size=3
+)
+
+# WorkflowEditorを使用してワークフローに修正を適用
+workflow = WorkflowEditor.apply_modifications(workflow, modification_list)
 
 # ComfyUIクライアントを初期化する
 client = ComfyUIClient(
@@ -43,16 +62,10 @@ client = ComfyUIClient(
 )
 
 try:
-    result = client.generate_image(
-        workflow_data=workflow, 
-        prompt_level=PonyPromptGenerator.RatingLevel.QUESTIONABLE,
-        batch_size=3,
-        test_outfit_id="yukata",
-        test_scene_id_override="lv3_phys_sitting_triangle_stable",
-        #test_camera_name="背面視点・バックビュー"
-        #test_camera_name="広角レンズ・パース強調"
-    )
+    # ワークフローを実行する
+    result = client.run_workflow(workflow_data=workflow)
     
+    # 生成された画像を保存する
     if result and result["images"]:
         for i, image_bytes in enumerate(result["images"]):
             output_dir = "gen_images"
