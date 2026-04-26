@@ -4,7 +4,8 @@ import pycorex.configs.app_init as app
 from pycorex.comfyui_client import ComfyUIClient
 from pycorex.utils.pony_prompt_generator import PonyPromptGenerator
 from pycorex.utils.workflow_editor import WorkflowEditor
-from comfyui_workflow.modifications.aoi_mod import AoiWorkflowMod
+#from comfyui_workflow.modifications.aoi_mod import AoiWorkflowMod
+from pycorex.utils.workflow_mod import WorkflowMod
 
 def _load_json(path):
     with open(path, "r", encoding="utf-8") as f:
@@ -49,8 +50,9 @@ prompt_context = pony_generator.generate_prompt(
 )
 
 # ワークフロー修正定義
-modification_list = AoiWorkflowMod.create_modifications(
+modification_list = WorkflowMod.create_modifications(
     prompt_context=prompt_context, 
+    mod_config=_load_json("tests/comfyui_workflow/modifications/aoi_workflow_config.json"),
     batch_size=2
 )
 
