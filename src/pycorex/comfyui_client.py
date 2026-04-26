@@ -10,6 +10,7 @@ from datetime import datetime, timezone
 from pycorex.core.base_ai_client import BaseAIClient
 from pycorex.exceptions.comfyui_exceptions import ComfyUIAPIError
 from pycorex.utils.workflow_editor import NodeModification, WorkflowEditor
+from pycorex.exceptions.no_candidates_error import NoCandidatesError
 
 class ComfyUIClient(BaseAIClient):
     """
@@ -221,8 +222,8 @@ class ComfyUIClient(BaseAIClient):
         # historyエンドポイントから画像をダウンロードする
         images_data = self._get_image_from_history(prompt_id)
         if not images_data:
-            raise ComfyUIAPIError(f"No images were generated or could be retrieved for prompt ID: {prompt_id}")
-        
+            raise NoCandidatesError("No candidates returned.")
+
         result = {
             "type": "image",
             "model": params.get("model", "ComfyUI"),
