@@ -505,7 +505,7 @@
                 "id": "lv4_phys_torn_ecstasy",
                 "description": "【衣服破壊の極致】自らの手で{target_fabric_outer_top}の襟元を掴み、左右に引き裂く。{camera}で(low_angle)にすれば、絶頂の表情と破壊された布のコントラストが際立つ",
                 "tags": "{camera}, {destructible_fabric}, (shredded_fabric_on_skin:1.3), (clutching_cloth:1.2), (head_tilted_back:1.3), (climax:1.1), (nipples:1.1), (pussy:1.2), (sweat_on_collarbone:1.2), (saliva_thread:1.1)",
-                "min_lv": 3, "max_lv": 4, "weight": 3.0,
+                "min_lv": 3, "max_lv": 4, "weight": 1.5,
                 "destructible_scene": true,
                 "inner_inclusion": {
                     "top": true,
@@ -516,7 +516,7 @@
                 "id": "lv4_phys_forced_torn_ecstasy",
                 "description": "【他動的破壊の極致】何者かに襟元を強く掴まれ、左右に引き裂かれる。{camera}で(low_angle)にすれば、翻弄される絶頂の表情と、無残に破られた布地のコントラストが際立つ",
                 "tags": "{camera}, {destructible_fabric} ,(shredded_fabric_on_skin:1.5), (damaged_silk:1.4), (barely_covered:1.3), (disheveled_clothes:1.3),(off_shoulder:1.1),(closed_eyes:1.4), (head_tilted_back:1.3),(climax:1.1),(wet_skin:1.3),(sweat_on_collarbone:1.2),(nipples_visible_through_disarray:0.9),(saliva_thread:1.1),(disheveled_hair:1.2),(helpless:1.3), (lying_down:1.1), (no_extra_hands:1.5)",
-                "min_lv": 4, "max_lv": 5, "weight": 3.0,
+                "min_lv": 4, "max_lv": 5, "weight": 2.5,
                 "destructible_scene": true,
                 "inner_inclusion": {
                     "top": true,
@@ -527,7 +527,7 @@
                 "id": "lv4_phys_disheveled_ecstasy",
                 "description": "【着崩れの極致】自らの手で襟元を押し下げ、肌を露出させる。{camera}で(low_angle)にすれば、指が布地に食い込む質感と絶頂の表情が際立つ",
                 "tags": "{camera}, (pulling_down_collar:1.4), (off_shoulder:1.3), (fingers_under_fabric:1.4), (disheveled_clothes:1.3), (closed_eyes:1.1), (head_tilted_back:1.1), (climax:1.1), (nipples_visible_through_disarray:1.2), (sweat_on_collarbone:1.1), (saliva_thread:1.1), (skin_redness:1.1)",
-                "min_lv": 4, "max_lv": 5, "weight": 3.0,
+                "min_lv": 4, "max_lv": 5, "weight": 2.0,
                 "destructible_scene": false,
                 "inner_inclusion": {
                     "top": true,
@@ -552,7 +552,7 @@
                 "id": "lv4_phys_bent_fabric_rip",
                 "description": "【背面と素材の干渉】四つん這いで、自らの指を{target_fabric}の穴や裾に引っ掛け、引き裂き広げる仕草。{camera}は(back_view)系を推奨",
                 "tags": "(back_view:1.2), (from_behind:1.4), (all_fours:1.3), (bent_over:1.4), (completely_undressed:1.2), (looking_down:1.1), (crotch_focus:1.5), (self_spreading_skirt:1.4), (hands_on_own_thighs:1.3), (skirt_tugging:1.2), (pussy_visible:1.3), (wet_pussy:1.5), (hand_between_legs:1.2), (butt_focus:1.4), (sweat_on_back:1.1), (solo:1.5), detailed_ink_lines",
-                "min_lv": 4, "max_lv": 5, "weight": 2.0,
+                "min_lv": 4, "max_lv": 5, "weight": 2.5,
                 "destructible_scene": true,
                 "inner_inclusion": {
                     "top": true,
@@ -564,7 +564,7 @@
                 "id": "lv4_phys_bound_tension",
                 "description": "【拘束の張力】手首を縛られ、自ら上に引っ張ることで背中の反りを強調。{camera}で(side_view)や(low_angle)を選べば、体のラインが最も美しく描かれる",
                 "tags": "{camera}, completely_undressed, (wrists_tied_above_head:1.8), (pulling_rope:1.7), (arching_back:1.7), (strained_neck:1.3), (climax:1.4), (body_fluids:1.2), (saliva_thread:1.4), (skirt_lift:1.6),(skirt_up:1.5),(wet_pussy:1.5),(thigh_highs_under_skirt:1.2), (partially_undressed:1.5), (half_closed_eyes:1.3), (lust:1.3), (solo:1.5), (restrained:1.5)",
-                "min_lv": 4, "max_lv": 5, "weight": 2.0,
+                "min_lv": 4, "max_lv": 5, "weight": 3.0,
                 "destructible_scene": false,
                 "inner_inclusion": {
                     "top": true,
@@ -575,7 +575,7 @@
                 "id": "lv4_lost_in_ecstasy_sprawl",
                 "description": "【脱力と余韻】絶頂の後に力なく横たわる。{camera}を(high_angle)にすれば、散らばった{destructible_fabric}の残骸と[perssona]の対比が美しい",
                 "tags": "lying_on_back, {camera}, (completely_undressed:1.3), (spread_legs:1.2), (disheveled_hair:1.2), (empty_eyes:1.2), (parted_lips:1.3), (deep_blush:1.2), (heavy_breathing:1.3), {destructible_fabric}, (pussy_visible:1.3), (wet_pussy:1.3), (sweat_glistening:1.1), (afterglow:1.2)",
-                "min_lv": 4, "max_lv": 5, "weight": 1.5,
+                "min_lv": 4, "max_lv": 5, "weight": 3.0,
                 "destructible_scene": true,
                 "inner_inclusion": {
                     "top": true,

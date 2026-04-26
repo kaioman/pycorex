@@ -4,7 +4,6 @@ import pycorex.configs.app_init as app
 from pycorex.comfyui_client import ComfyUIClient
 from pycorex.utils.pony_prompt_generator import PonyPromptGenerator
 from pycorex.utils.workflow_editor import WorkflowEditor
-#from comfyui_workflow.modifications.aoi_mod import AoiWorkflowMod
 from pycorex.utils.workflow_mod import WorkflowMod
 
 def _load_json(path):
@@ -68,7 +67,7 @@ client = ComfyUIClient(
 
 try:
     # ワークフローを実行する
-    response = client.run_workflow(workflow_data=workflow)
+    response = client.run_workflow(workflow_data=workflow, modifications=modification_list)
     
     # 生成された画像を保存する
     if response and response["result"]:
