@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pycorex"                # PyPIに登録されるパッケージ名
-version = "1.0.21"
+version = "1.0.22"
 description = "A lightweight Python core package for unified AI API access, designed for flexibility and scalability."
 readme = "README.md"            # 説明文としてREADMEを利用
 license = {file = "LICENSE"}    # ライセンスファイル
