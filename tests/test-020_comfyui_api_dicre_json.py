@@ -41,9 +41,9 @@ pony_generator = PonyPromptGenerator(
 )
 # PromptContextを生成
 prompt_context = pony_generator.generate_prompt(
-    rating_level=PonyPromptGenerator.RatingLevel.SAFE,
-    #test_outfit_id="china_dress",
-    #test_scene_id_override="lv3_true_hand_exploration",
+    rating_level=PonyPromptGenerator.RatingLevel.EXPLICIT,
+    #test_outfit_id="office_lady",
+    #test_scene_id_override="lv2_5_env_windy_back",
     #test_camera_name="背面視点・バックビュー"
     #test_camera_name="広角レンズ・パース強調"
 )
@@ -52,7 +52,7 @@ prompt_context = pony_generator.generate_prompt(
 modification_list = WorkflowMod.create_modifications(
     prompt_context=prompt_context, 
     mod_config=_load_json("tests/comfyui_workflow/modifications/aoi_workflow_config.json"),
-    batch_size=2
+    batch_size=1
 )
 
 # WorkflowEditorを使用してワークフローに修正を適用

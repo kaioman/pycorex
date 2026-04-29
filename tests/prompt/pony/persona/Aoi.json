@@ -219,7 +219,7 @@
                 "min_lv": 2, "max_lv": 3, "weight": 3.0,
                 "destructible_scene": false,
                 "inner_inclusion": {
-                    "top": true,
+                    "top": false,
                     "bottom": true
                 } 
             },
@@ -265,7 +265,8 @@
                 "inner_inclusion": {
                     "top": false,
                     "bottom": true
-                } 
+                },
+                "suggested_resolution": { "width": 832, "height" : 1216 }
             },
             {
                 "id": "lv2_5_env_windy_back",
@@ -276,7 +277,8 @@
                 "inner_inclusion": {
                     "top": false,
                     "bottom": true
-                } 
+                },
+                "suggested_resolution": { "width": 832, "height" : 1216 } 
             },            
             {
                 "id": "lv3_phys_deep_squat",
