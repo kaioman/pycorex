@@ -5,6 +5,7 @@ from pycorex.comfyui_client import ComfyUIClient
 from pycorex.utils.pony_prompt_generator import PonyPromptGenerator
 from pycorex.utils.workflow_editor import WorkflowEditor
 from pycorex.utils.workflow_mod import WorkflowMod
+from pycorex.enums.rating_level import RatingLevel
 
 def _load_json(path):
     with open(path, "r", encoding="utf-8") as f:
@@ -41,7 +42,7 @@ pony_generator = PonyPromptGenerator(
 )
 # PromptContextを生成
 prompt_context = pony_generator.generate_prompt(
-    rating_level=PonyPromptGenerator.RatingLevel.EXPLICIT,
+    rating_level=RatingLevel.EXPLICIT,
     #test_outfit_id="office_lady",
     #test_scene_id_override="lv2_5_env_windy_back",
     #test_camera_name="背面視点・バックビュー"

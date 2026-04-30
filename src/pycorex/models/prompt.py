@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from libcore_hng.core.base_config_model import BaseConfigModel
+from pycorex.enums.rating_level import RatingLevel
 
 class PromptModel(BaseConfigModel):
     """
@@ -15,6 +16,12 @@ class PromptContextModel():
     プロンプトコンテキストモデルクラス
     """
     
+    prompt_level: RatingLevel = RatingLevel.SAFE
+    """ プロンプトレベル """
+
+    scene_id: str = ''
+    """ scene_id """
+
     positive_prompt: str = ''
     """ ポジティブプロンプト """
     
