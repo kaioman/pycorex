@@ -97,14 +97,19 @@ def _get_ids_by_level(target_json, level):
     ]
     return matched_ids
 
+def gen_main(level):
+    persona_conf = _load_json("tests/prompt/pony/persona/Aoi.json")
+    target_scene_ids = _get_ids_by_level(persona_conf, level)
+
+    # 生成テスト
+    for scene_id in target_scene_ids:
+        for i in range(5):
+            _gen_test(workflow, pony_generator, level, scene_id)
+
 # ワークフローとPonyPromptGeneratorの設定を取得
 workflow, pony_generator = _settings()
 
-level = RatingLevel.QUESTIONABLE
-persona_conf = _load_json("tests/prompt/pony/persona/Aoi.json")
-target_scene_ids = _get_ids_by_level(persona_conf, level)
-
-# 生成テスト
-for scene_id in target_scene_ids:
-    for i in range(5):
-        _gen_test(workflow, pony_generator, level, scene_id)
+gen_main(RatingLevel.SAFE)
+#gen_main(RatingLevel.EMOTIVE)
+#gen_main(RatingLevel.QUESTIONABLE)
+#gen_main(RatingLevel.EXPLICIT)
