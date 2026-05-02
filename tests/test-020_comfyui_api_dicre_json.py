@@ -42,9 +42,10 @@ pony_generator = PonyPromptGenerator(
 )
 # PromptContextを生成
 prompt_context = pony_generator.generate_prompt(
-    rating_level=RatingLevel.EXPLICIT,
-    #test_outfit_id="office_lady",
-    #test_scene_id_override="lv2_5_env_windy_back",
+    rating_level=RatingLevel.QUESTIONABLE,
+    test_outfit_id="blazer_style",
+    test_scene_id_override="lv2_5_v_sit_exposure",
+    #test_camera_name="ハイアングル・俯瞰"
     #test_camera_name="背面視点・バックビュー"
     #test_camera_name="広角レンズ・パース強調"
 )

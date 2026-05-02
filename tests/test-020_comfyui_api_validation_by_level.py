@@ -110,6 +110,6 @@ def gen_main(level):
 workflow, pony_generator = _settings()
 
 gen_main(RatingLevel.SAFE)
-#gen_main(RatingLevel.EMOTIVE)
-#gen_main(RatingLevel.QUESTIONABLE)
-#gen_main(RatingLevel.EXPLICIT)
+gen_main(RatingLevel.EMOTIVE)
+gen_main(RatingLevel.QUESTIONABLE)
+gen_main(RatingLevel.EXPLICIT)

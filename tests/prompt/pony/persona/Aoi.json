@@ -279,7 +279,19 @@
                     "bottom": true
                 },
                 "suggested_resolution": { "width": 832, "height" : 1216 } 
-            },            
+            },
+            {
+                "id": "lv2_5_v_sit_exposure",
+                "description": "【拒絶と羞恥の丸まり】自らを閉ざし、小さく丸まって震えるポーズ。膝を胸に引き寄せ、隠すように脚を閉じさせ",
+                "tags": "sitting, knees_to_chest, (hug_own_knees:1.2), (own_legs_together:1.2), (own_knees_together:1.2), (crotch_focus:1.4), (extreme_close-up:1.3), (from_below:1.3), (delicate_collarbone:1.2), (looking_at_viewer:1.2), (cinematic_lighting:1.2)",
+                "min_lv": 2, "max_lv": 3, "weight": 3.0,
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": false,
+                    "bottom": true
+                },
+                "suggested_resolution": { "width": 832, "height" : 1216 }
+            },
             {
                 "id": "lv3_phys_deep_squat",
                 "description": "【Lv3:蹲踞の隙】かかとをつけたままの深いしゃがみ込み。閉じた膝の間から、逃げ場のない露出を捉える",
@@ -479,7 +491,7 @@
                     "top": true,
                     "bottom": true
                 } 
-            },
+            },            
             {
                 "id": "lv3_phys_panty_pull_down",
                 "description": "【Lv3:ギリギリの境界線】前かがみの姿勢で、両手で下着の端をわずかに押し下げる仕草。性器露出を避けつつ背徳感を強調",
@@ -578,6 +590,39 @@
                 "description": "【脱力と余韻】絶頂の後に力なく横たわる。{camera}を(high_angle)にすれば、散らばった{destructible_fabric}の残骸と[perssona]の対比が美しい",
                 "tags": "lying_on_back, {camera}, (completely_undressed:1.3), (spread_legs:1.2), (disheveled_hair:1.2), (empty_eyes:1.2), (parted_lips:1.3), (deep_blush:1.2), (heavy_breathing:1.3), {destructible_fabric}, (pussy_visible:1.3), (wet_pussy:1.3), (sweat_glistening:1.1), (afterglow:1.2)",
                 "min_lv": 4, "max_lv": 5, "weight": 3.0,
+                "destructible_scene": true,
+                "inner_inclusion": {
+                    "top": true,
+                    "bottom": true
+                }
+            },
+            {
+                "id": "lv4_forced_humiliation_chains",
+                "description": "【屈辱の服従】快楽を排し、意思に反して繋がれた屈辱のみを描写。{camera}は(high_angle)で圧迫感を出し、無残に引き裂かれた{destructible_fabric}が尊厳の喪失を強調する",
+                "tags": "(all_fours:1.4), (bent_over:1.3), (from_above:1.5), (high_angle:1.4), (bird's_eye_view:1.2), (looking_down_at_Aoi:1.3), (completely_undressed:1.4), (heavy_iron_collar:1.5), (clanking_chains:1.3), forced_posture, (sobbing:1.1), (crying_with_eyes_open:1.2), (shame:1.3), (disgrace:1.3), (nipples:1.1), (pussy_visible:1.3), (butt_focus:1.4), {destructible_fabric}, (cold_sweat:1.2), (cinematic_grain:1.2)",
+                "min_lv": 4, "max_lv": 5, "weight": 3.5,
+                "destructible_scene": true,
+                "inner_inclusion": {
+                    "top": true,
+                    "bottom": true
+                }
+            },
+            {
+                "id": "lv4_forced_fingering_humiliation",
+                "description": "【指による蹂躙】他者の指が秘部に潜り込み、強引に弄る。意思に反した生理的反応と、それを拒めない絶望を[persona]の表情に刻み込む",
+                "tags": "{camera}, (fingering:1.4), (hand_between_legs:1.3), (fingers_inside:1.5), (clancy_pussy:1.2), (pussy_juice:1.3), (spreading_pussy:1.4), (looking_down_at_own_crotch:1.2), (shame:1.4), (sobbing:1.1), trembling, (completely_undressed:1.4), (heavy_iron_collar:1.5), (clanking_chains:1.2), (nipples:1.1), (deep_blush:1.3), (sweat_on_skin:1.2), (shakerato:1.2)",
+                "min_lv": 4, "max_lv": 5, "weight": 3.5,
+                "destructible_scene": true,
+                "inner_inclusion": {
+                    "top": true,
+                    "bottom": true
+                }
+            },
+            {
+                "id": "lv4_forced_breast_grab",
+                "description": "【胸部の蹂躙】他者の大きな手が、無防備な[persona]の胸を強引に掴み、指が肉に食い込む。逃れられない支配と、羞恥に染まる表情を強調する",
+                "tags": "arms_up, (hands_above_head:1.2), (medium_breasts:1.4), (slender_body:1.3), (grabbing_another's_breast:1.4), (large_hand_on_small_breast:1.3), (squeezing:1.3), (breast_indentation:1.4), (completely_undressed:1.4), (heavy_iron_collar:1.5), (shame:1.5), (disgrace:1.4), (trembling:1.3), (nipples:1.2), {destructible_fabric}",
+                "min_lv": 4, "max_lv": 5, "weight": 3.5,
                 "destructible_scene": true,
                 "inner_inclusion": {
                     "top": true,
