@@ -528,3 +528,33 @@ class GeminiClient(BaseGeminiClient):
 
         app_logger.info(f"Image analyzing completed.")
         return result
+    
+    def start_chat_session(self, model: GeminiModel=GeminiModel.GEMINI_2_5_FLASH_LITE, temperature=0.7, history=None, system_instruction=None):
+        """
+        履歴とシステム指示を指定して、ステートフルなチャットオブジェクトを返す
+
+        Parameters
+        ----------
+        model: GeminiModel
+            チャットで使用するモデル
+        temperature : Any
+            サンプリング温度
+        history : List
+            履歴
+        system_instruction : dict
+            システム指示
+        
+        Returns
+        -------
+        dict
+            チャットオブジェクト
+        """
+
+        return self.genai_client.chats.create(
+            model=model.value,
+            history=history or [],
+            config=GenerateContentConfig(
+                system_instruction=system_instruction,
+                temperature=temperature
+            )
+        )
