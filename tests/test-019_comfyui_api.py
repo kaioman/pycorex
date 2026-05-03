@@ -4,7 +4,7 @@ import pycorex.configs.app_init as app
 from pycorex.comfyui_client import ComfyUIClient
 from pycorex.utils.pony_prompt_generator import PonyPromptGenerator
 from pycorex.utils.workflow_editor import WorkflowEditor
-from comfyui_workflow.modifications.aoi_mod import AoiWorkflowMod
+from pycorex.utils.workflow_mod import WorkflowMod
 
 # アプリ初期化
 app.init_app(
@@ -45,8 +45,9 @@ prompt_context = pony_generator.generate_prompt(
 )
 
 # ワークフロー修正定義
-modification_list = AoiWorkflowMod.create_modifications(
+modification_list = WorkflowMod.create_modifications(
     prompt_context=prompt_context, 
+    mod_config="tests/comfyui_workflow/modifications/aoi_workflow_config.json",
     batch_size=2
 )
 
@@ -62,11 +63,11 @@ client = ComfyUIClient(
 
 try:
     # ワークフローを実行する
-    result = client.run_workflow(workflow_data=workflow)
+    result = client.run_workflow(workflow_data=workflow, modifications=modification_list)
     
     # 生成された画像を保存する
-    if result and result["images"]:
-        for i, image_bytes in enumerate(result["images"]):
+    if result and result["result"]:
+        for i, image_bytes in enumerate(result["result"]):
             output_dir = "gen_images"
             os.makedirs(output_dir, exist_ok=True)
             image_path = os.path.join(output_dir, client.get_gen_filename())

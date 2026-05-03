@@ -4,6 +4,7 @@ import random
 import libcore_hng.utils.app_logger as app_logger
 from typing import Optional, Union, Any
 from pycorex.core.base_prompt_generator import BasePromptGenerator
+from pycorex.enums.rating_level import RatingLevel
 from pycorex.models.prompt import PromptContextModel
 
 class PonyPromptGenerator(BasePromptGenerator):
@@ -201,7 +202,7 @@ class PonyPromptGenerator(BasePromptGenerator):
     
     def generate_prompt(
         self, 
-        rating_level: BasePromptGenerator.RatingLevel = BasePromptGenerator.RatingLevel.SAFE, 
+        rating_level: RatingLevel = RatingLevel.SAFE, 
         target_scene_id: Optional[str] = None,
         test_outfit_id: Optional[str] = None,
         test_scene_id_override: Optional[str] = None, # target_scene_id とは別にテスト用
@@ -211,7 +212,7 @@ class PonyPromptGenerator(BasePromptGenerator):
 
         Parameters
         ----------
-        rating_level : BasePromptGenerator.RatingLevel
+        rating_level : RatingLevel
             生成するプロンプトのレベル。高レベルほど詳細なプロンプトが生成される場合があります。
         target_scene_id : str, optional
             特定のシーンID。指定された場合、そのシーンに特化したプロンプトが生成されます。
@@ -223,11 +224,11 @@ class PonyPromptGenerator(BasePromptGenerator):
         """
         
         # --- [1. 基礎・画風設定] ---
-        if rating_level <= BasePromptGenerator.RatingLevel.EMOTIVE:
+        if rating_level <= RatingLevel.EMOTIVE:
             rating = self.data.get("rating", {}).get("safe", "rating_safe")
-        elif rating_level == BasePromptGenerator.RatingLevel.QUESTIONABLE:
+        elif rating_level == RatingLevel.QUESTIONABLE:
             rating = self.data.get("rating", {}).get("questionable", "rating_questionable")
-        elif rating_level >= BasePromptGenerator.RatingLevel.EXPLICIT:
+        elif rating_level >= RatingLevel.EXPLICIT:
             rating = self.data.get("rating", {}).get("explicit", "rating_explicit")
         
         base_score_tags = self.data.get("base_score_tags", "(score_9, score_8_up:1.2)")
@@ -444,6 +445,8 @@ class PonyPromptGenerator(BasePromptGenerator):
         
         #return positive, negative, image_width, image_height
         return PromptContextModel(
+            prompt_level=rating_level,
+            scene_id=scene_data["id"],
             positive_prompt=positive,
             negative_prompt=negative,
             image_width=image_width,
