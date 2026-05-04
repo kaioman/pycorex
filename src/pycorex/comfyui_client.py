@@ -75,14 +75,12 @@ class ComfyUIClient(BaseAIClient):
         """
 
         images_data: list[bytes] = []
-        timeout_seconds = 120
-        polling_interval = 1
         start_time = time.time()
         
         while True:
             
             # タイムアウトチェック
-            if (time.time() - start_time) > timeout_seconds:
+            if (time.time() - start_time) > self.timeout_seconds:
                 raise ComfyUIAPIError(f"Timeout while waiting for image generation. Prompt ID: {prompt_id}")
 
             # historyエンドポイントからダウンロード対象となる画像を取得する
@@ -90,7 +88,7 @@ class ComfyUIClient(BaseAIClient):
             history_response = requests.get(history_url)
             if history_response.raise_for_status() == HTTPStatus.NOT_FOUND:
                 self.logger.info(f"History for prompt ID {prompt_id} not yet available. Retrying...")
-                time.sleep(polling_interval)
+                time.sleep(self.polling_interval)
                 continue
             
             history_response.raise_for_status()
@@ -124,7 +122,7 @@ class ComfyUIClient(BaseAIClient):
                 self.logger.info("No new images found in history. Assuming generation is complete.")
                 break
 
-            time.sleep(polling_interval)
+            time.sleep(self.polling_interval)
             
         # 生成された画像のバイナリデータを返す
         return images_data
