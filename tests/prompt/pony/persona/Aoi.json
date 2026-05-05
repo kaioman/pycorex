@@ -295,7 +295,18 @@
             {
                 "id": "lv3_phys_deep_squat",
                 "description": "【Lv3:蹲踞の隙】かかとをつけたままの深いしゃがみ込み。閉じた膝の間から、逃げ場のない露出を捉える",
-                "tags": "(crouching:1.4), (pigeon-toed:1.5), (knees_together:1.4), (knock_knees:1.3), (feet_spread:1.1), (upskirt:1.1), (embarrassed:1.2), (solo:1.2)",
+                "tags": "(crouching:1.4), (pigeon-toed:1.5), (knees_together:1.4), (knock_knees:1.3), (feet_spread:1.1), (upskirt:1.1), (panty_peek:1.4), (pussy_juice:1.3), (embarrassed:1.2), (solo:1.2)",
+                "min_lv": 3, "max_lv": 3, "weight": 2.5,
+                "destructible_scene": false,
+                "inner_inclusion": {
+                    "top": false,
+                    "bottom": true
+                } 
+            },
+            {
+                "id": "lv3_phys_deep_squat_wet",
+                "description": "【Lv3:蹲踞の隙】かかとをつけたままの深いしゃがみ込み。閉じた膝の間から、逃げ場のない露出を捉える - 濡れ濡れバージョン",
+                "tags": "(crouching:1.4), (pigeon-toed:1.5), (knees_together:1.4), (knock_knees:1.3), (feet_spread:1.1), (upskirt:1.1), (wet_clothes:1.2), (wet_panties:1.5), (soaked_panties:1.4), (panty_peek:1.4), (embarrassed:1.2), (solo:1.2)",
                 "min_lv": 3, "max_lv": 3, "weight": 2.5,
                 "destructible_scene": false,
                 "inner_inclusion": {
@@ -306,7 +317,7 @@
             {
                 "id": "lv3_phys_sitting_triangle_wet",
                 "description": "【Lv3:着座の聖域】椅子や床に座った際、太ももの付け根から覗く下着の「三角ゾーン」- 濡れ濡れバージョン",
-                "tags": "(wide_angle_lens:1.3), (high_angle:1.3), (sitting:1.3), (knees_down:1.1), (knees_together:1.1), (pigeon-toed:1.2), (crotch_focus:1.2), (wet_clothing:1.4), (panty_peek:1.4)",
+                "tags": "(wide_angle_lens:1.3), (high_angle:1.3), (sitting:1.3), (knees_down:1.1), (knees_together:1.1), (pigeon-toed:1.2), (crotch_focus:1.2), (wet_clothes:1.1), (soaked_panties:1.5), (panty_peek:1.4)",
                 "min_lv": 3, "max_lv": 3, "weight": 2.5,
                 "destructible_scene": false,
                 "inner_inclusion": {
