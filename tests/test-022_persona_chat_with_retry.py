@@ -1,10 +1,9 @@
 import pycorex.configs.app_init as app
 import json
 import unittest
-from google.genai.types import Content, Part
 from pycorex.gemini_client import GeminiClient
 
-class TestPersonaChat(unittest.TestCase):
+class TestPersonaChat(unittest.IsolatedAsyncioTestCase):
 
     @classmethod
     def setUpClass(cls):
@@ -33,7 +32,7 @@ class TestPersonaChat(unittest.TestCase):
         full_instruction = template.format(persona_json=persona_str)
         return full_instruction
     
-    def test_aoi_persona_behavior(self):
+    async def test_aoi_persona_behavior(self):
         
         # instructionのbuild
         system_inst = self._build_instruction()
@@ -45,14 +44,14 @@ class TestPersonaChat(unittest.TestCase):
         )
 
         # 最初の問いかけ
-        response1 = session.send_message("自己紹介をお願いします")
+        response1 = await self.client.send_chat_message(session, "自己紹介をお願いします。私の名前は「古びたレンチ」です")
         print(f"\n[Aoi's Instroduction]:\n{response1.text}")
 
         # Aoiという名前が含まれているかチェック
         self.assertIn("Aoi", response1.text)
 
         # 会話の継続
-        response2 = session.send_message("AIに仕事を奪われるという意見に反論可能でしょうか？")
+        response2 = await self.client.send_chat_message(session, "私の名前は何でしたっけ？")
         print(f"\n[Aoi's Second Response]:\n{response2.text}")
 
         # 文脈に沿った回答かチェック

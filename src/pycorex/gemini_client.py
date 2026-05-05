@@ -1,5 +1,8 @@
+import os
+import asyncio
 import libcore_hng.utils.app_logger as app_logger
 from google import genai as image_genai
+from google.generativeai import ChatSession
 from google.genai.types import GenerateContentConfig, Modality, ImageConfig, Part, ThinkingConfig
 from enum import Enum
 from datetime import datetime, timezone
@@ -529,7 +532,11 @@ class GeminiClient(BaseGeminiClient):
         app_logger.info(f"Image analyzing completed.")
         return result
     
-    def start_chat_session(self, model: GeminiModel=GeminiModel.GEMINI_2_5_FLASH_LITE, temperature=0.7, history=None, system_instruction=None):
+    def start_chat_session(self, 
+        model: GeminiModel=GeminiModel.GEMINI_2_5_FLASH_LITE, 
+        temperature=0.7, 
+        history=None, 
+        system_instruction=None):
         """
         履歴とシステム指示を指定して、ステートフルなチャットオブジェクトを返す
 
@@ -557,4 +564,54 @@ class GeminiClient(BaseGeminiClient):
                 system_instruction=system_instruction,
                 temperature=temperature
             )
+        )
+    
+    async def send_chat_message(self, session: ChatSession, message_contents: str):
+        """
+        セッションに対してメッセージコンテンツに応答したテキストを送信する
+        応答を得るための最大リトライ回数と実行間隔は環境変数より取得する
+
+        Parameters
+        ----------
+        session: ChatSession
+            start_chat_sessionで生成したチャットセッション
+        message_contents : str
+            応答メッセージの元となるメッセージコンテンツ
+        
+        Returns
+        -------
+        Any
+            応答結果
+
+        """
+
+        # # 最大試行回数と実行間隔を取得する
+        # max_retryies = os.getenv("SEND_MESSAGE_MAX_RETRYIES", 3)
+        # retry_interval = os.getenv("SEND_MESSAGE_RETRY_INTERVAL", 2)
+        
+        # # 最大試行回数だけループする
+        # for attempt in range(max_retryies):
+        #     try:
+        #         # メッセージを送信する
+        #         response = session.send_message(message_contents)
+        #         # レスポンス判定。取得できた場合は内容を返す
+        #         if response and response.text:
+        #             return response
+        #         # 試行警告ログ
+        #         app_logger.warning(f"Empty response at attempt {attempt + 1}")
+
+        #     except Exception as e:
+        #         # 試行エラーログ
+        #         app_logger.error(f"Chat Attempt {attempt + 1} failed: {e}")
+        #         # 最終試行時は例外をスローする
+        #         if attempt == max_retryies - 1:
+        #             raise e
+        #         # 実行間隔の値に基づき待機
+        #         await asyncio.sleep(retry_interval)
+
+        # return None
+
+        return await self.execute_with_retry(
+            session.send_message,
+            message_contents
         )
