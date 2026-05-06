@@ -1,6 +1,7 @@
 import json
 import time
 import uuid
+import asyncio
 import requests
 import libcore_hng.utils.app_logger as app_logger
 from http import HTTPStatus
@@ -69,7 +70,7 @@ class ComfyUIClient(BaseAIClient):
         except requests.exceptions.RequestException as e:
             raise ComfyUIAPIError(f"Failed to download image from ComfyUI: {e}") from e
 
-    def _get_image_from_history(self, prompt_id: str) -> list[bytes]:
+    async def _get_image_from_history(self, prompt_id: str) -> list[bytes]:
         """
         historyエンドポイントから生成された画像をダウンロードする
         """
@@ -88,7 +89,7 @@ class ComfyUIClient(BaseAIClient):
             history_response = requests.get(history_url)
             if history_response.raise_for_status() == HTTPStatus.NOT_FOUND:
                 self.logger.info(f"History for prompt ID {prompt_id} not yet available. Retrying...")
-                time.sleep(self.polling_interval)
+                await asyncio.sleep(self.polling_interval)
                 continue
             
             history_response.raise_for_status()
@@ -127,7 +128,7 @@ class ComfyUIClient(BaseAIClient):
         # 生成された画像のバイナリデータを返す
         return images_data
 
-    def run_workflow(
+    async def run_workflow(
         self, 
         workflow_data: Union[Dict[str, Any], str],
         modifications: Optional[List[NodeModification]] = None,
@@ -204,7 +205,12 @@ class ComfyUIClient(BaseAIClient):
         headers = {"Content-Type": "application/json"}
         try:
             self.logger.info("Sending workflow to ComfyUI API.")
-            response = requests.post(url, headers=headers, data=json.dumps(payload))
+            response = await asyncio.to_thread(
+                requests.post,
+                url,
+                headers=headers, 
+                data=json.dumps(payload)
+            )
             response.raise_for_status()
             prompt_response = response.json()
 
@@ -218,7 +224,7 @@ class ComfyUIClient(BaseAIClient):
             raise ComfyUIAPIError(f"Failed to communicate with ComfyUI API: {e}") from e
         
         # historyエンドポイントから画像をダウンロードする
-        images_data = self._get_image_from_history(prompt_id)
+        images_data = await self._get_image_from_history(prompt_id)
         if not images_data:
             raise NoCandidatesError("No candidates returned.")
 
