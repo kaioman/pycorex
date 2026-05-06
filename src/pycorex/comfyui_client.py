@@ -123,7 +123,7 @@ class ComfyUIClient(BaseAIClient):
                 self.logger.info("No new images found in history. Assuming generation is complete.")
                 break
 
-            time.sleep(self.polling_interval)
+            await asyncio.sleep(self.polling_interval)
             
         # 生成された画像のバイナリデータを返す
         return images_data
