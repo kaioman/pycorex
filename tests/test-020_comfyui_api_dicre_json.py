@@ -45,9 +45,9 @@ async def main():
     )
     # PromptContextを生成
     prompt_context = pony_generator.generate_prompt(
-        rating_level=RatingLevel.QUESTIONABLE,
+        rating_level=RatingLevel.EXPLICIT,
         test_outfit_id="classic_sailor_highsocks",
-        test_scene_id_override="lv3_true_shirt_shredded_stable",
+        test_scene_id_override="lv4_phys_forced_torn_ecstasy",
         #test_camera_name="ハイアングル・俯瞰"
         #test_camera_name="背面視点・バックビュー"
         #test_camera_name="広角レンズ・パース強調"
