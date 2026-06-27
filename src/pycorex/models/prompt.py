@@ -33,3 +33,9 @@ class PromptContextModel():
     
     image_height: int = 1024
     """ 画像高さ """
+
+    face_detailer_positive_prompt: str = ''
+    """ Face Detailer用ポジティブプロンプト """
+
+    face_detailer_negative_prompt: str = ''
+    """ Face Detailer用ポジティブプロンプト """

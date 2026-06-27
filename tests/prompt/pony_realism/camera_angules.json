@@ -6,7 +6,7 @@
             "name": "斜め構図（ダッチアングル）",
             "suggested_resolution": { "width": 1024, "height" : 1024 },
             "description": "心理的な揺らぎやドラマチックな転換点を示す斜め構図。写実表現ではライティングと被写界深度で自然に演出",
-            "tags": "photorealistic, (dutch_angle:1.1), (tilted_frame:1.1), (cinematic_composition:1.2), natural_lighting",
+            "tags": "(dutch angle:1.1), (tilted frame:1.1), (cinematic composition:1.2), natural lighting",
             "vibe": "dramatic",
             "best_for": ["lv1", "lv2"]
         },
@@ -15,7 +15,7 @@
             "name": "望遠レンズ・圧縮効果",
             "suggested_resolution": { "width": 832, "height" : 1216 },
             "description": "背景をやわらかくぼかして被写体の存在感と細部（髪・瞳・肌質）を際立たせる写実的クローズアップ",
-            "tags": "photorealistic, (extreme_close-up:1.4), (shallow_depth_of_field:1.6), (bokeh:1.3), (telephoto_lens:1.2), natural_skin_detail",
+            "tags": "(extreme close-up:1.4), (shallow depth of field:1.6), (bokeh:1.3), (telephoto lens:1.2), natural skin detail",
             "vibe": "intimate",
             "best_for": ["lv1", "lv2", "lv3"]
         },
@@ -24,7 +24,7 @@
             "name": "広角レンズ・パース強調",
             "suggested_resolution": { "width": 1216, "height" : 832 },
             "description": "前景を強調して遠近感を作る。写実では過度な魚眼効果を避け、自然なパース調整を推奨",
-            "tags": "photorealistic, (wide_angle_lens:1.2), (perspective_distortion:1.1), (foreshortening:1.3), (mild_fisheye:0.6), realistic_perspective",
+            "tags": "(wide angle lens:1.2), (perspective distortion:1.1), (foreshortening:1.3), (mild fisheye:0.6), realistic perspective",
             "vibe": "dynamic",
             "best_for": ["lv2", "lv4"]
         },
@@ -33,7 +33,7 @@
             "name": "ローアングル・煽り",
             "suggested_resolution": { "width": 768, "height" : 1344 },
             "description": "見上げる視点で被写体の威厳や脚線を強調。写実的ライティングで陰影をコントロール",
-            "tags": "photorealistic, (from_below:1.4), (low_angle:1.3), (worm's_eye_view:1.1), natural_contrast",
+            "tags": "(from below:1.4), (low angle:1.3), (worm's eye view:1.1), natural contrast",
             "vibe": "powerful",
             "best_for": ["lv2", "lv3", "lv4"]
         },
@@ -42,7 +42,7 @@
             "name": "ハイアングル・俯瞰",
             "suggested_resolution": { "width": 1216, "height" : 832 },
             "description": "見下ろす視点で被写体の脆弱さを表現。広がる環境と自然光のバランスを重視",
-            "tags": "photorealistic, (from_above:1.4), (high_angle:1.3), (bird's_eye_view:1.1), atmospheric_lighting",
+            "tags": "(from above:1.4), (high angle:1.3), (bird's eye view:1.1), atmospheric lighting",
             "vibe": "observational",
             "best_for": ["lv1", "lv2", "lv3", "lv4"]
         },
@@ -51,7 +51,7 @@
             "name": "肩越し・覗き見視点",
             "description": "第三者の視点を示唆する構図。写実表現では被写界深度と自然な遮蔽で没入感を作る",
             "suggested_resolution": { "width": 1216, "height" : 832 },
-            "tags": "photorealistic, (over_the_shoulder:1.3), (point_of_view:1.1), (partial_obscured_view:1.1), subtle_depth",
+            "tags": "(over the shoulder:1.3), (point of view:1.1), (partial obscured view:1.1), subtle depth",
             "vibe": "storytelling",
             "best_for": ["lv1", "lv4"]
         },
@@ -60,7 +60,7 @@
             "name": "背面視点・バックビュー",
             "suggested_resolution": { "width": 1024, "height" : 1024 },
             "description": "背中やヒップのラインを自然光と質感で強調する写実的なバックビュー",
-            "tags": "photorealistic, (back_view:1.3), (view_from_behind:1.3), (from_behind:1.3), (solo:1.1), natural_lighting, detailed_skin_texture",
+            "tags": "(back view:1.3), (view from behind:1.3), (from behind:1.3), (solo:1.1), natural lighting, detailed skin texture",
             "vibe": "mysterious",
             "best_for": ["lv1", "lv2", "lv3", "lv4"]
         }

@@ -43,14 +43,16 @@ async def main():
         persona_conf=_load_json("tests/prompt/pony_realism/persona/Lotta.json"),
         camera_conf=_load_json("tests/prompt/pony_realism/camera_angules.json"),
         wardrobe_conf=_load_json("tests/prompt/pony_realism/wardrobe.json"),
-        environment_conf=_load_json("tests/prompt/pony_realism/environments.json")
+        environment_conf=_load_json("tests/prompt/pony_realism/environments.json"),
+        expression_conf=_load_json("tests/prompt/pony_realism/expressions.json")
     )
     # PromptContextを生成
     prompt_context = pony_generator.generate_prompt(
-        rating_level=RatingLevel.EMOTIVE,
-        #test_outfit_id="denim_setup",
-        #test_scene_id_override="lv3_phys_panty_pull_down",
+        rating_level=RatingLevel.QUESTIONABLE,
+        test_outfit_id="recruit_suit",
+        test_scene_id_override="lv3_phys_sitting_triangle_stable",
         #test_camera_name="背面視点・バックビュー"
+        #test_camera_name="広角レンズ・パース強調"
         #test_camera_name="ハイアングル・俯瞰"
     )
 

@@ -45,6 +45,28 @@
                     "seed": "${random_seed}"
                 }
             }
+        },
+        {
+            "node_id": "31",
+            "condition": {
+                "class_type": "CLIPTextEncode"
+            },
+            "modifications": {
+                "inputs": {
+                    "text": "${face_detailer_positive_prompt}"
+                }
+            }
+        },
+        {
+            "node_id": "32",
+            "condition": {
+                "class_type": "CLIPTextEncode"
+            },
+            "modifications": {
+                "inputs": {
+                    "text": "${face_detailer_negative_prompt}"
+                }
+            }
         }
     ]
 }

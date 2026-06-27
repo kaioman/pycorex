@@ -3,279 +3,278 @@
     "locations": [
         {
             "id": "classroom_desk",
-            "tags": "photorealistic, classroom, sitting at desk, natural_lighting, realistic_fabric",
+            "tags": "classroom, sitting at desk, natural lighting, realistic fabric",
             "description": "教室の机に座っている情景（自然光と現実的な質感を重視）",
             "not_compatible_outfits": ["swimsuit_80s", "lingerie_only", "bunny_suit"]
         },
         {
             "id": "classroom_window",
-            "tags": "photorealistic, classroom, near window, sunlight_filtering, window_reflection",
+            "tags": "classroom, near window, sunlight filtering, window reflection",
             "description": "窓際の教室の情景（差し込む光の表現を重視）",
             "not_compatible_outfits": ["swimsuit_80s", "lingerie_only", "bunny_suit"]
         },
         {
             "id": "library_bookshelf",
-            "tags": "photorealistic, library, by bookshelf, warm_indoor_light, detailed_wood_texture",
+            "tags": "library, by bookshelf, warm indoor light, detailed wood texture",
             "description": "本棚のある図書館の情景（木目や紙の質感を強調）",
             "not_compatible_outfits": ["swimsuit_80s", "lingerie_only", "bunny_suit"]
         },
         {
             "id": "library_reading_area",
-            "tags": "photorealistic, library, reading area, soft_natural_light, cozy",
+            "tags": "library, reading area, soft natural light, cozy",
             "description": "読書エリアのある図書館の情景（柔らかな自然光で被写体を包む）",
             "not_compatible_outfits": ["swimsuit_80s", "lingerie_only", "bunny_suit"]
         },
         {
             "id": "cafe_table",
-            "tags": "photorealistic, cafe, at table, ambient_interior_light, cup_reflection",
+            "tags": "cafe, at table, ambient interior light, cup reflection",
             "description": "カフェのテーブル席の情景（照明と反射の扱いを重視）",
             "not_compatible_outfits": ["swimsuit_80s", "lingerie_only", "bunny_suit"]
         },
         {
             "id": "school_corridor",
-            "tags": "photorealistic, school corridor, natural_window_light, polished_floor_reflection",
+            "tags": "school corridor, natural window light, polished floor reflection",
             "description": "学校の廊下の情景（光の屈折や床の反射を意識）",
             "not_compatible_outfits": ["swimsuit_80s", "lingerie_only", "bunny_suit"]
         },
         {
             "id": "school_rooftop",
-            "tags": "photorealistic, school rooftop, open_sky, wind_motion, atmospheric_haze",
+            "tags": "school rooftop, open sky, wind motion, atmospheric haze",
             "description": "学校の屋上の情景（空気感と風の表現を重視）",
             "not_compatible_outfits": ["swimsuit_80s", "lingerie_only", "bunny_suit"]
         },
         {
             "id": "city_street",
-            "tags": "photorealistic, city street, urban, wet_pavement_reflection, ambient_neon",
+            "tags": "city street, urban, wet pavement reflection, ambient neon",
             "description": "都市の通りの情景（路面や背景の光源を写実的に扱う）",
             "not_compatible_outfits": ["swimsuit_80s", "lingerie_only", "bunny_suit", "gym_uniform"]
         },
         {
             "id": "park_bench",
-            "tags": "photorealistic, park, on bench, dappled_sunlight, natural_foliage",
+            "tags": "park, on bench, dappled sunlight, natural foliage",
             "description": "公園のベンチに座っている情景（木漏れ日と葉のテクスチャを重視）",
             "not_compatible_outfits": ["lingerie_only", "bunny_suit"]
         },
         {
             "id": "beach_shore",
-            "tags": "photorealistic, beach, seashore, wet_sand_reflection, natural_ocean_lighting",
+            "tags": "beach, seashore, wet sand reflection, natural ocean lighting",
             "description": "海岸の情景（海面反射と湿った質感の再現を重視）",
             "not_compatible_outfits": ["classic_sailor", "blazer_style", "gym_uniform", "oversized_hoodie", "office_lady", "miko_outfit", "yukata"]
         },
         {
             "id": "mountain_path",
-            "tags": "photorealistic, mountain path, forest, uneven_terrain, natural_shade",
+            "tags": "mountain path, forest, uneven terrain, natural shade",
             "description": "山道の情景（地形と影の入り方、空気遠近を重視）",
             "not_compatible_outfits": ["classic_sailor", "blazer_style", "office_lady", "evening_dress", "turtleneck", "bunny_suit", "lingerie_only", "nurse_outfit", "china_dress"]
         },
         {
             "id": "japanese_garden",
-            "tags": "photorealistic, japanese garden, traditional, stone_path, moss_detail",
+            "tags": "japanese garden, traditional, stone path, moss detail",
             "description": "日本庭園の情景（苔や石材の細部表現を重視）",
             "not_compatible_outfits": ["swimsuit_80s", "cyberpunk_outfits"]
         },
         {
             "id": "amusement_park",
-            "tags": "photorealistic, amusement park, rides, motion_blur_for_movement, evening_lights",
+            "tags": "amusement park, rides, motion blur for movement, evening lights",
             "description": "遊園地の情景（動的要素と光の点描を写実的に表現）",
             "not_compatible_outfits": ["lingerie_only", "bunny_suit"]
         },
         {
             "id": "shopping_mall",
-            "tags": "photorealistic, shopping mall, indoors, skylight_diffusion, human_scale",
+            "tags": "shopping mall, indoors, skylight diffusion, human scale",
             "description": "ショッピングモールの情景（人工光と自然光の混在を扱う）",
             "not_compatible_outfits": ["swimsuit_80s", "lingerie_only", "bunny_suit"]
         },
         {
             "id": "train_station",
-            "tags": "photorealistic, train station, platform, motion_blur, reflective_floor",
+            "tags": "train station, platform, motion blur, reflective floor",
             "description": "駅のプラットフォームの情景（動きと反射の扱いを重視）",
             "not_compatible_outfits": ["swimsuit_80s", "lingerie_only", "bunny_suit"]
         },
         {
             "id": "bus_stop",
-            "tags": "photorealistic, bus stop, urban, ambient_shadow",
+            "tags": "bus stop, urban, ambient shadow",
             "description": "バス停の情景（都市光による色被りや影の表現を重視）",
             "not_compatible_outfits": ["swimsuit_80s", "lingerie_only", "bunny_suit"]
         },
         {
             "id": "aquarium",
-            "tags": "photorealistic, aquarium, underwater exhibits, soft_blue_tint, caustics",
+            "tags": "aquarium, underwater exhibits, soft blue tint, caustics",
             "description": "水族館の情景（水の屈折や光の揺らぎを写実的に表現）",
             "not_compatible_outfits": ["lingerie_only", "bunny_suit"]
         },
         {
             "id": "concert_hall",
-            "tags": "photorealistic, concert hall, stage, spotlight, auditorium_depth",
+            "tags": "concert hall, stage, spotlight, auditorium depth",
             "description": "コンサートホールの情景（スポットと空間の奥行きを重視）",
             "not_compatible_outfits": ["swimsuit_80s", "lingerie_only", "bunny_suit"]
         },
         {
             "id": "art_museum",
-            "tags": "photorealistic, art museum, gallery, diffuse_museum_light, wall_texture",
+            "tags": "art museum, gallery, diffuse museum light, wall texture",
             "description": "美術館の情景（展示物と空間の調和を重視）",
             "not_compatible_outfits": ["swimsuit_80s", "lingerie_only", "bunny_suit"]
         },
         {
             "id": "apartment_balcony",
-            "tags": "photorealistic, apartment, balcony, cityscape_view, railing_detail",
+            "tags": "apartment, balcony, cityscape view, railing detail",
             "description": "アパートのバルコニーからの都市の情景（遠景の大気表現を重視）",
             "not_compatible_outfits": ["swimsuit_80s", "lingerie_only", "bunny_suit"]
         },
         {
             "id": "bedroom_window",
-            "tags": "photorealistic, bedroom, by window, warm_interior_light, fabric_detail",
+            "tags": "bedroom, by window, warm_interior light, fabric detail",
             "description": "寝室の窓際の情景（布や肌の質感を写実的に扱う）",
             "not_compatible_outfits": ["swimsuit_80s"]
         },
         {
             "id": "kitchen_counter",
-            "tags": "photorealistic, kitchen, at counter, reflective_surfaces, utensil_detail",
+            "tags": "kitchen, at counter, reflective surfaces, utensil detail",
             "description": "キッチンのカウンターの情景（光の反射と素材感を重視）",
             "not_compatible_outfits": ["classic_sailor", "blazer_style", "office_lady", "evening_dress", "miko_outfit", "yukata", "china_dress"]
         },
         {
             "id": "shrine_grounds",
-            "tags": "photorealistic, shrine, peaceful grounds, stone_texture, moss_detail",
+            "tags": "shrine, peaceful grounds, stone texture, moss detail",
             "description": "神社の境内、穏やかな情景（素材の経年変化を表現）",
             "not_compatible_outfits": ["swimsuit_80s", "cyberpunk_outfits"]
         },
         {
             "id": "festival_night",
-            "tags": "photorealistic, japanese festival, night, paper_lantern_glow, crowd_bokeh",
+            "tags": "japanese festival, night, paper lantern glow, crowd bokeh",
             "description": "日本の祭りの夜の情景（提灯の光と群衆の奥行きを写実的に）",
             "not_compatible_outfits": ["swimsuit_80s", "lingerie_only", "bunny_suit"]
         },
         {
             "id": "sci_fi_lab",
-            "tags": "photorealistic, sci-fi laboratory, futuristic, specular_surfaces, soft_blue_ambient",
+            "tags": "sci-fi laboratory, futuristic, specular surfaces, soft blue ambient",
             "description": "SF研究所、未来的な情景（ライティングと材質の冷たさを強調）",
             "not_compatible_outfits": ["classic_sailor", "blazer_style", "gym_uniform", "office_lady", "miko_outfit", "yukata", "casual_outfits"]
         },
         {
             "id": "cyberpunk_alley",
-            "tags": "photorealistic, cyberpunk alley, neon signs, wet_reflections, atmospheric_haze",
+            "tags": "cyberpunk alley, neon signs, wet reflections, atmospheric haze",
             "description": "サイバーパンクな路地裏、ネオンサインの情景（濡れた路面と光の反射を重視）",
             "not_compatible_outfits": ["classic_sailor", "blazer_style", "gym_uniform", "office_lady", "miko_outfit", "yukata", "casual_outfits"]
         },
         {
             "id": "underwater_ruins",
-            "tags": "photorealistic, underwater ruins, ancient technology, caustics, suspended_particles",
+            "tags": "underwater ruins, ancient technology, caustics, suspended particles",
             "description": "水中遺跡、古代技術の情景（水中の光と粒子の表現を重視）",
             "not_compatible_outfits": ["classic_sailor", "blazer_style", "gym_uniform", "oversized_hoodie", "office_lady", "sundress", "tracksuit", "miko_outfit", "yukata", "off_shoulder", "evening_dress", "turtleneck", "china_dress"]
         },
         {
             "id": "space_station",
-            "tags": "photorealistic, space station, zero gravity, controlled_lighting, metallic_surfaces",
+            "tags": "space station, zero gravity, controlled lighting, metallic surfaces",
             "description": "宇宙ステーション、無重力の情景（人工光と金属の質感を重視）",
             "not_compatible_outfits": ["classic_sailor", "blazer_style", "gym_uniform", "oversized_hoodie", "office_lady", "sundress", "tracksuit", "miko_outfit", "yukata", "off_shoulder", "evening_dress", "turtleneck", "china_dress", "swimsuit_80s"]
         },
         {
             "id": "fantasy_forest",
-            "tags": "photorealistic, fantasy forest, soft_magical_glow, volumetric_light",
+            "tags": "fantasy forest, soft_magical glow, volumetric light",
             "description": "幻想的な森、魔法の輝きの情景（写実的な空気感と光の層を重視）",
             "not_compatible_outfits": ["classic_sailor", "blazer_style", "gym_uniform", "oversized_hoodie", "office_lady", "sundress", "tracksuit", "bunny_suit", "lingerie_only", "nurse_outfit", "china_dress", "swimsuit_80s", "sci_fi_lab", "cyberpunk_alley", "underwater_ruins", "space_station"]
         },
         {
             "id": "hotel_suite_night",
-            "tags": "photorealistic, luxury hotel suite, night view, large bed, dim warm lighting, fabric_detail",
+            "tags": "luxury hotel suite, night view, large bed, dim warm lighting, fabric detail",
             "description": "高級ホテルのスイートルーム。夜景の見える親密な室内空間。",
             "not_compatible_outfits": ["gym_uniform", "school_uniform", "classic_sailor", "tracksuit"]
         },
         {
             "id": "glass_shower_room",
-            "tags": "photorealistic, steamy glass shower room, wet_floor, bathroom, realistic_water_droplets",
+            "tags": "steamy glass shower room, wet_floor, bathroom, realistic water droplets",
             "description": "湯気のこもったガラス張りのシャワールーム。濡れた肌や透け感の演出に適した場所。",
             "not_compatible_outfits": ["blazer_style", "office_lady", "miko_outfit", "yukata", "evening_dress", "turtleneck", "oversized_hoodie"]
         },
         {
             "id": "private_sauna",
-            "tags": "photorealistic, private sauna, wooden interior, dim warm lighting, steam, skin_sheen",
+            "tags": "private sauna, wooden interior, dim warm lighting, steam, skin sheen",
             "description": "プライベートサウナ。木製の室内と薄暗い照明、汗ばんだ肌の質感を強調する空間。",
             "not_compatible_outfits": ["classic_sailor", "blazer_style", "office_lady", "evening_dress", "turtleneck", "china_dress", "school_uniform"]
         },
         {
             "id": "infirmary_afternoon",
-            "tags": "photorealistic, school infirmary, medical office, curtained bed, afternoon sunlight, soft_shadows",
+            "tags": "school infirmary, medical office, curtained bed, afternoon sunlight, soft shadows",
             "description": "放課後の保健室。カーテンで仕切られたベッドなど、静かな雰囲気を演出。",
             "not_compatible_outfits": ["evening_dress", "china_dress", "cyberpunk_outfits", "bunny_suit"]
         },
         {
             "id": "night_poolside",
-            "tags": "photorealistic, swimming pool, poolside, night, moonlit_water, specular_reflections",
+            "tags": "swimming pool, poolside, night, moonlit_water, specular reflections",
             "description": "夜のプールサイド。月明かりと水面の反射が美しい静かな屋外空間。",
             "not_compatible_outfits": ["office_lady", "turtleneck", "miko_outfit", "yukata", "evening_dress"]
         },
         {
             "id": "elevator_interior",
-            "tags": "photorealistic, inside elevator, mirrored walls, closed space, reflective_surfaces",
+            "tags": "inside elevator, mirrored walls, closed space, reflective surfaces",
             "description": "エレベーター内。鏡張りの壁と密閉された空間による緊張感。",
             "not_compatible_outfits": ["swimsuit_80s", "lingerie_only", "bunny_suit"]
         },
         {
             "id": "cinema_back_row",
-            "tags": "photorealistic, movie theater, back row seats, dark, cinematic lighting, grain_control",
+            "tags": "movie theater, back row seats, dark, cinematic lighting, grain control",
             "description": "映画館の最後列。暗闇の中で秘め事のニュアンスを与える場所。",
             "not_compatible_outfits": ["swimsuit_80s", "lingerie_only", "gym_uniform", "bunny_suit"]
         },
         {
             "id": "photo_studio",
-            "tags": "photorealistic, photography studio, lighting equipment, softbox, backdrop, controlled_lighting",
+            "tags": "photography studio, lighting equipment, softbox, backdrop, controlled lighting",
             "description": "撮影スタジオ。照明機材に囲まれた人工的な空間。",
             "not_compatible_outfits": []
         },
         {
             "id": "abandoned_factory",
-            "tags": "photorealistic, abandoned factory, ruins, rusty pipes, concrete walls, dramatic_shadows, texture_detail",
+            "tags": "abandoned factory, ruins, rusty pipes, concrete walls, dramatic shadows, texture detail",
             "description": "無人の廃工場。冷たいコンクリートと柔らかな肌のコントラストを強調するロケーション。",
             "not_compatible_outfits": ["office_lady", "sundress", "evening_dress"]
         },
         {
             "id": "traditional_washitsu",
-            "tags": "photorealistic, japanese room, tatami, futon, paper lantern, sliding doors, warm_tone",
+            "tags": "japanese room, tatami, futon, paper lantern, sliding doors, warm tone",
             "description": "伝統的な和室。畳と行灯の光が和の情緒を演出する。",
             "not_compatible_outfits": ["cyberpunk_outfits", "sci_fi_lab", "swimsuit_80s"]
         },
         {
             "id": "throne_room",
-            "tags": "photorealistic, throne room, royal palace, grand architecture, red carpet, volumetric_light",
+            "tags": "throne room, royal palace, grand architecture, red carpet, volumetric light",
             "description": "豪華な玉座の間。高貴な雰囲気を写実的に表現する空間。",
             "not_compatible_outfits": ["gym_uniform", "tracksuit", "oversized_hoodie", "casual_outfits"]
         },
         {
             "id": "dungeon_cell",
-            "tags": "photorealistic, prison cell, dungeon, stone walls, iron bars, shackles, cold_tone",
+            "tags": "prison cell, dungeon, stone walls, iron bars, shackles, cold tone",
             "description": "地下牢。石壁と鉄格子、拘束具などが似合うダークなシチュエーション。",
             "not_compatible_outfits": ["office_lady", "sundress", "business_suit"]
         },
         {
             "id": "ritual_altar",
-            "tags": "photorealistic, ritual altar, magic circle, glowing runes, moody_light",
+            "tags": "ritual altar, magic circle, glowing runes, moody light",
             "description": "儀式の祭壇。神秘的で重厚な空間。",
             "not_compatible_outfits": ["office_lady", "business_suit", "gym_uniform", "tracksuit"]
         }
     ],
     "lightings": [
-        {"id": "golden_hour", "tags": "photorealistic, golden hour lighting, warm_glow, long_shadows", "description": "夕焼け時の柔らかい光", "not_compatible_outfits": []},
-        {"id": "soft_natural", "tags": "photorealistic, soft natural light, diffuse_light", "description": "穏やかな自然光", "not_compatible_outfits": []},
-        {"id": "dim_light", "tags": "photorealistic, dim light, cozy, warm_tone", "description": "薄暗く、心地よい光", "not_compatible_outfits": []},
-        {"id": "backlighting", "tags": "photorealistic, backlighting, silhouette, rim_light", "description": "逆光、シルエットを強調する光", "not_compatible_outfits": []},
-        {"id": "neon_glow", "tags": "photorealistic, neon glow, vibrant, colored_reflection", "description": "ネオンの光、鮮やかな雰囲気", "not_compatible_outfits": ["classic_sailor", "miko_outfit"]},
-        {"id": "spotlight", "tags": "photorealistic, spotlight, dramatic, high_contrast", "description": "スポットライト、劇的な光", "not_compatible_outfits": []},
-        {"id": "moonlight", "tags": "photorealistic, moonlight, serene, cool_tone", "description": "月明かり、静寂な雰囲気", "not_compatible_outfits": []},
-        {"id": "sunlight_filtering", "tags": "photorealistic, sunlight filtering through, dappled light, volumetric_rays", "description": "木漏れ日、差し込む柔らかな光", "not_compatible_outfits": []},
-        {"id": "strobe_light", "tags": "photorealistic, strobe light, chaotic, high_intensity", "description": "ストロボライト、混沌とした光", "not_compatible_outfits": ["classic_sailor", "miko_outfit", "yukata", "office_lady"]},
-        {"id": "candlelight", "tags": "photorealistic, candlelight, warm glow, soft_shadows", "description": "キャンドルの光、温かい輝き", "not_compatible_outfits": ["gym_uniform", "swimsuit_80s"]}
+        {"id": "golden_hour", "tags": "golden hour lighting, warm glow, long shadows", "description": "夕焼け時の柔らかい光", "not_compatible_outfits": []},
+        {"id": "soft_natural", "tags": "soft natural light, diffuse light", "description": "穏やかな自然光", "not_compatible_outfits": []},
+        {"id": "dim_light", "tags": "dim light, cozy, warm tone", "description": "薄暗く、心地よい光", "not_compatible_outfits": []},
+        {"id": "backlighting", "tags": "backlighting, silhouette, rim light", "description": "逆光、シルエットを強調する光", "not_compatible_outfits": []},
+        {"id": "neon_glow", "tags": "neon glow, vibrant, colored reflection", "description": "ネオンの光、鮮やかな雰囲気", "not_compatible_outfits": ["classic_sailor", "miko_outfit"]},
+        {"id": "spotlight", "tags": "spotlight, dramatic, high contrast", "description": "スポットライト、劇的な光", "not_compatible_outfits": []},
+        {"id": "moonlight", "tags": "moonlight, serene, cool tone", "description": "月明かり、静寂な雰囲気", "not_compatible_outfits": []},
+        {"id": "sunlight_filtering", "tags": "sunlight filtering through, dappled light, volumetric rays", "description": "木漏れ日、差し込む柔らかな光", "not_compatible_outfits": []},
+        {"id": "strobe_light", "tags": "strobe light, chaotic, high intensity", "description": "ストロボライト、混沌とした光", "not_compatible_outfits": ["classic_sailor", "miko_outfit", "yukata", "office_lady"]},
+        {"id": "candlelight", "tags": "candlelight, warm glow, soft shadows", "description": "キャンドルの光、温かい輝き", "not_compatible_outfits": ["gym_uniform", "swimsuit_80s"]}
     ],
     "textures": [
-        {"id": "cinematic_grain", "tags": "cinematic grain, filmic, subtle_grain", "description": "映画のような粒状感、フィルム風", "not_compatible_outfits": []},
-        {"id": "dust_particles", "tags": "dust particles, atmospheric haze, floating_particles", "description": "舞い散る埃、雰囲気のある霞", "not_compatible_outfits": []},
-        {"id": "bokeh_blur", "tags": "bokeh, soft focus, photorealistic_bokeh", "description": "ボケ効果、柔らかな焦点", "not_compatible_outfits": []},
-        {"id": "rain_drops", "tags": "rain drops on window, wet, realistic_water_droplets", "description": "窓の雨粒、濡れた質感", "not_compatible_outfits": ["swimsuit_80s", "beach_shore", "mountain_path"]},
-        {"id": "steam_haze", "tags": "steam, hazy atmosphere, volumetric_haze", "description": "湯気、霞んだ雰囲気", "not_compatible_outfits": ["beach_shore", "school_rooftop"]},
-        {"id": "glitter", "tags": "glitter, sparkling, subtle_speculars", "description": "きらめき、輝く表現", "not_compatible_outfits": ["classic_sailor", "gym_uniform", "office_lady"]},
-        {"id": "subtle_smoke", "tags": "subtle smoke, mysterious, volumetric_smoke", "description": "かすかな煙、神秘的な雰囲気", "not_compatible_outfits": []},
-        {"id": "lens_flare", "tags": "lens flare, bright, optical_artifact", "description": "レンズフレア、明るい光の反射", "not_compatible_outfits": []},
-        {"id": "watercolor_effect", "tags": "watercolor effect, artistic, painterly", "description": "水彩画のような効果、芸術的な表現", "not_compatible_outfits": []},
+        {"id": "cinematic_grain", "tags": "cinematic grain, filmic, subtle grain", "description": "映画のような粒状感、フィルム風", "not_compatible_outfits": []},
+        {"id": "dust_particles", "tags": "dust particles, atmospheric haze, floating particles", "description": "舞い散る埃、雰囲気のある霞", "not_compatible_outfits": []},
+        {"id": "bokeh_blur", "tags": "bokeh, soft focus, photorealistic bokeh", "description": "ボケ効果、柔らかな焦点", "not_compatible_outfits": []},
+        {"id": "rain_drops", "tags": "rain drops on window, wet, realistic water droplets", "description": "窓の雨粒、濡れた質感", "not_compatible_outfits": ["swimsuit_80s", "beach_shore", "mountain_path"]},
+        {"id": "steam_haze", "tags": "steam, hazy atmosphere, volumetric haze", "description": "湯気、霞んだ雰囲気", "not_compatible_outfits": ["beach_shore", "school_rooftop"]},
+        {"id": "glitter", "tags": "glitter, sparkling, subtle speculars", "description": "きらめき、輝く表現", "not_compatible_outfits": ["classic_sailor", "gym_uniform", "office_lady"]},
+        {"id": "subtle_smoke", "tags": "subtle smoke, mysterious, volumetric smoke", "description": "かすかな煙、神秘的な雰囲気", "not_compatible_outfits": []},
+        {"id": "lens_flare", "tags": "lens flare, bright, optical artifact", "description": "レンズフレア、明るい光の反射", "not_compatible_outfits": []},
         {"id": "pixel_art", "tags": "pixel art style, retro game aesthetic", "description": "ピクセルアート調、レトロゲームの美学", "not_compatible_outfits": ["classic_sailor", "blazer_style", "gym_uniform", "office_lady", "miko_outfit", "yukata", "off_shoulder", "sundress", "tracksuit", "evening_dress", "turtleneck", "bunny_suit", "lingerie_only", "nurse_outfit", "china_dress", "swimsuit_80s"]}
     ]
 }

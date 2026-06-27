@@ -19,11 +19,13 @@ class PonyPromptGenerator(BasePromptGenerator):
         persona_conf: Union[str, dict] = "tests/prompt/pony/persona/Aoi.json",
         camera_conf: Union[str, dict] = "tests/prompt/pony/camera_angules.json",
         wardrobe_conf: Union[str, dict] = "tests/prompt/pony/wardrobe.json",
-        environment_conf: Union[str, dict] = "tests/prompt/pony/environments.json"):
-        self.data = self._get_conf(persona_conf)
+        environment_conf: Union[str, dict] = "tests/prompt/pony/environments.json",
+        expression_conf: Union[str, dict] = "tests/prompt/pony/expressions.json"):
+        self.persona_data = self._get_conf(persona_conf)
         self.camera_data = self._get_conf(camera_conf)
         self.wardrobe_data = self._get_conf(wardrobe_conf)
         self.environment_data = self._get_conf(environment_conf)
+        self.expression_data = self._get_conf(expression_conf)
 
     def _get_conf(self, conf: Union[str, dict]) -> dict[str, Any]:
         """
@@ -177,9 +179,12 @@ class PonyPromptGenerator(BasePromptGenerator):
             base_identity_tagsのdict
         """
 
+        # persona_dataのbase_identity_tagsを
+        base_identity_tags = self.persona_data.get("base_identity_tags", "")
+
+        # persona_dataのbody_partsを再帰的に処理してtagを収集
         active_body_parts_by_category = {}
-        if "body_parts" in self.data:
-            # body_partsを再帰的に処理してtagを収集
+        if "body_parts" in self.persona_data:
             def collect_tags_by_category(data, prefix=""):
                 for key, value in data.items():
                     full_key = f"{prefix}_{key}" if prefix else key
@@ -188,13 +193,16 @@ class PonyPromptGenerator(BasePromptGenerator):
                     elif isinstance(value, dict):
                         collect_tags_by_category(value, full_key)
             
-            collect_tags_by_category(self.data["body_parts"])
+            collect_tags_by_category(self.persona_data["body_parts"])
         
         all_tags = []
         for _, v in active_body_parts_by_category.items():
             all_tags.append(v)
-        base_identity_tags = ", ".join(all_tags)
-        
+        body_parts_tags = ", ".join(all_tags)
+
+        # base_identityとbody_partsを結合
+        base_identity_tags = f"{base_identity_tags},{body_parts_tags}"
+
         # base_identity_tagsとして統合
         active_body_parts_by_category["base_identity_tags"] = base_identity_tags
         
@@ -225,17 +233,17 @@ class PonyPromptGenerator(BasePromptGenerator):
         
         # --- [1. 基礎・画風設定] ---
         if rating_level <= RatingLevel.EMOTIVE:
-            rating = self.data.get("rating", {}).get("safe", "rating_safe")
+            rating = self.persona_data.get("rating", {}).get("safe", "rating_safe")
         elif rating_level == RatingLevel.QUESTIONABLE:
-            rating = self.data.get("rating", {}).get("questionable", "rating_questionable")
+            rating = self.persona_data.get("rating", {}).get("questionable", "rating_questionable")
         elif rating_level >= RatingLevel.EXPLICIT:
-            rating = self.data.get("rating", {}).get("explicit", "rating_explicit")
+            rating = self.persona_data.get("rating", {}).get("explicit", "rating_explicit")
         
-        base_score_tags = self.data.get("base_score_tags", "(score_9, score_8_up:1.2)")
+        base_score_tags = self.persona_data.get("base_score_tags", "(score_9, score_8_up:1.2)")
         quality = f"{base_score_tags}, {rating}"
         body_parts_data = self._get_base_identity()
         core = body_parts_data.get("base_identity_tags", "")
-        style = self.data["base_style"]
+        style = self.persona_data["base_style"]
         
         # --- [2. 衣装の抽選 (Outfits & Innerwear)] ---
         if test_outfit_id:
@@ -260,7 +268,7 @@ class PonyPromptGenerator(BasePromptGenerator):
         
         # outfitに定義されたincompatible_scene_logicを考慮してシーンデータを抽選
         incompatible_scene_logic_ids = outfit.get("incompatible_scene_logic", [])
-        all_scene_logic_items = self.data["scene_logic"]["items"]
+        all_scene_logic_items = self.persona_data["scene_logic"]["items"]
         if incompatible_scene_logic_ids:
             filtered_scene_logic = [item for item in all_scene_logic_items if item["id"] not in incompatible_scene_logic_ids]
             scene_data = self._pick_weighted_item(filtered_scene_logic, rating_level, target_scene_id)
@@ -272,7 +280,7 @@ class PonyPromptGenerator(BasePromptGenerator):
         
         # innerwearの抽選
         roll = random.random() * 100
-        threshold = self.data.get("innerwear_thresholds", {}).get(str(rating_level), 100)
+        threshold = self.persona_data.get("innerwear_thresholds", {}).get(str(rating_level), 100)
         inner = {}
         inner_top_tags = ""
         inner_bottom_tags = ""
@@ -326,6 +334,13 @@ class PonyPromptGenerator(BasePromptGenerator):
                 eligible_camera_angles = self.camera_data["camera_angles"]
             cam_data = random.choice(eligible_camera_angles)
         
+        # --- [3.4. 表情の抽選]
+        expression_item = self._pick_weighted_item(
+            self.expression_data.get("expressions", []),
+            rating_level
+        )
+        expression_tags = expression_item.get("tags", "") if expression_item else ""
+
         # --- [3.5. 環境の抽選]
         # scene_logicにlocation, lighting, textureのタグが含まれていない場合に抽選する
         environment_tags = self._get_environment_tags(scene_data["tags"], outfit["id"])
@@ -397,23 +412,28 @@ class PonyPromptGenerator(BasePromptGenerator):
                 wardrobe_tags += ", " + ", ".join(resoleved_conflict_tags)
 
         # --- [5. プロンプト結合] ---
-        # 黄金比：品質 -> 画風 -> 核心 -> 状況 -> 表情 -> 環境
-        positive = " BREAK ".join([
+        # 黄金比：品質 -> 画風 -> 核心 -> 表情 -> 状況 -> 服装 -> 環境
+        positive_parts = [
             quality, 
             style, 
             core, 
+            expression_tags,
             scene,
             wardrobe_tags,
-            environment_tags,
-            "masterpiece, high quality"
-        ])
-        
+            environment_tags
+        ]
+        positive = " BREAK ".join(
+            [part for part in positive_parts if part]
+        )
+        # FaceDetailerのポジティブプロンプト
+        face_detailer_positive_prompt = f"{quality},{style},{core},{expression_tags}"
+
         # --- [6. 鉄壁のネガティブプロンプト] ---
         ## 1. 全レベル共通の『聖域』を取得
-        holy_grail = self.data.get("negative_holy_grail", "")
+        holy_grail = self.persona_data.get("negative_holy_grail", "")
 
         ## 2. レベルに応じた追加の拒絶要素を抽選/取得
-        neg_logic_items = self.data.get("negative_logic", {}).get("items", [])
+        neg_logic_items = self.persona_data.get("negative_logic", {}).get("items", [])
         active_tier_negs = [
             item["tags"] for item in neg_logic_items
             if item.get("min_lv", 0) <= rating_level <= item.get("max_lv", 5)
@@ -421,12 +441,14 @@ class PonyPromptGenerator(BasePromptGenerator):
         tier_neg_tags = ", ".join(active_tier_negs)
         
         ## 3. 低品質排除のベース
-        base_neg = "(worst quality:1.4), (low quality:1.4), lowres, bad anatomy, bad hands, text, error, blurry"
+        base_neg = self.persona_data.get("negative_base", "")
         
         ## 4. 全てを融合
         ## 聖域(基本) + ティア別防壁(動的) + 品質ベース
         negative = f"{holy_grail}, {tier_neg_tags}, {base_neg}"
-        
+        ## 5. FaceDetailerのネガティブプロンプト
+        face_detailer_negative_prompt = f"{holy_grail},{base_neg}"
+
         # --- [7. ログ出力] ---
         app_logger.info(f"--- [Lv{rating_level}] Dynamic Synthesis Log ---")
         app_logger.info(f"Outfit:   {outfit['id']}")
@@ -435,6 +457,7 @@ class PonyPromptGenerator(BasePromptGenerator):
         app_logger.info(f"Scene:    {scene_data['id']}")
         app_logger.info(f"Environment:   {environment_tags}")
         app_logger.info(f"Camera:   {cam_data['name']}")
+        app_logger.info(f"expression:   {expression_item['name']}")
         app_logger.info(f"Image Resolution: {image_width}x{image_height}")
         app_logger.info(f'Final Scene Tags: {scene + ", " + environment_tags}') 
         app_logger.info(f"--- Prompt ---") 
@@ -450,5 +473,7 @@ class PonyPromptGenerator(BasePromptGenerator):
             positive_prompt=positive,
             negative_prompt=negative,
             image_width=image_width,
-            image_height=image_height
+            image_height=image_height,
+            face_detailer_positive_prompt=face_detailer_positive_prompt,
+            face_detailer_negative_prompt=face_detailer_negative_prompt
         )
