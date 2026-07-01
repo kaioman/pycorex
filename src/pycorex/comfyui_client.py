@@ -94,11 +94,40 @@ class ComfyUIClient(BaseAIClient):
             
             history_response.raise_for_status()
             history = history_response.json()
-            
+            if len(history) == 0:
+                continue
+
             current_images = []
-            output_nodes = history.get(prompt_id, {}).get('outputs', {})
+
+            # history[prompt_id]内の情報を取得
+            prompt_history = history.get(prompt_id, {})
+            output_nodes = prompt_history.get('outputs', {})
             
+            # ワークフロー側のノード定義を取得
+            workflow_nodes = prompt_history.get('prompt', {})
+
             for node_id, node_output in output_nodes.items():
+                
+                # workflow_nodesからnode_idを持つ要素を動的に探索する
+                node_meta = {}
+
+                if isinstance(workflow_nodes, list):
+                    # workflow_nodesをループしてnode_idがキーとして存在する辞書を探す
+                    for item in workflow_nodes:
+                        if isinstance(item, dict) and node_id in item:
+                            node_meta = item.get(node_id, {})
+                            break
+                elif isinstance(workflow_nodes, dict):
+                    # 最初から辞書型で返ってきた時のフォールバック  
+                    node_meta = workflow_nodes.get(node_id, {})
+
+                # ノードのclass_typeを取得
+                class_type = node_meta.get('class_type', '')
+
+                # class_typeがSaveImage出ない場合はダウンロードせずスキップする
+                if class_type != 'SaveImage':
+                    continue
+
                 if 'images' in node_output:
                     for image_info in node_output['images']:
                         filename = image_info.get('filename')

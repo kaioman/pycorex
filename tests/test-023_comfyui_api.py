@@ -24,7 +24,9 @@ async def main():
     )
 
     # ワークフローパスを取得
-    comfyui_workflow_path = app.core.config.comfyui.workflow_path
+    #comfyui_workflow_path = app.core.config.comfyui.workflow_path
+    comfyui_workflow_path = "tests/comfyui_workflow/lotta-IPAdapter9_three_src_fd4.json"
+
     # ワークフローを読み込む
     with open(comfyui_workflow_path, "r") as f:
         workflow = json.load(f)
@@ -38,26 +40,27 @@ async def main():
 
     # PonyPromptGeneratorのインスタンスを作成
     pony_generator = PonyPromptGenerator(
-        persona_conf=_load_json("tests/prompt/pony/persona/Aoi.json"),
-        camera_conf=_load_json("tests/prompt/pony/camera_angules.json"),
-        wardrobe_conf=_load_json("tests/prompt/pony/wardrobe.json"),
-        environment_conf=_load_json("tests/prompt/pony/environments.json")
+        persona_conf=_load_json("tests/prompt/pony_realism/persona/Lotta.json"),
+        camera_conf=_load_json("tests/prompt/pony_realism/camera_angules.json"),
+        wardrobe_conf=_load_json("tests/prompt/pony_realism/wardrobe.json"),
+        environment_conf=_load_json("tests/prompt/pony_realism/environments.json"),
+        expression_conf=_load_json("tests/prompt/pony_realism/expressions.json")
     )
     # PromptContextを生成
     prompt_context = pony_generator.generate_prompt(
-        rating_level=RatingLevel.EXPLICIT,
-        test_outfit_id="classic_sailor_highsocks",
-        test_scene_id_override="lv4_phys_forced_torn_ecstasy",
-        #test_camera_name="ハイアングル・俯瞰"
+        rating_level=RatingLevel.QUESTIONABLE,
+        test_outfit_id="recruit_suit",
+        test_scene_id_override="lv3_phys_sitting_triangle_stable",
         #test_camera_name="背面視点・バックビュー"
         #test_camera_name="広角レンズ・パース強調"
+        #test_camera_name="ハイアングル・俯瞰"
     )
 
     # ワークフロー修正定義
     modification_list = WorkflowMod.create_modifications(
         prompt_context=prompt_context, 
-        mod_config=_load_json("tests/comfyui_workflow/modifications/aoi_workflow_config.json"),
-        batch_size=2
+        mod_config=_load_json("tests/comfyui_workflow/modifications/lotta_workflow_config.json"),
+        batch_size=1
     )
 
     # WorkflowEditorを使用してワークフローに修正を適用
@@ -72,10 +75,11 @@ async def main():
 
     try:
         # ワークフローを実行する
-        response = await client.run_workflow(workflow_data=workflow, modifications=modification_list)
+        result = await client.run_workflow(workflow_data=workflow, modifications=modification_list)
+        
         # 生成された画像を保存する
-        if response and response["result"]:
-            for i, image_bytes in enumerate(response["result"]):
+        if result and result["result"]:
+            for i, image_bytes in enumerate(result["result"]):
                 output_dir = "gen_images"
                 os.makedirs(output_dir, exist_ok=True)
                 image_path = os.path.join(output_dir, client.get_gen_filename())

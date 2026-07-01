@@ -7,7 +7,7 @@
             },
             "modifications": {
                 "inputs": {
-                "text": "${positive_prompt}"
+                    "text": "${positive_prompt}"
                 }
             }
         },
@@ -18,7 +18,7 @@
             },
             "modifications": {
                 "inputs": {
-                "text": "${negative_prompt}"
+                    "text": "${negative_prompt}"
                 }
             }
         },
@@ -29,9 +29,9 @@
             },
             "modifications": {
                 "inputs": {
-                "width": "${image_width}",
-                "height": "${image_height}",
-                "batch_size": "${batch_size}"
+                    "width": "${image_width}",
+                    "height": "${image_height}",
+                    "batch_size": "${batch_size}"
                 }
             }
         },
@@ -42,12 +42,12 @@
             },
             "modifications": {
                 "inputs": {
-                "seed": "${random_seed}"
+                    "seed": "${random_seed}"
                 }
             }
         },
         {
-            "node_id": "29",
+            "node_id": "31",
             "condition": {
                 "class_type": "CLIPTextEncode"
             },
@@ -58,7 +58,7 @@
             }
         },
         {
-            "node_id": "31",
+            "node_id": "32",
             "condition": {
                 "class_type": "CLIPTextEncode"
             },
