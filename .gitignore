@@ -7,3 +7,5 @@ configs/pycorex.json.enc
 __pycache__
 *.png
 gen_images/
+test-comfyui_api_Aoi.py
+test-comfyui_api_Lotta.py
