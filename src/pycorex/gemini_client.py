@@ -585,32 +585,6 @@ class GeminiClient(BaseGeminiClient):
 
         """
 
-        # # 最大試行回数と実行間隔を取得する
-        # max_retryies = os.getenv("SEND_MESSAGE_MAX_RETRYIES", 3)
-        # retry_interval = os.getenv("SEND_MESSAGE_RETRY_INTERVAL", 2)
-        
-        # # 最大試行回数だけループする
-        # for attempt in range(max_retryies):
-        #     try:
-        #         # メッセージを送信する
-        #         response = session.send_message(message_contents)
-        #         # レスポンス判定。取得できた場合は内容を返す
-        #         if response and response.text:
-        #             return response
-        #         # 試行警告ログ
-        #         app_logger.warning(f"Empty response at attempt {attempt + 1}")
-
-        #     except Exception as e:
-        #         # 試行エラーログ
-        #         app_logger.error(f"Chat Attempt {attempt + 1} failed: {e}")
-        #         # 最終試行時は例外をスローする
-        #         if attempt == max_retryies - 1:
-        #             raise e
-        #         # 実行間隔の値に基づき待機
-        #         await asyncio.sleep(retry_interval)
-
-        # return None
-
         return await self.execute_with_retry(
             session.send_message,
             message_contents

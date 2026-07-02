@@ -6,6 +6,14 @@
         "questionable": "rating_questionable",
         "explicit": "rating_explicit"
     },
+    "config_paths": {
+        "workflow_path": "tests/comfyui_workflow/lotta-IPAdapter9_three_src_fd4.json",
+        "camera_conf": "tests/prompt/pony_realism/camera_angules.json",
+        "environment_conf": "tests/prompt/pony_realism/environments.json",
+        "expression_conf": "tests/prompt/pony_realism/expressions.json",
+        "wardrobe_conf": "tests/prompt/pony_realism/wardrobe.json",
+        "mod_config": "tests/comfyui_workflow/modifications/lotta_workflow_config.json"
+    },
     "base_score_tags": "score_9, score_8_up, score_7_up",
     "base_style": "source_photo, photorealistic, realistic, RAW photo, 8k uhd, dslr",
     "base_identity_tags": "1woman, adult, (korean or taiwanese ethnicity:1.2)",
