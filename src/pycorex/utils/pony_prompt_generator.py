@@ -17,16 +17,85 @@ class PonyPromptGenerator(BasePromptGenerator):
     def __init__(
         self, 
         persona_conf: Union[str, dict] = "tests/prompt/pony/persona/Aoi.json",
-        camera_conf: Union[str, dict] = "tests/prompt/pony/camera_angules.json",
-        wardrobe_conf: Union[str, dict] = "tests/prompt/pony/wardrobe.json",
-        environment_conf: Union[str, dict] = "tests/prompt/pony/environments.json",
-        expression_conf: Union[str, dict] = "tests/prompt/pony/expressions.json"):
+        camera_conf: Optional[Union[str, dict]] = None,
+        wardrobe_conf: Optional[Union[str, dict]] = None,
+        environment_conf: Optional[Union[str, dict]] = None,
+        expression_conf: Optional[Union[str, dict]] = None,
+        mod_config: Optional[Union[str, dict]] = None,
+        workflow_path: Optional[Union[str, dict]] = None
+    ):
         self.persona_data = self._get_conf(persona_conf)
-        self.camera_data = self._get_conf(camera_conf)
-        self.wardrobe_data = self._get_conf(wardrobe_conf)
-        self.environment_data = self._get_conf(environment_conf)
-        self.expression_data = self._get_conf(expression_conf)
+        persona_path = persona_conf if isinstance(persona_conf, str) else None
+        persona_dir = os.path.dirname(os.path.abspath(persona_path)) if persona_path else None
+        config_paths = self.persona_data.get("config_paths", {})
 
+        self.camera_data = self._get_conf(
+            self._resolve_config_path(camera_conf, config_paths.get("camera_conf"), persona_dir, "tests/prompt/pony/camera_angules.json")
+        )
+        self.wardrobe_data = self._get_conf(
+            self._resolve_config_path(wardrobe_conf, config_paths.get("wardrobe_conf"), persona_dir, "tests/prompt/pony/wardrobe.json")
+        )
+        self.environment_data = self._get_conf(
+            self._resolve_config_path(environment_conf, config_paths.get("environment_conf"), persona_dir, "tests/prompt/pony/environments.json")
+        )
+        self.expression_data = self._get_conf(
+            self._resolve_config_path(expression_conf, config_paths.get("expression_conf"), persona_dir, "tests/prompt/pony/expressions.json")
+        )
+        self.mod_config = self._get_conf(
+            self._resolve_config_path(mod_config, config_paths.get("mod_config"), persona_dir, "tests/comfyui_workflow/modifications/aoi_workflow_config.json")
+        )
+        self.workflow_path = self._get_conf(
+            self._resolve_config_path(workflow_path, config_paths.get("workflow_path"), persona_dir, "tests/comfyui_workflow/aoi-IPAdapter9_fd1.json")
+        )
+ 
+    def _resolve_config_path(
+        self,
+        conf: Optional[Union[str, dict]],
+        persona_config_path: Optional[Union[str, dict]],
+        persona_dir: Optional[str],
+        default_path: str
+    ) -> Union[str, dict]:
+        """
+        設定ファイルの解決順を定義する。
+
+        優先順位は以下の通り。
+        1. 明示的に渡された conf
+        2. persona JSON に定義された config_paths
+        3. 既定のデフォルトパス
+        """
+        if conf is not None:
+            # 直接指定された設定ファイル／辞書を優先して使用する
+            return conf
+        if persona_config_path is not None:
+            # persona側の config_paths から相対パスを解決する
+            return self._resolve_path(persona_config_path, persona_dir)
+        # どちらも未指定の場合は既定パスを使用する
+        return self._resolve_path(default_path, persona_dir)
+
+    def _resolve_path(self, path: Union[str, dict], persona_dir: Optional[str]) -> Union[str, dict]:
+        """
+        パス文字列を解決する。
+
+        絶対パス・既存ファイルパスはそのまま返し、相対パスの場合は
+        personaファイルのディレクトリ基準で解決を試みる。
+        """
+        if isinstance(path, dict):
+            # すでに辞書データが渡された場合はそのまま返す
+            return path
+        if not path:
+            # 空文字列や None はそのまま返す
+            return path
+        if os.path.isabs(path) or os.path.exists(path):
+            # すでに有効な絶対パスまたは相対パスとして存在する場合はそのまま使用する
+            return path
+        if persona_dir:
+            # personaファイルと同じディレクトリにある設定ファイルを探す
+            candidate = os.path.join(persona_dir, path)
+            if os.path.exists(candidate):
+                return candidate
+        # どこにも見つからない場合は元の相対パスを返す
+        return path
+    
     def _get_conf(self, conf: Union[str, dict]) -> dict[str, Any]:
         """
         指定されたパスからJSONファイルをロードする
@@ -457,7 +526,7 @@ class PonyPromptGenerator(BasePromptGenerator):
         app_logger.info(f"Scene:    {scene_data['id']}")
         app_logger.info(f"Environment:   {environment_tags}")
         app_logger.info(f"Camera:   {cam_data['name']}")
-        app_logger.info(f"expression:   {expression_item['name']}")
+        app_logger.info(f"Expression:   {expression_item['name']}")
         app_logger.info(f"Image Resolution: {image_width}x{image_height}")
         app_logger.info(f'Final Scene Tags: {scene + ", " + environment_tags}') 
         app_logger.info(f"--- Prompt ---") 
@@ -466,7 +535,6 @@ class PonyPromptGenerator(BasePromptGenerator):
         app_logger.info(f"Negative Prompt:") 
         app_logger.info(f"{negative}") 
         
-        #return positive, negative, image_width, image_height
         return PromptContextModel(
             prompt_level=rating_level,
             scene_id=scene_data["id"],

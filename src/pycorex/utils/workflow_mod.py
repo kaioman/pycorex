@@ -5,7 +5,6 @@ from pathlib import Path
 from pycorex.utils.workflow_editor import NodeModification
 from pycorex.models.prompt import PromptContextModel
 
-
 class WorkflowMod:
     """
     汎用ワークフロー修正設定クラス（JSON設定ベース）
