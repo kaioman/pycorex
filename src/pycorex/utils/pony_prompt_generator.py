@@ -21,6 +21,7 @@ class PonyPromptGenerator(BasePromptGenerator):
         wardrobe_conf: Optional[Union[str, dict]] = None,
         environment_conf: Optional[Union[str, dict]] = None,
         expression_conf: Optional[Union[str, dict]] = None,
+        scene_conf: Optional[Union[str, dict]] = None,
         mod_config: Optional[Union[str, dict]] = None,
         workflow_path: Optional[Union[str, dict]] = None
     ):
@@ -40,6 +41,9 @@ class PonyPromptGenerator(BasePromptGenerator):
         )
         self.expression_data = self._get_conf(
             self._resolve_config_path(expression_conf, config_paths.get("expression_conf"), persona_dir, "tests/prompt/pony/expressions.json")
+        )
+        self.scene_data = self._get_conf(
+            self._resolve_config_path(scene_conf, config_paths.get("scene_conf"), persona_dir, "tests/prompt/pony/scene.json")
         )
         self.mod_config = self._get_conf(
             self._resolve_config_path(mod_config, config_paths.get("mod_config"), persona_dir, "tests/comfyui_workflow/modifications/aoi_workflow_config.json")
@@ -337,7 +341,7 @@ class PonyPromptGenerator(BasePromptGenerator):
         
         # outfitに定義されたincompatible_scene_logicを考慮してシーンデータを抽選
         incompatible_scene_logic_ids = outfit.get("incompatible_scene_logic", [])
-        all_scene_logic_items = self.persona_data["scene_logic"]["items"]
+        all_scene_logic_items = self.scene_data.get("scene_logic", [])
         if incompatible_scene_logic_ids:
             filtered_scene_logic = [item for item in all_scene_logic_items if item["id"] not in incompatible_scene_logic_ids]
             scene_data = self._pick_weighted_item(filtered_scene_logic, rating_level, target_scene_id)
