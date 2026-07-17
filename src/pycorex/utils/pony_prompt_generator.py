@@ -48,7 +48,7 @@ class PonyPromptGenerator(BasePromptGenerator):
         self.mod_config = self._get_conf(
             self._resolve_config_path(mod_config, config_paths.get("mod_config"), persona_dir, "tests/comfyui_workflow/modifications/aoi_workflow_config.json")
         )
-        self.workflow_path = self._get_conf(
+        self.workflow_data = self._get_conf(
             self._resolve_config_path(workflow_path, config_paths.get("workflow_path"), persona_dir, "tests/comfyui_workflow/aoi-IPAdapter9_fd1.json")
         )
  
