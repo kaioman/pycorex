@@ -72,7 +72,7 @@ class BaseAIClient(ABC):
         validator: Callable[[Any], bool] = None, 
         **kwargs) -> Any:
         """
-        同期メソッドをリトライ付きで実行す
+        同期メソッドをリトライ付きで実行する
         
         Parameters
         ----------
@@ -114,8 +114,10 @@ class BaseAIClient(ABC):
                 # 最終試行時は例外をスローする
                 if attempt == max_retryies - 1:
                     raise e
-                
-            # 実行間隔の値に基づき待機
-            await asyncio.sleep(retry_interval)
+            
+            # 実行間隔の値に基づき待機(指数バックオフあり)
+            wait_time = retry_interval * (2 ** attempt)
+            app_logger.warning(f"Waiting {wait_time} seconds before retry.")
+            await asyncio.sleep(wait_time)
 
         return None
