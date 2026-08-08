@@ -1,4 +1,3 @@
-import pytest
 import requests
 from libcore_hng.exceptions.api_exception import ApiException
 from pycorex.exceptions.comfyui_exceptions import ComfyUIAPIError
