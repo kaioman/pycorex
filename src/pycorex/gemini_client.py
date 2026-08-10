@@ -1,8 +1,9 @@
-import os
-import asyncio
+#import os
+#import asyncio
 import libcore_hng.utils.app_logger as app_logger
 from google import genai as image_genai
-from google.generativeai import ChatSession
+from google.genai.chats import Chat
+#from google.generativeai import ChatSession
 from google.genai.types import GenerateContentConfig, Modality, ImageConfig, Part, ThinkingConfig
 from enum import Enum
 from datetime import datetime, timezone
@@ -566,7 +567,7 @@ class GeminiClient(BaseGeminiClient):
             )
         )
     
-    async def send_chat_message(self, session: ChatSession, message_contents: str):
+    async def send_chat_message(self, session: Chat, message_contents: str):
         """
         セッションに対してメッセージコンテンツに応答したテキストを送信する
         応答を得るための最大リトライ回数と実行間隔は環境変数より取得する
