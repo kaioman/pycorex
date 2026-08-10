@@ -1,6 +1,6 @@
 import os
 import uuid
-import imghdr
+import filetype
 import asyncio
 import libcore_hng.utils.app_logger as app_logger
 from abc import ABC, abstractmethod
@@ -41,20 +41,9 @@ class BaseAIClient(ABC):
         """
 
         # フォーマット判定
-        fmt = imghdr.what(None, h=image_bytes)
-        
-        if fmt == "png":
-            return "image/png"
-        elif fmt == "jpeg":
-            return "image/jpeg"
-        elif fmt == "gif":
-            return "image/gif"
-        elif fmt == "bmp":
-            return "image/bmp"
-        elif fmt == "webp":
-            return "image/webp"
-        else:
-            return "application/octet-stream"
+        image_type = filetype.guess(image_bytes)
+        if image_type is not None:
+            return image_type.mime
 
     def get_gen_filename(self):
         """

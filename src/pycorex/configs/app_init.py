@@ -1,3 +1,4 @@
+import warnings
 from libcore_hng.utils.app_core import AppInitializer
 from pycorex.configs.pycorex import PyCorexConfig
 
@@ -16,6 +17,12 @@ def init_app(base_file: str = __file__, *config_file: str) -> PyCorexAppInitiali
     """
     アプリケーション初期化
     """
+
+    warnings.warn(
+        "`init_app()` は非推奨です。代わりに `initialize_app()` を使用してください。",
+        DeprecationWarning,
+        stacklevel=2
+    )
     global core
     core = PyCorexAppInitializer(base_file, *config_file)
     return core
