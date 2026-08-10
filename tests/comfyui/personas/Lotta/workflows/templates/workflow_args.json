@@ -1,0 +1,72 @@
+{
+    "modifications": [
+        {
+            "node_id": "12",
+            "condition": {
+                "class_type": "CLIPTextEncode"
+            },
+            "modifications": {
+                "inputs": {
+                    "text": "${positive_prompt}"
+                }
+            }
+        },
+        {
+            "node_id": "13",
+            "condition": {
+                "class_type": "CLIPTextEncode"
+            },
+            "modifications": {
+                "inputs": {
+                    "text": "${negative_prompt}"
+                }
+            }
+        },
+        {
+            "node_id": "6",
+            "condition": {
+                "class_type": "EmptyLatentImage"
+            },
+            "modifications": {
+                "inputs": {
+                    "width": "${image_width}",
+                    "height": "${image_height}",
+                    "batch_size": "${batch_size}"
+                }
+            }
+        },
+        {
+            "node_id": "5",
+            "condition": {
+                "class_type": "KSampler"
+            },
+            "modifications": {
+                "inputs": {
+                    "seed": "${random_seed}"
+                }
+            }
+        },
+        {
+            "node_id": "31",
+            "condition": {
+                "class_type": "CLIPTextEncode"
+            },
+            "modifications": {
+                "inputs": {
+                    "text": "${face_detailer_positive_prompt}"
+                }
+            }
+        },
+        {
+            "node_id": "32",
+            "condition": {
+                "class_type": "CLIPTextEncode"
+            },
+            "modifications": {
+                "inputs": {
+                    "text": "${face_detailer_negative_prompt}"
+                }
+            }
+        }
+    ]
+}
