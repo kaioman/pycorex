@@ -82,5 +82,5 @@ class TestRequestComfyUI:
 
 if __name__ == "__main__":
     test_obj = TestRequestComfyUI()
-    #test_obj.test_request_comfyui_api("Lotta")
+    test_obj.test_request_comfyui_api("Lotta")
     test_obj.test_request_comfyui_api("Aoi")
