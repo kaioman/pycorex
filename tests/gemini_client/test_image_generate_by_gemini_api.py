@@ -29,7 +29,8 @@ class TestRequestGemini:
                 aspect_ratio=GeminiClient.AspectRatio.WIDE,
                 image_size=GeminiClient.ImageSize.TWO_K,
                 harm_category = GeminiClient.HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
-                safety_filter_level = GeminiClient.SafetyFilterLevel.BLOCK_ONLY_HIGH
+                safety_filter_level = GeminiClient.SafetyFilterLevel.BLOCK_ONLY_HIGH,
+                include_row=True
             )
             
             # 画像ファイルを出力する
