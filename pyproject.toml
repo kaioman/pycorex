@@ -22,11 +22,22 @@ dependencies = [
     "filetype>=1.2.0"
 ]
 
+[dependency-groups]
+dev = [
+    "pytest",
+    "pytest-order",
+]
+
 [tool.setuptools]
 package-dir = { "" = "src" }
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore::pytest.PytestAssertRewriteWarning",
+]
 
 [project.urls]
 Homepage = "https://github.com/kaioman/pycorex"
