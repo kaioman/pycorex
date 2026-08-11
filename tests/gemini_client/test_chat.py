@@ -68,6 +68,4 @@ class TestGeminiChat:
         assert current_history[-1].role == "model"
 
 if __name__ == "__main__":
-    testobj = TestGeminiChat()
-    testobj.test_start_chat_session_success()
-    
+    pytest.main(["-s", "-v", __file__])
