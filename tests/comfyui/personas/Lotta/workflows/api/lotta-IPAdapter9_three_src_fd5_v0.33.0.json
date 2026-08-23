@@ -1,0 +1,424 @@
+{
+  "5": {
+    "inputs": {
+      "seed": 1120692559258414,
+      "steps": 30,
+      "cfg": 5.5,
+      "sampler_name": "dpmpp_3m_sde",
+      "scheduler": "karras",
+      "denoise": 1,
+      "model": [
+        "11",
+        0
+      ],
+      "positive": [
+        "12",
+        0
+      ],
+      "negative": [
+        "13",
+        0
+      ],
+      "latent_image": [
+        "6",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "Kサンプラー"
+    }
+  },
+  "6": {
+    "inputs": {
+      "width": 832,
+      "height": 1216,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "空の潜在画像"
+    }
+  },
+  "7": {
+    "inputs": {
+      "samples": [
+        "5",
+        0
+      ],
+      "vae": [
+        "10",
+        2
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAEデコード"
+    }
+  },
+  "8": {
+    "inputs": {
+      "filename_prefix": "Lotta_fd3",
+      "images": [
+        "41",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "画像を保存"
+    }
+  },
+  "10": {
+    "inputs": {
+      "ckpt_name": "ponyRealism_V22.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple",
+    "_meta": {
+      "title": "チェックポイントを読み込む"
+    }
+  },
+  "11": {
+    "inputs": {
+      "weight": 1,
+      "weight_faceidv2": 1.5,
+      "weight_type": "strong middle",
+      "combine_embeds": "concat",
+      "start_at": 0,
+      "end_at": 1,
+      "embeds_scaling": "V only",
+      "model": [
+        "24",
+        0
+      ],
+      "ipadapter": [
+        "24",
+        1
+      ],
+      "image": [
+        "52",
+        0
+      ],
+      "clip_vision": [
+        "23",
+        0
+      ],
+      "insightface": [
+        "25",
+        0
+      ]
+    },
+    "class_type": "IPAdapterFaceID",
+    "_meta": {
+      "title": "IPAdapter FaceID"
+    }
+  },
+  "12": {
+    "inputs": {
+      "text": "score_9, score_8_up, score_7_up, rating_explicit BREAK source_photo, photorealistic, realistic, RAW photo, 8k uhd, dslr BREAK 1woman, adult, (korean or taiwanese ethnicity:1.2),(light brown hair:1.1), long hair, (straight bangs:1.25), brown eyes, detailed iris, (single mole under right eye:1.35), (silver hoop earrings:1.1), (black velvet choker:1.1) BREAK  (wearing simple white bra:1.4), (shirt removed:1.35), (shirt pulled down off shoulders:1.4), (her own slender female hand pulling shirt off shoulder:1.4), (her own other female hand resting on her own hand:1.35), (off-shoulder:1.3), (shivering:1.1), (watery eyes:1.2), (sobbing:1.1), (upper body:1.35) ",
+      "clip": [
+        "10",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIPテキストエンコード（プロンプト）"
+    }
+  },
+  "13": {
+    "inputs": {
+      "text": "(worst quality, low quality:1.4), bad anatomy, text, logo, watermark, oversaturated colors, (plastic texture:1.2), (cartoon:1.3), (oversharpen:1.2), (unnatural skin tone:1.3), (lens artifact:1.2), (bad anatomy:1.3), (extra fingers:1.4), (deformed limbs:1.3), (explicit nipples:1.0), (explicit genitalia:1.0), (graphic sexual content:1.2), (two people:1.45), (multiple people:1.4), (2people:1.45), (plastic skin:1.2), plastic_texture, lens_flare_artifact, (anime:1.3), 3d, render, blurry, lowres, bad hands, error, blurry",
+      "clip": [
+        "10",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIPテキストエンコード（プロンプト）"
+    }
+  },
+  "23": {
+    "inputs": {
+      "clip_name": "CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors"
+    },
+    "class_type": "CLIPVisionLoader",
+    "_meta": {
+      "title": "CLIPビジョンを読み込む"
+    }
+  },
+  "24": {
+    "inputs": {
+      "preset": "FACEID PLUS V2",
+      "lora_strength": 0.8,
+      "provider": "CUDA",
+      "model": [
+        "10",
+        0
+      ]
+    },
+    "class_type": "IPAdapterUnifiedLoaderFaceID",
+    "_meta": {
+      "title": "IPAdapter Unified Loader FaceID"
+    }
+  },
+  "25": {
+    "inputs": {
+      "provider": "CUDA",
+      "model_name": "buffalo_l"
+    },
+    "class_type": "IPAdapterInsightFaceLoader",
+    "_meta": {
+      "title": "IPAdapter InsightFace Loader"
+    }
+  },
+  "27": {
+    "inputs": {
+      "image1": [
+        "39",
+        0
+      ],
+      "image2": [
+        "42",
+        0
+      ],
+      "image3": [
+        "43",
+        0
+      ],
+      "image4": [
+        "50",
+        0
+      ],
+      "image5": [
+        "51",
+        0
+      ]
+    },
+    "class_type": "ImpactMakeImageBatch",
+    "_meta": {
+      "title": "Make Image Batch"
+    }
+  },
+  "29": {
+    "inputs": {
+      "model_name": "bbox/face_yolov8m.pt"
+    },
+    "class_type": "UltralyticsDetectorProvider",
+    "_meta": {
+      "title": "UltralyticsDetectorProvider"
+    }
+  },
+  "30": {
+    "inputs": {
+      "guide_size": 512,
+      "guide_size_for": true,
+      "max_size": 1024,
+      "seed": 393463520532040,
+      "steps": 30,
+      "cfg": 4,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 0.35,
+      "feather": 5,
+      "noise_mask": true,
+      "force_inpaint": true,
+      "bbox_threshold": 0.25,
+      "bbox_dilation": 10,
+      "bbox_crop_factor": 2,
+      "sam_detection_hint": "center-1",
+      "sam_dilation": 0,
+      "sam_threshold": 0.93,
+      "sam_bbox_expansion": 0,
+      "sam_mask_hint_threshold": 0.7,
+      "sam_mask_hint_use_negative": "False",
+      "drop_size": 10,
+      "wildcard": "",
+      "cycle": 1,
+      "inpaint_model": false,
+      "noise_mask_feather": 20,
+      "tiled_encode": false,
+      "tiled_decode": false,
+      "image": [
+        "7",
+        0
+      ],
+      "model": [
+        "11",
+        0
+      ],
+      "clip": [
+        "10",
+        1
+      ],
+      "vae": [
+        "10",
+        2
+      ],
+      "positive": [
+        "31",
+        0
+      ],
+      "negative": [
+        "32",
+        0
+      ],
+      "bbox_detector": [
+        "29",
+        0
+      ]
+    },
+    "class_type": "FaceDetailer",
+    "_meta": {
+      "title": "FaceDetailer"
+    }
+  },
+  "31": {
+    "inputs": {
+      "text": "score_9, score_8_up, score_7_up, rating_safe,source_photo, photorealistic, realistic, RAW photo, 8k uhd, dslr,1woman, adult, (korean or taiwanese ethnicity:1.2),(light brown hair:1.1), long hair, (straight bangs:1.25), brown eyes, detailed iris, (single mole under right eye:1.35), (silver hoop earrings:1.1), (black velvet choker:1.1),(startled expression:1.25), (wide eyes:1.15), (gasping:1.2), surprised look, (looking at viewer:1.15)",
+      "clip": [
+        "10",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIPテキストエンコード（プロンプト）"
+    }
+  },
+  "32": {
+    "inputs": {
+      "text": "(worst quality, low quality:1.4), bad anatomy, text, logo, watermark, oversaturated colors,(two people:1.45), (multiple people:1.4), (2people:1.45), (plastic skin:1.2), plastic_texture, lens_flare_artifact, (anime:1.3), 3d, render, blurry, lowres, bad hands, error, blurry",
+      "clip": [
+        "10",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIPテキストエンコード（プロンプト）"
+    }
+  },
+  "34": {
+    "inputs": {
+      "color_space": "LAB",
+      "factor": 1,
+      "device": "auto",
+      "batch_size": 0,
+      "image": [
+        "30",
+        0
+      ],
+      "reference": [
+        "37",
+        0
+      ]
+    },
+    "class_type": "ImageColorMatch+",
+    "_meta": {
+      "title": "🔧 Image Color Match"
+    }
+  },
+  "37": {
+    "inputs": {
+      "image": "carlota.png"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "画像を読み込む"
+    }
+  },
+  "39": {
+    "inputs": {
+      "image": "carlota.png"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "画像を読み込む"
+    }
+  },
+  "41": {
+    "inputs": {
+      "density": 0.2,
+      "intensity": 0.1,
+      "highlights": 0.85,
+      "supersample_factor": 4,
+      "image": [
+        "34",
+        0
+      ]
+    },
+    "class_type": "Image Film Grain",
+    "_meta": {
+      "title": "Image Film Grain"
+    }
+  },
+  "42": {
+    "inputs": {
+      "image": "calrota_00027_.png"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "画像を読み込む"
+    }
+  },
+  "43": {
+    "inputs": {
+      "image": "calrota_00021_.png"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "画像を読み込む"
+    }
+  },
+  "49": {
+    "inputs": {
+      "feathering": 120,
+      "feather_second_pass": "true",
+      "left_padding": 100,
+      "right_padding": 100,
+      "top_padding": 100,
+      "bottom_padding": 100
+    },
+    "class_type": "Image Padding",
+    "_meta": {
+      "title": "Image Padding"
+    }
+  },
+  "50": {
+    "inputs": {
+      "image": "calrota_00006_.png"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "画像を読み込む"
+    }
+  },
+  "51": {
+    "inputs": {
+      "image": "calrota_00031_.png"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "画像を読み込む"
+    }
+  },
+  "52": {
+    "inputs": {
+      "left": 104,
+      "top": 104,
+      "right": 104,
+      "bottom": 104,
+      "feathering": 40,
+      "image": [
+        "27",
+        0
+      ]
+    },
+    "class_type": "ImagePadForOutpaint",
+    "_meta": {
+      "title": "アウトペイント用に画像をパッド"
+    }
+  }
+}
