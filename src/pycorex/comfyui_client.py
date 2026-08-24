@@ -51,7 +51,54 @@ class ComfyUIClient(BaseAIClient):
         _configuration_clientの実装（BaseAIClientの抽象メソッドの実装）
         """
         return super()._configuration_client()
-    
+
+    async def upload_image(self, image_path: Union[str, Path]) -> str:
+        """
+        ローカル画像をComfyUIのinputディレクトリへアップロードし、
+        LoadImageで使用するファイル名を返す
+        """
+        file_path = Path(image_path)
+        if not file_path.is_file():
+            raise ComfyUIAPIError(f"Reference image not found: {image_path}")
+
+        url = f"{self.base_url}/upload/image"
+
+        def upload():
+            with file_path.open("rb") as image_file:
+                response = requests.post(
+                    url,
+                    files={
+                        "image": (file_path.name, image_file, "application/octet-stream"),
+                    },
+                    data={
+                        "overwrite": "true"
+                    }
+                )
+            response.raise_for_status()
+            return response.json()
+
+        try:
+            response_data = await asyncio.to_thread(upload)
+        except requests.exceptions.RequestException as e:
+            raise ComfyUIAPIError(
+                f"Failed to upload reference image: {image_path}: {e}"
+            ) from e
+
+        filename = response_data.get("name")
+        subfolder = response_data.get("subfolder", "")
+        if subfolder:
+            return f"{subfolder}/{filename}"
+        return filename
+
+    async def upload_reference_images(self, reference_images: Dict[str, str]) -> Dict[str, str]:
+        """
+        参照画像辞書が持つ画像パスを指定してComfyUIに画像アップロード処理を実行する
+        """    
+        uploaded_images = {}
+        for node_id, image_path in reference_images.items():
+            uploaded_images[node_id] = await self.upload_image(image_path)
+        return uploaded_images
+
     def _get_image(self, filename: str, subfolder: str, folder_type: str) -> bytes:
         """
         ComfyUIから指定された画像をダウンロードする

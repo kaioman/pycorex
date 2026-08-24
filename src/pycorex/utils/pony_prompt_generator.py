@@ -48,6 +48,9 @@ class PonyPromptGenerator(BasePromptGenerator):
         self.mod_config = self._get_conf(
             self._resolve_config_path(mod_config, config_paths.get("mod_config"), persona_dir, "tests/comfyui_workflow/modifications/aoi_workflow_config.json")
         )
+        self.faceid_reference_images = self._get_conf(
+            self._resolve_config_path(None, config_paths.get("faceid_reference_images_conf"), persona_dir, "")
+        )
         self.workflow_data = self._get_conf(
             self._resolve_config_path(workflow_path, config_paths.get("workflow_path"), persona_dir, "tests/comfyui_workflow/aoi-IPAdapter9_fd1.json")
         )
@@ -99,6 +102,17 @@ class PonyPromptGenerator(BasePromptGenerator):
                 return candidate
         # どこにも見つからない場合は元の相対パスを返す
         return path
+
+    def resolve_asset_path(self, path: str) -> str:
+        persona_path = self.persona_data.get("config_paths", {}).get(
+            "faceid_reference_images_conf"
+        )
+        asset_config_path = self._resolve_path(
+            persona_path,
+            None
+        )
+        asset_dir = os.path.dirname(os.path.dirname(asset_config_path))
+        return os.path.join(asset_dir, path)
     
     def _get_conf(self, conf: Union[str, dict]) -> dict[str, Any]:
         """
