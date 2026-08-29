@@ -9,3 +9,6 @@ __pycache__
 gen_images/
 test-comfyui_api_Aoi.py
 test-comfyui_api_Lotta.py
+.pytest_cache
+.env
+credentials

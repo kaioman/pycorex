@@ -1,9 +1,6 @@
-#import os
-#import asyncio
 import libcore_hng.utils.app_logger as app_logger
-from google import genai as image_genai
+from google import genai as gemini_genai
 from google.genai.chats import Chat
-#from google.generativeai import ChatSession
 from google.genai.types import GenerateContentConfig, Modality, ImageConfig, Part, ThinkingConfig
 from enum import Enum
 from datetime import datetime, timezone
@@ -135,10 +132,10 @@ class GeminiClient(BaseGeminiClient):
         """
 
         # APIクライアント(画像生成用)をセット
-        self.image_client = image_genai.Client(vertexai=True, project=self.project_id, location=self.location)
-
+        self.image_client = gemini_genai.Client(vertexai=True, project=self.project_id, location=self.location)
+        
         # APIクライアント(テキスト生成用)をセット
-        self.genai_client = image_genai.Client(api_key=self.api_key)
+        self.genai_client = gemini_genai.Client(api_key=self.api_key)
         
     def calc_tokens(self, prompt, response_text) -> dict:
         """

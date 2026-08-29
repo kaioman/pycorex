@@ -1,14 +1,14 @@
 {
   "5": {
     "inputs": {
-      "seed": 205911805904494,
+      "seed": 250529055843956,
       "steps": 30,
       "cfg": 5.5,
       "sampler_name": "ddpm",
       "scheduler": "karras",
       "denoise": 1,
       "model": [
-        "11",
+        "37",
         0
       ],
       "positive": [
@@ -56,22 +56,9 @@
       "title": "VAEデコード"
     }
   },
-  "8": {
-    "inputs": {
-      "filename_prefix": "aoi",
-      "images": [
-        "7",
-        0
-      ]
-    },
-    "class_type": "SaveImage",
-    "_meta": {
-      "title": "画像を保存"
-    }
-  },
   "9": {
     "inputs": {
-      "image": "20260220_192834_0.png"
+      "image": "20260404_174505_0.png"
     },
     "class_type": "LoadImage",
     "_meta": {
@@ -87,44 +74,9 @@
       "title": "チェックポイントを読み込む"
     }
   },
-  "11": {
-    "inputs": {
-      "weight": 0,
-      "weight_faceidv2": 3.5,
-      "weight_type": "strong middle",
-      "combine_embeds": "concat",
-      "start_at": 0,
-      "end_at": 1,
-      "embeds_scaling": "V only",
-      "model": [
-        "24",
-        0
-      ],
-      "ipadapter": [
-        "24",
-        1
-      ],
-      "image": [
-        "9",
-        0
-      ],
-      "clip_vision": [
-        "23",
-        0
-      ],
-      "insightface": [
-        "25",
-        0
-      ]
-    },
-    "class_type": "IPAdapterFaceID",
-    "_meta": {
-      "title": "IPAdapter FaceID"
-    }
-  },
   "12": {
     "inputs": {
-      "text": "(score_9, score_8_up:1.2), rating_questionable BREAK 1980s retro anime style, Haruhiko Mikimoto style, cinematic grain, shakerato BREAK 1girl,(pure black hair:1.3), long hair, blue eyes, (pink headphones worn on head:1.3), (leather choker:1.2) BREAK (startled expression:1.25), (wide eyes:1.15), (gasping:1.2), surprised look, (looking at viewer:1.15) BREAK (wide_angle_lens:1.3), (perspective_distortion:1.2), (foreshortening:1.3), (high_angle:1.3), (sitting:1.3), (knees_down:1.4), (legs_closed:1.3), (leaning_forward:1.2), (from_below:1.3), (skirt_lift:1.4), (crotch_focus:1.4), (panty_peek:1.4) BREAK classic sailor school uniform, pleated skirt, red neckerchief BREAK cafe, at table,soft natural light,subtle smoke, mysterious",
+      "text": "(score_9, score_8_up:1.2), rating_safe BREAK 1980s retro anime style, Haruhiko Mikimoto style",
       "clip": [
         "10",
         1
@@ -148,30 +100,6 @@
       "title": "CLIPテキストエンコード（プロンプト）"
     }
   },
-  "23": {
-    "inputs": {
-      "clip_name": "CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors"
-    },
-    "class_type": "CLIPVisionLoader",
-    "_meta": {
-      "title": "CLIPビジョンを読み込む"
-    }
-  },
-  "24": {
-    "inputs": {
-      "preset": "FACEID PLUS V2",
-      "lora_strength": 0.8,
-      "provider": "CUDA",
-      "model": [
-        "10",
-        0
-      ]
-    },
-    "class_type": "IPAdapterUnifiedLoaderFaceID",
-    "_meta": {
-      "title": "IPAdapter Unified Loader FaceID"
-    }
-  },
   "25": {
     "inputs": {
       "provider": "CUDA",
@@ -187,7 +115,7 @@
       "guide_size": 512,
       "guide_size_for": true,
       "max_size": 1024,
-      "seed": 0,
+      "seed": 608369964064882,
       "steps": 20,
       "cfg": 8,
       "sampler_name": "euler",
@@ -217,7 +145,7 @@
         0
       ],
       "model": [
-        "11",
+        "10",
         0
       ],
       "clip": [
@@ -248,7 +176,7 @@
   },
   "29": {
     "inputs": {
-      "text": "",
+      "text": "(score_9, score_8_up:1.2), rating_questionable,1980s retro anime style, Haruhiko Mikimoto style",
       "clip": [
         "10",
         1
@@ -261,7 +189,7 @@
   },
   "31": {
     "inputs": {
-      "text": "score_9, score_8_up, score_7_up, rating_questionable,source_photo, photorealistic, realistic, RAW photo, 8k uhd, dslr,1woman, adult, (korean or taiwanese ethnicity:1.2),(light brown hair:1.1), long hair, (straight bangs:1.25), brown eyes, detailed iris, (single mole under right eye:1.35), (silver hoop earrings:1.1), (black velvet choker:1.1),(soft smile:1.2), (crinkly eyes:1.15), (blushing cheeks:1.1)",
+      "text": "score_4, score_5, score_6, low quality, bad anatomy, text, watermark,(headphones_around_neck:1.2), (headphones_on_shoulders:1.2), (sunglasses:1.1), (goggles:1.1), (eyewear on head:1.1), (visor:1.1), (head-mounted display:1.2), (glasses:1.1), (anime:1.3), 3d, render, blurry, lowres, bad hands, error, blurry",
       "clip": [
         "10",
         1
@@ -292,6 +220,147 @@
     "class_type": "SaveImage",
     "_meta": {
       "title": "画像を保存"
+    }
+  },
+  "36": {
+    "inputs": {
+      "preset": "PLUS FACE (portraits)"
+    },
+    "class_type": "IPAdapterUnifiedLoader",
+    "_meta": {
+      "title": "IPAdapter Unified Loader"
+    }
+  },
+  "37": {
+    "inputs": {
+      "weight": 0.65,
+      "weight_type": "ease in",
+      "combine_embeds": "concat",
+      "start_at": 0,
+      "end_at": 1,
+      "embeds_scaling": "V only",
+      "model": [
+        "10",
+        0
+      ],
+      "ipadapter": [
+        "45",
+        0
+      ],
+      "image": [
+        "40",
+        0
+      ],
+      "clip_vision": [
+        "46",
+        0
+      ]
+    },
+    "class_type": "IPAdapterAdvanced",
+    "_meta": {
+      "title": "IPAdapter Advanced"
+    }
+  },
+  "38": {
+    "inputs": {
+      "interpolation": "LANCZOS",
+      "crop_position": "top",
+      "sharpening": 0,
+      "image": [
+        "9",
+        0
+      ]
+    },
+    "class_type": "PrepImageForClipVision",
+    "_meta": {
+      "title": "Prep Image For ClipVision"
+    }
+  },
+  "40": {
+    "inputs": {
+      "method": "lanczos",
+      "image_1": [
+        "38",
+        0
+      ],
+      "image_2": [
+        "42",
+        0
+      ],
+      "image_3": [
+        "44",
+        0
+      ]
+    },
+    "class_type": "ImageBatchMultiple+",
+    "_meta": {
+      "title": "🔧 Images Batch Multiple"
+    }
+  },
+  "41": {
+    "inputs": {
+      "image": "ComfyUI_00197_.png"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "画像を読み込む"
+    }
+  },
+  "42": {
+    "inputs": {
+      "interpolation": "LANCZOS",
+      "crop_position": "top",
+      "sharpening": 0,
+      "image": [
+        "41",
+        0
+      ]
+    },
+    "class_type": "PrepImageForClipVision",
+    "_meta": {
+      "title": "Prep Image For ClipVision"
+    }
+  },
+  "43": {
+    "inputs": {
+      "image": "20260220_192834_0.png"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "画像を読み込む"
+    }
+  },
+  "44": {
+    "inputs": {
+      "interpolation": "LANCZOS",
+      "crop_position": "top",
+      "sharpening": 0,
+      "image": [
+        "43",
+        0
+      ]
+    },
+    "class_type": "PrepImageForClipVision",
+    "_meta": {
+      "title": "Prep Image For ClipVision"
+    }
+  },
+  "45": {
+    "inputs": {
+      "ipadapter_file": "ip-adapter-plus_sdxl_vit-h.safetensors"
+    },
+    "class_type": "IPAdapterModelLoader",
+    "_meta": {
+      "title": "IPAdapter Model Loader"
+    }
+  },
+  "46": {
+    "inputs": {
+      "clip_name": "CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors"
+    },
+    "class_type": "CLIPVisionLoader",
+    "_meta": {
+      "title": "CLIPビジョンを読み込む"
     }
   }
 }

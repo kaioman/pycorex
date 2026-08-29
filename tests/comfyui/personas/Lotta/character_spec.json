@@ -7,7 +7,7 @@
         "explicit": "rating_explicit"
     },
     "config_paths": {
-        "workflow_path": "tests/comfyui/personas/Lotta/workflows/api/lotta-IPAdapter9_three_src_fd5.json",
+        "workflow_path": "tests/comfyui/personas/Lotta/workflows/api/lotta-IPAdapter9_three_src_fd5_v0.33.0.json",
         "mod_config": "tests/comfyui/personas/Lotta/workflows/templates/workflow_args.json",
         "camera_conf": "tests/comfyui/personas/Lotta/assets/camera.json",
         "environment_conf": "tests/comfyui/personas/Lotta/assets/environments.json",

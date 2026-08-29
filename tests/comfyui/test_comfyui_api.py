@@ -11,7 +11,12 @@ from pycorex.utils.workflow_mod import WorkflowMod
 from pycorex.enums.rating_level import RatingLevel
 
 class TestRequestComfyUI:
+    """
+    ComfyUIリクエストテスト
 
+    実行コマンド例:
+    pytest -sv .\\tests\\comfyui\\test_comfyui_api.py --persona-name=Lotta  
+    """
     def test_request_comfyui_api(self, persona_name):
         asyncio.run(self.main(persona_name))
     
