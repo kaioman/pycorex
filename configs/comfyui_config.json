@@ -3,6 +3,6 @@
         "comfyui_endpoint": "http://localhost:8188",
         "workflow_path": "tests/comfyui_workflow/aoi-IPAdapter9a.json",
         "timeout_seconds": 600,
-        "polling_interval": 1
+        "polling_interval": 2
     }
 }
