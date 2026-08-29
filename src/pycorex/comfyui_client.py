@@ -134,14 +134,17 @@ class ComfyUIClient(BaseAIClient):
             # historyエンドポイントからダウンロード対象となる画像を取得する
             history_url = f"{self.base_url}/history/{prompt_id}"
             history_response = requests.get(history_url)
-            if history_response.raise_for_status() == HTTPStatus.NOT_FOUND:
-                self.logger.info(f"History for prompt ID {prompt_id} not yet available. Retrying...")
+            if history_response.status_code == HTTPStatus.NOT_FOUND:
+                self.logger.info(
+                    f"History for prompt ID {prompt_id} not yet available. Retrying..."
+                )
                 await asyncio.sleep(self.polling_interval)
                 continue
             
             history_response.raise_for_status()
             history = history_response.json()
-            if len(history) == 0:
+            if not history:
+                await asyncio.sleep(self.polling_interval)
                 continue
 
             current_images = []
