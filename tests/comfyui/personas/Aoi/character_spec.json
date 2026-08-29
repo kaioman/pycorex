@@ -2,7 +2,7 @@
     "name": "Aoi",
     "target_model": "ebaraPony",
     "config_paths": {
-        "workflow_path": "tests/comfyui/personas/Aoi/workflows/api/aoi-IPAdapter9_fd1_v0.33.0.json",
+        "workflow_path": "tests/comfyui/personas/Aoi/workflows/api/aoi-IPAdapter9_fd1_v0.33.0_3.json",
         "mod_config": "tests/comfyui/personas/Aoi/workflows/templates/workflow_args.json",
         "faceid_reference_images_conf": "tests/comfyui/personas/Aoi/assets/faceid_reference_images.json",
         "camera_conf": "tests/comfyui/personas/Aoi/assets/camera.json",
