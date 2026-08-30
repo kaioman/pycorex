@@ -1,14 +1,14 @@
 {
     "base_dir": "faceid",
     "load_image_nodes": {
-        "39": "aoi_ref_1.png",
-        "42": "aoi_ref_2.png",
+        "9": "aoi_ref_1.png",
+        "41": "aoi_ref_2.png",
         "43": "aoi_ref_3.png",
-        "50": "aoi_ref_4.png",
-        "51": "aoi_ref_5.png"
+        "47": "aoi_ref_4.png",
+        "48": "aoi_ref_5.png"
     },
     "color_match": {
-        "node_id": "37",
-        "image": "aoi_color_match_1.png"
+        "node_id": "52",
+        "image": "aoi_color_match_2.png"
     }
 }

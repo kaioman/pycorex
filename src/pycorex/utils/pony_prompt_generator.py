@@ -48,19 +48,47 @@ class PonyPromptGenerator(BasePromptGenerator):
         self.mod_config = self._get_conf(
             self._resolve_config_path(mod_config, config_paths.get("mod_config"), persona_dir, "tests/comfyui_workflow/modifications/aoi_workflow_config.json")
         )
-        self.faceid_reference_images = self._get_conf(
-            self._resolve_config_path(None, config_paths.get("faceid_reference_images_conf"), persona_dir, "")
-        )
+        # self.faceid_reference_images = self._get_conf(
+        #     self._resolve_config_path(
+        #         None, 
+        #         config_paths.get("faceid_reference_images_conf"), 
+        #         persona_dir, 
+        #         ""
+        #     )
+        # )
+        # self.faceid_reference_images = self._resolve_faceid_image_paths(
+        #     self.faceid_reference_images,
+        #     config_paths.get("faceid_reference_images_conf"),
+        #     persona_dir
+        # )
+        faceid_ref_conf = config_paths.get("faceid_reference_images_conf")
+        if faceid_ref_conf:
+            raw_faceid_ref = self._get_conf(
+                self._resolve_config_path(
+                    None,
+                    faceid_ref_conf,
+                    persona_dir,
+                    None
+                )
+            )
+            self.faceid_reference_images = self._resolve_faceid_image_paths(
+                raw_faceid_ref,
+                faceid_ref_conf,
+                persona_dir
+            )
+        else:
+            self.faceid_reference_images = {}
+        
         self.workflow_data = self._get_conf(
             self._resolve_config_path(workflow_path, config_paths.get("workflow_path"), persona_dir, "tests/comfyui_workflow/aoi-IPAdapter9_fd1.json")
         )
- 
+
     def _resolve_config_path(
         self,
         conf: Optional[Union[str, dict]],
         persona_config_path: Optional[Union[str, dict]],
         persona_dir: Optional[str],
-        default_path: str
+        default_path: Optional[str]
     ) -> Union[str, dict]:
         """
         設定ファイルの解決順を定義する。
@@ -76,6 +104,9 @@ class PonyPromptGenerator(BasePromptGenerator):
         if persona_config_path is not None:
             # persona側の config_paths から相対パスを解決する
             return self._resolve_path(persona_config_path, persona_dir)
+        if default_path is None:
+            return None
+
         # どちらも未指定の場合は既定パスを使用する
         return self._resolve_path(default_path, persona_dir)
 
@@ -103,17 +134,39 @@ class PonyPromptGenerator(BasePromptGenerator):
         # どこにも見つからない場合は元の相対パスを返す
         return path
 
-    def resolve_asset_path(self, path: str) -> str:
-        persona_path = self.persona_data.get("config_paths", {}).get(
-            "faceid_reference_images_conf"
+    def _resolve_faceid_image_paths(self,
+        config: dict,
+        config_path: str,
+        persona_dir: str
+    ) -> dict:
+
+        # faceidのreference image設定ファイルが存在しない場合のガード
+        if not config_path:
+            return config
+        
+        resolved_config = dict(config)
+        config_file = self._resolve_path(config_path, persona_dir)
+        config_dir = os.path.dirname(os.path.abspath(config_file))
+
+        base_dir = config.get("base_dir", "")
+        reference_dir = os.path.abspath(
+            os.path.join(config_dir, base_dir)
         )
-        asset_config_path = self._resolve_path(
-            persona_path,
-            None
-        )
-        asset_dir = os.path.dirname(os.path.dirname(asset_config_path))
-        return os.path.join(asset_dir, path)
-    
+
+        resolved_config["load_image_nodes"] = {
+            node_id: os.path.join(reference_dir, filename)
+            for node_id, filename in config.get("load_image_nodes", {}).items()
+        }
+
+        color_match = config.get("color_match")
+        if color_match:
+            resolved_config["color_match"] = {
+                **color_match,
+                "image": os.path.join(reference_dir, color_match["image"])
+            }
+
+        return resolved_config
+
     def _get_conf(self, conf: Union[str, dict]) -> dict[str, Any]:
         """
         指定されたパスからJSONファイルをロードする
