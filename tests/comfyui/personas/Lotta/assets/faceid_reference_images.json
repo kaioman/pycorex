@@ -1,0 +1,14 @@
+{
+    "base_dir": "faceid",
+    "load_image_nodes": {
+        "42": "lotta_ref_1.png",
+        "43": "lotta_ref_2.png",
+        "50": "lotta_ref_3.png",
+        "51": "lotta_ref_4.png",
+        "53": "lotta_ref_5.png"
+    },
+    "color_match": {
+        "node_id": "37",
+        "image": "lotta_color_match_1.png"
+    }
+}

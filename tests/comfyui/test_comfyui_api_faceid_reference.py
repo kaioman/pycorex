@@ -13,6 +13,7 @@ from pycorex.enums.rating_level import RatingLevel
 class TestRequestComfyUI:
     """
     ComfyUIリクエストテスト
+    ローカル画像をfaceidの参照画像に設定する
 
     実行コマンド例:
     pytest -sv .\\tests\\comfyui\\test_comfyui_api.py --persona-name=Lotta  
@@ -67,6 +68,32 @@ class TestRequestComfyUI:
         )
 
         try:
+            faceid_ref_image_conf = pony_generator.faceid_reference_images["load_image_nodes"]
+
+            uploaded_images = await client.upload_reference_images(faceid_ref_image_conf)
+            for node_id, filename in uploaded_images.items():
+                WorkflowEditor.set_node_input(
+                    workflow,
+                    node_id=node_id,
+                    input_name="image",
+                    value=filename
+                )
+
+            color_match = pony_generator.faceid_reference_images.get("color_match")
+            if color_match:
+                #color_match_image = await client.upload_image(
+                #    pony_generator._resolve_faceid_image_paths(
+                #        color_match["image"]
+                #    )
+                #)
+                color_match_image = await client.upload_image(color_match["image"])
+                WorkflowEditor.set_node_input(
+                    workflow,
+                    node_id=color_match["node_id"],
+                    input_name="image",
+                    value=color_match_image
+                )
+            
             # ワークフローを実行する
             result = await client.run_workflow(workflow_data=workflow, modifications=modification_list)
             
