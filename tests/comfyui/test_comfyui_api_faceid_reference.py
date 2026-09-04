@@ -18,6 +18,7 @@ class TestRequestComfyUI:
     実行コマンド例:
     pytest -sv .\\tests\\comfyui\\test_comfyui_api.py --persona-name=Lotta  
     """
+
     def test_request_comfyui_api(self, persona_name):
         asyncio.run(self.main(persona_name))
     
@@ -26,7 +27,7 @@ class TestRequestComfyUI:
         file_path = base_dir / relative_path
         with open(file_path, "r", encoding="utf-8") as f:
             return json.load(f)
-
+       
     async def main(self, persona_name):
 
         # Comfyui API エンドポイントを取得
