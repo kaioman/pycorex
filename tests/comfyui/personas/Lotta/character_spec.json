@@ -7,7 +7,7 @@
         "explicit": "rating_explicit"
     },
     "config_paths": {
-        "workflow_path": "tests/comfyui/personas/Lotta/workflows/api/lotta-IPAdapter9_three_src_fd5_easein_v_0.33.0.json",
+        "workflow_path": "tests/comfyui/personas/Lotta/workflows/api/lotta-IPAdapter9_three_src_fd5_strongm_v_0.33.0_2.json",
         "mod_config": "tests/comfyui/personas/Lotta/workflows/templates/workflow_args.json",
         "faceid_reference_images_conf": "tests/comfyui/personas/Lotta/assets/faceid_reference_images.json",
         "camera_conf": "tests/comfyui/personas/Lotta/assets/camera.json",
@@ -17,8 +17,8 @@
         "scene_conf": "tests/comfyui/personas/Lotta/assets/scene.json"
     },
     "base_score_tags": "score_9, score_8_up, score_7_up",
-    "base_style": "source_photo, photorealistic, realistic, RAW photo, 8k uhd, dslr",
-    "base_identity_tags": "1woman, adult, (korean or taiwanese ethnicity:1.2)",
+    "base_style": "realistic photo",
+    "base_identity_tags": "1woman, asian, (taiwanese ethnicity:1.25)",
     "body_parts": {
         "hair": ["(light brown hair:1.1)", "long hair", "(straight bangs:1.25)"],
         "eyes": ["brown eyes", "detailed iris"],
@@ -28,7 +28,7 @@
             "neck": ["(black velvet choker:1.1)"]
         }
     },
-    "negative_holy_grail": "(worst quality, low quality:1.4), bad anatomy, text, logo, watermark, oversaturated colors",
+    "negative_holy_grail": "score_4, score_3, score_2, score_1, worst quality, low quality, 3d render, cgi, illustration, smooth plastic skin, (worst quality, low quality:1.4), bad anatomy, text, logo, watermark, oversaturated colors",
     "negative_base": "(two people:1.45), (multiple people:1.4), (2people:1.45), (plastic skin:1.2), plastic_texture, lens_flare_artifact, (anime:1.3), 3d, render, blurry, lowres, bad hands, error, blurry",
     "negative_face": "(grimace:1.2), (bad teeth:1.3), (crooked teeth:1.2), (scary smile:1.2), (multiple moles:1.4), (freckles:1.4)",
     "innerwear_thresholds": {

@@ -48,19 +48,6 @@ class PonyPromptGenerator(BasePromptGenerator):
         self.mod_config = self._get_conf(
             self._resolve_config_path(mod_config, config_paths.get("mod_config"), persona_dir, "tests/comfyui_workflow/modifications/aoi_workflow_config.json")
         )
-        # self.faceid_reference_images = self._get_conf(
-        #     self._resolve_config_path(
-        #         None, 
-        #         config_paths.get("faceid_reference_images_conf"), 
-        #         persona_dir, 
-        #         ""
-        #     )
-        # )
-        # self.faceid_reference_images = self._resolve_faceid_image_paths(
-        #     self.faceid_reference_images,
-        #     config_paths.get("faceid_reference_images_conf"),
-        #     persona_dir
-        # )
         faceid_ref_conf = config_paths.get("faceid_reference_images_conf")
         if faceid_ref_conf:
             raw_faceid_ref = self._get_conf(
@@ -406,15 +393,34 @@ class PonyPromptGenerator(BasePromptGenerator):
         if test_scene_id_override:
             target_scene_id = test_scene_id_override
         
-        # outfitに定義されたincompatible_scene_logicを考慮してシーンデータを抽選
-        incompatible_scene_logic_ids = outfit.get("incompatible_scene_logic", [])
+        # outfitに定義されたincompatible_scene_logic・incompatible_scene_groupsを考慮してシーンデータを抽選
+        #incompatible_scene_logic_ids = outfit.get("incompatible_scene_logic", [])
+        incompatible_scene_logic_ids = set(
+            outfit.get("incompatible_scene_logic", [])
+        )
+        incompatible_scene_groups = set(
+            outfit.get("incompatible_scene_groups", [])
+        )
         all_scene_logic_items = self.scene_data.get("scene_logic", [])
-        if incompatible_scene_logic_ids:
-            filtered_scene_logic = [item for item in all_scene_logic_items if item["id"] not in incompatible_scene_logic_ids]
-            scene_data = self._pick_weighted_item(filtered_scene_logic, rating_level, target_scene_id)
-        else:
-            scene_data = self._pick_weighted_item(all_scene_logic_items, rating_level, target_scene_id)
-
+        #if incompatible_scene_logic_ids:
+        #    filtered_scene_logic = [item for item in all_scene_logic_items if item["id"] not in incompatible_scene_logic_ids]
+        #    scene_data = self._pick_weighted_item(filtered_scene_logic, rating_level, target_scene_id)
+        #else:
+        #    scene_data = self._pick_weighted_item(all_scene_logic_items, rating_level, target_scene_id)
+        filtered_scene_logic = [
+            item
+            for item in all_scene_logic_items
+            if item.get("id") not in incompatible_scene_logic_ids
+            and not incompatible_scene_groups.intersection(
+                item.get("scene_groups", [])
+            )
+        ]
+        scene_data = self._pick_weighted_item(
+            filtered_scene_logic,
+            rating_level,
+            target_scene_id,
+        )
+        
         # scene_rawを取得
         scene_raw = scene_data["tags"] if scene_data else ""
         

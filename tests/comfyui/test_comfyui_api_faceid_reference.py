@@ -18,6 +18,7 @@ class TestRequestComfyUI:
     実行コマンド例:
     pytest -sv .\\tests\\comfyui\\test_comfyui_api.py --persona-name=Lotta  
     """
+
     def test_request_comfyui_api(self, persona_name):
         asyncio.run(self.main(persona_name))
     
@@ -26,7 +27,7 @@ class TestRequestComfyUI:
         file_path = base_dir / relative_path
         with open(file_path, "r", encoding="utf-8") as f:
             return json.load(f)
-
+       
     async def main(self, persona_name):
 
         # Comfyui API エンドポイントを取得
@@ -56,7 +57,7 @@ class TestRequestComfyUI:
             mod_config=pony_generator.mod_config,
             batch_size=1
         )
-
+ 
         # WorkflowEditorを使用してワークフローに修正を適用
         workflow = WorkflowEditor.apply_modifications(workflow, modification_list)
 
@@ -81,11 +82,6 @@ class TestRequestComfyUI:
 
             color_match = pony_generator.faceid_reference_images.get("color_match")
             if color_match:
-                #color_match_image = await client.upload_image(
-                #    pony_generator._resolve_faceid_image_paths(
-                #        color_match["image"]
-                #    )
-                #)
                 color_match_image = await client.upload_image(color_match["image"])
                 WorkflowEditor.set_node_input(
                     workflow,
