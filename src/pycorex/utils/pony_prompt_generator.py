@@ -3,6 +3,7 @@ import os
 import random
 import libcore_hng.utils.app_logger as app_logger
 from typing import Optional, Union, Any
+from urllib.parse import urlparse
 from pycorex.core.base_prompt_generator import BasePromptGenerator
 from pycorex.enums.rating_level import RatingLevel
 from pycorex.models.prompt import PromptContextModel
@@ -84,6 +85,17 @@ class PonyPromptGenerator(BasePromptGenerator):
         1. 明示的に渡された conf
         2. persona JSON に定義された config_paths
         3. 既定のデフォルトパス
+
+        Parameters
+        ----------
+        conf : Optional[Union[str, dict]]
+            明示的に渡された設定ファイルのパスまたは辞書
+        persona_config_path : Optional[Union[str, dict]]
+            persona JSON に定義された設定ファイルのパスまたは辞書
+        persona_dir : Optional[str]
+            persona JSON のディレクトリパス。相対パス解決の基準となる
+        default_path : Optional[str]
+            既定のデフォルトパス。persona JSON に定義されていない場合に使用される
         """
         if conf is not None:
             # 直接指定された設定ファイル／辞書を優先して使用する
@@ -103,6 +115,13 @@ class PonyPromptGenerator(BasePromptGenerator):
 
         絶対パス・既存ファイルパスはそのまま返し、相対パスの場合は
         personaファイルのディレクトリ基準で解決を試みる。
+
+        Parameters
+        ----------
+        path : Union[str, dict]
+            解決するパス文字列、または辞書データ
+        persona_dir : Optional[str]
+            personaファイルのディレクトリパス。相対パス解決の基準となる
         """
         if isinstance(path, dict):
             # すでに辞書データが渡された場合はそのまま返す
@@ -126,32 +145,75 @@ class PonyPromptGenerator(BasePromptGenerator):
         config_path: str,
         persona_dir: str
     ) -> dict:
+        """
+        faceidのreference image設定ファイル内の画像パスを解決する
 
+        Parameters
+        ----------
+        config : dict
+            faceidのreference image設定ファイルの内容
+        config_path : str
+            faceidのreference image設定ファイルのパス
+        persona_dir : str
+            personaのディレクトリパス
+        """
         # faceidのreference image設定ファイルが存在しない場合のガード
         if not config_path:
             return config
-        
+
+        # faceidのreference image設定ファイルが存在しない場合のガード
+        if not os.path.exists(config_path):
+            app_logger.warning(f"FaceID reference image config file not found: {config_path}")
+            return config
+
+        # faceidのreference image設定ファイル内の画像パスを解決する
         resolved_config = dict(config)
         config_file = self._resolve_path(config_path, persona_dir)
         config_dir = os.path.dirname(os.path.abspath(config_file))
 
+        # 画像パスの基準ディレクトリを決定する
         base_dir = config.get("base_dir", "")
         reference_dir = os.path.abspath(
             os.path.join(config_dir, base_dir)
         )
 
+        def resolve_image_path(image_path: str) -> str:
+            """
+            画像パスを解決する
+
+            Parameters
+            ----------
+            image_path : str
+                画像パス。URLまたはローカルパスのいずれか            
+            """
+            # image_pathがURLか判定する
+            parsed_url = urlparse(image_path)
+            is_remote_url = (
+                parsed_url.scheme in {"http", "https"} and bool(parsed_url.netloc)
+            )
+
+            # URLの場合はimage_pathをそのまま返す
+            if is_remote_url:
+                return image_path
+
+            # URLではない場合はローカルパスとして返す
+            return os.path.join(reference_dir, image_path)
+
+        # 画像パスを解決する
         resolved_config["load_image_nodes"] = {
-            node_id: os.path.join(reference_dir, filename)
+            node_id: resolve_image_path(filename)
             for node_id, filename in config.get("load_image_nodes", {}).items()
         }
 
+        # color_matchの画像パスを解決する
         color_match = config.get("color_match")
         if color_match:
             resolved_config["color_match"] = {
                 **color_match,
-                "image": os.path.join(reference_dir, color_match["image"])
+                "image": resolve_image_path(color_match["image"])
             }
 
+        # faceidのreference image設定ファイル内の画像パスを解決した結果を返す
         return resolved_config
 
     def _get_conf(self, conf: Union[str, dict]) -> dict[str, Any]:
