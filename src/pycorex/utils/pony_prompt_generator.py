@@ -456,7 +456,6 @@ class PonyPromptGenerator(BasePromptGenerator):
             target_scene_id = test_scene_id_override
         
         # outfitに定義されたincompatible_scene_logic・incompatible_scene_groupsを考慮してシーンデータを抽選
-        #incompatible_scene_logic_ids = outfit.get("incompatible_scene_logic", [])
         incompatible_scene_logic_ids = set(
             outfit.get("incompatible_scene_logic", [])
         )
@@ -464,11 +463,7 @@ class PonyPromptGenerator(BasePromptGenerator):
             outfit.get("incompatible_scene_groups", [])
         )
         all_scene_logic_items = self.scene_data.get("scene_logic", [])
-        #if incompatible_scene_logic_ids:
-        #    filtered_scene_logic = [item for item in all_scene_logic_items if item["id"] not in incompatible_scene_logic_ids]
-        #    scene_data = self._pick_weighted_item(filtered_scene_logic, rating_level, target_scene_id)
-        #else:
-        #    scene_data = self._pick_weighted_item(all_scene_logic_items, rating_level, target_scene_id)
+
         filtered_scene_logic = [
             item
             for item in all_scene_logic_items
@@ -633,8 +628,14 @@ class PonyPromptGenerator(BasePromptGenerator):
         positive = " BREAK ".join(
             [part for part in positive_parts if part]
         )
+
         # FaceDetailerのポジティブプロンプト
-        face_detailer_positive_prompt = f"{quality},{style},{core},{expression_tags}"
+        face_detailer_identity = self.persona_data.get("face_detailer_identity_tags", "")
+        face_detailer_positive_prompt = ", ".join(
+            part.strip()
+            for part in [quality, style, face_detailer_identity, expression_tags]
+            if part and part.strip()
+        )
 
         # --- [6. 鉄壁のネガティブプロンプト] ---
         ## 1. 全レベル共通の『聖域』を取得
