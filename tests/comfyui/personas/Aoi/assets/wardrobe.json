@@ -42,7 +42,7 @@
             "max_lv": 4, 
             "destructible": true, 
             "parts": ["dress"] ,
-            "compatible_scene_logic": [],
+            "incompatible_scene_logic": [],
             "destructible_tags_key": "normal",
             "outer_tags": { "top": "china dress", "bottom": "dress_hem" }
         },
@@ -54,7 +54,7 @@
             "max_lv": 4, 
             "destructible": true, 
             "parts": ["shirt", "skirt", "pantyhose"],
-            "compatible_scene_logic": [],
+            "incompatible_scene_logic": [],
             "destructible_tags_key": "normal",
             "outer_tags": { "top": "shirt", "bottom": "tight_pencil_skirt" }
         },
@@ -65,7 +65,7 @@
             "min_lv": 3, "max_lv": 4, 
             "destructible": true, 
             "parts": ["babydoll", "stockings"],
-            "compatible_scene_logic": [],
+            "incompatible_scene_logic": [],
             "destructible_tags_key": "normal",
             "outer_tags": { "top": "sheer_babydoll", "bottom": "babydoll_skirt" }
         },
@@ -77,7 +77,7 @@
             "max_lv": 4, 
             "destructible": true, 
             "parts": ["blazer", "shirt", "skirt"],
-            "compatible_scene_logic": [],
+            "incompatible_scene_logic": [],
             "destructible_tags_key": "normal",
             "outer_tags": { "top": "school_blazer", "bottom": "plaid_skirt" }
         },
@@ -89,7 +89,10 @@
             "max_lv": 4, 
             "destructible": true, 
             "parts": ["t-shirt", "bloomers"],
-            "compatible_scene_logic": [
+            "incompatible_scene_groups": [
+                "bottom_exposure"
+            ],
+            "incompatible_scene_logic": [
                 "lv2_5_phys_bending_peek",
                 "lv2_5_env_windy_front",
                 "lv2_5_env_windy_back"
@@ -105,7 +108,10 @@
             "max_lv": 3, 
             "destructible": false, 
             "parts": ["hoodie", "pants"],
-            "compatible_scene_logic": [],
+            "incompatible_scene_groups": [
+                "bottom_exposure"
+            ],
+            "incompatible_scene_logic": [],
             "destructible_tags_key": "normal",
             "outer_tags": { "top": "oversized_hoodie", "bottom": "tactical_joggers" }
         },
@@ -117,7 +123,10 @@
             "max_lv": 4, 
             "destructible": false, 
             "parts": ["suit"],
-            "compatible_scene_logic": [],
+            "incompatible_scene_groups": [
+                "bottom_exposure"
+            ],
+            "incompatible_scene_logic": [],
             "destructible_tags_key": "normal",
             "outer_tags": { "top": "cyber_bodysuit", "bottom": "cyber_bodysuit" }
         },
@@ -129,7 +138,10 @@
             "max_lv": 4, 
             "destructible": false, 
             "parts": ["suit"],
-            "compatible_scene_logic": [],
+            "incompatible_scene_groups": [
+                "bottom_exposure"
+            ],
+            "incompatible_scene_logic": [],
             "destructible_tags_key": "normal",
             "outer_tags": { "top": "pilot_suit", "bottom": "pilot_suit" }
         },
@@ -141,7 +153,10 @@
             "max_lv": 4, 
             "destructible": true, 
             "parts": ["knit", "shorts"],
-            "compatible_scene_logic": [],
+            "incompatible_scene_groups": [
+                "bottom_exposure"
+            ],
+            "incompatible_scene_logic": [],
             "destructible_tags_key": "normal",
             "outer_tags": { "top": "off-shoulder_knit_sweater", "bottom": "denim_shorts" }
         },
@@ -153,7 +168,7 @@
             "max_lv": 4, 
             "destructible": true, 
             "parts": ["dress"],
-            "compatible_scene_logic": [],
+            "incompatible_scene_logic": [],
             "destructible_tags_key": "normal",
             "outer_tags": { "top": "sundress_top", "bottom": "sundress_skirt" }
         },
@@ -165,7 +180,10 @@
             "max_lv": 4, 
             "destructible": true, 
             "parts": ["jacket", "pants"],
-            "compatible_scene_logic": [],
+            "incompatible_scene_groups": [
+                "bottom_exposure"
+            ],
+            "incompatible_scene_logic": [],
             "destructible_tags_key": "normal",
             "outer_tags": { "top": "tracksuit_jacket", "bottom": "tracksuit_pants" }
         },
@@ -177,7 +195,7 @@
             "max_lv": 4, 
             "destructible": true, 
             "parts": ["dress"],
-            "compatible_scene_logic": [],
+            "incompatible_scene_logic": [],
             "destructible_tags_key": "normal",
             "outer_tags": { "top": "evening_dress_bodice", "bottom": "evening_dress_skirt" }
         },
@@ -189,7 +207,7 @@
             "max_lv": 4, 
             "destructible": true, 
             "parts": ["knit", "skirt"],
-            "compatible_scene_logic": [],
+            "incompatible_scene_logic": [],
             "destructible_tags_key": "normal",
             "outer_tags": { "top": "sleeveless_turtleneck", "bottom": "mini_skirt" },
             "conflict_outfits": {
@@ -206,7 +224,10 @@
             "max_lv": 4, 
             "destructible": false, 
             "parts": ["armor", "straps"],
-            "compatible_scene_logic": [],
+            "incompatible_scene_groups": [
+                "bottom_exposure"
+            ],
+            "incompatible_scene_logic": [],
             "destructible_tags_key": "normal",
             "outer_tags": { "top": "bikini_armor_top", "bottom": "bikini_armor_bottom" }
         },
@@ -218,7 +239,10 @@
             "max_lv": 4, 
             "destructible": true, 
             "parts": ["kosode", "hakama"],
-            "compatible_scene_logic": [],
+            "incompatible_scene_groups": [
+                "bottom_exposure"
+            ],
+            "incompatible_scene_logic": [],
             "destructible_tags_key": "normal", 
             "outer_tags": { "top": "white_kosode", "bottom": "red_hakama" }
         },
@@ -230,7 +254,7 @@
             "max_lv": 4, 
             "destructible": true, 
             "parts": ["yukata", "obi"],
-            "compatible_scene_logic": [],
+            "incompatible_scene_logic": [],
             "destructible_tags_key": "normal",
             "outer_tags": { "top": "yukata_upper", "bottom": "yukata_skirt" }
         },
@@ -242,7 +266,10 @@
             "max_lv": 4, 
             "destructible": false, 
             "parts": ["suit"],
-            "compatible_scene_logic": [],
+            "incompatible_scene_groups": [
+                "bottom_exposure"
+            ],
+            "incompatible_scene_logic": [],
             "destructible_tags_key": "normal",
             "outer_tags": { "top": "bunny_suit", "bottom": "bunny_suit" }
         },
@@ -254,7 +281,7 @@
             "max_lv": 4, 
             "destructible": true, 
             "parts": ["dress", "cap", "stockings"],
-            "compatible_scene_logic": [],
+            "incompatible_scene_logic": [],
             "destructible_tags_key": "normal",
             "outer_tags": { "top": "nurse_uniform_dress", "bottom": "nurse_uniform_skirt" }
         },
@@ -266,7 +293,10 @@
             "max_lv": 4, 
             "destructible": false, 
             "parts": ["swimsuit"],
-            "compatible_scene_logic": [],
+            "incompatible_scene_groups": [
+                "bottom_exposure"
+            ],
+            "incompatible_scene_logic": [],
             "destructible_tags_key": "normal",
             "outer_tags": { "top": "one-piece_swimsuit", "bottom": "one-piece_swimsuit" }
         },
@@ -290,6 +320,9 @@
             "max_lv": 4, 
             "destructible": true, 
             "parts": ["shirt", "culottes"],
+            "inincompatible_scene_groups": [
+                "bottom_exposure"
+            ],
             "incompatible_scene_logic": [],
             "destructible_tags_key": "normal",
             "outer_tags": { "top": "shirt", "bottom": "culottes" }
@@ -314,6 +347,9 @@
             "max_lv": 4, 
             "destructible": true, 
             "parts": ["tank_top", "underwear"],
+            "incompatible_scene_groups": [
+                "bottom_exposure"
+            ],
             "incompatible_scene_logic": [],
             "destructible_tags_key": "normal",
             "outer_tags": { "top": "tank_top", "bottom": "denim_shorts" }

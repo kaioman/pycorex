@@ -1,0 +1,11 @@
+{
+  "base_dir": "faceid",
+  "load_image_nodes": {
+    "9": "local_reference.png",
+    "41": "https://example.com/remote%20reference.png"
+  },
+  "color_match": {
+    "node_id": "52",
+    "image": "http://example.com/color-match.png?variant=1"
+  }
+}

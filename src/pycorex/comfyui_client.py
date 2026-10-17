@@ -7,6 +7,7 @@ import libcore_hng.utils.app_logger as app_logger
 from http import HTTPStatus
 from typing import Dict, Any, List, Union, Optional
 from pathlib import Path
+from urllib.parse import urlparse, unquote
 from datetime import datetime, timezone
 from pycorex.core.base_ai_client import BaseAIClient
 from pycorex.exceptions.comfyui_exceptions import ComfyUIAPIError
@@ -54,28 +55,68 @@ class ComfyUIClient(BaseAIClient):
 
     async def upload_image(self, image_path: Union[str, Path]) -> str:
         """
-        ローカル画像をComfyUIのinputディレクトリへアップロードし、
+        ローカル画像またはリモート(http/https)URLの画像をComfyUIのinputディレクトリへアップロードし、
         LoadImageで使用するファイル名を返す
+
+        Parameters
+        ----------
+        image_path : Union[str, Path]
+            アップロードする画像のパス
+        Returns
+        -------
+        str
+            ComfyUIのLoadImageで使用するファイル名
         """
-        file_path = Path(image_path)
-        if not file_path.is_file():
-            raise ComfyUIAPIError(f"Reference image not found: {image_path}")
+        source = str(image_path)
+        parsed_url = urlparse(source)
+        is_remote_url = parsed_url.scheme in {"http", "https"} and bool(parsed_url.netloc)
 
         url = f"{self.base_url}/upload/image"
 
         def upload():
-            with file_path.open("rb") as image_file:
+            if is_remote_url:
+                response = requests.get(
+                    source,
+                    timeout=self.timeout_seconds,
+                )
+                response.raise_for_status()
+
+                filename = Path(unquote(parsed_url.path)).name or "download_image"
+                content_type = response.headers.get(
+                    "Content-Type",
+                    "application/octet-stream",
+                ).split(";")[0]
+
+                files = {
+                    "image": (filename, response.content, content_type),
+                }
+
+            else:
+                file_path = Path(image_path)
+                if not file_path.is_file():
+                    raise ComfyUIAPIError(f"Reference image not found: {image_path}")
+
+                image_file = file_path.open("rb")
+                files = {
+                    "image": (
+                        file_path.name,
+                        image_file,
+                        "application/octet-stream",
+                    )
+                }
+            try:
                 response = requests.post(
                     url,
-                    files={
-                        "image": (file_path.name, image_file, "application/octet-stream"),
-                    },
-                    data={
-                        "overwrite": "true"
-                    }
+                    files=files,
+                    data={"overwrite": "true"},
+                    timeout=self.timeout_seconds,
                 )
-            response.raise_for_status()
-            return response.json()
+                response.raise_for_status()
+                return response.json()
+
+            finally:
+                if not is_remote_url:
+                    files["image"][1].close()
 
         try:
             response_data = await asyncio.to_thread(upload)
@@ -93,6 +134,11 @@ class ComfyUIClient(BaseAIClient):
     async def upload_reference_images(self, reference_images: Dict[str, str]) -> Dict[str, str]:
         """
         参照画像辞書が持つ画像パスを指定してComfyUIに画像アップロード処理を実行する
+
+        Parameters
+        ----------
+        reference_images : Dict[str, str]
+            ノードIDをキー、画像パスを値とする辞書
         """    
         uploaded_images = {}
         for node_id, image_path in reference_images.items():
@@ -102,6 +148,15 @@ class ComfyUIClient(BaseAIClient):
     def _get_image(self, filename: str, subfolder: str, folder_type: str) -> bytes:
         """
         ComfyUIから指定された画像をダウンロードする
+
+        Parameters
+        ----------
+        filename : str
+            ダウンロードする画像のファイル名        
+        subfolder : str
+            画像が保存されているサブフォルダ名
+        folder_type : str
+            画像フォルダのタイプ
         """
 
         url = f"{self.base_url}/view"
@@ -120,6 +175,11 @@ class ComfyUIClient(BaseAIClient):
     async def _get_image_from_history(self, prompt_id: str) -> list[bytes]:
         """
         historyエンドポイントから生成された画像をダウンロードする
+
+        Parameters
+        ----------
+        prompt_id : str
+            ComfyUI APIから返されたprompt_id
         """
 
         images_data: list[bytes] = []

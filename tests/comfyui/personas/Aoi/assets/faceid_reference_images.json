@@ -1,14 +1,14 @@
 {
     "base_dir": "faceid",
     "load_image_nodes": {
-        "9": "aoi_ref_1.png",
-        "41": "aoi_ref_2.png",
-        "43": "aoi_ref_3.png",
-        "47": "aoi_ref_4.png",
-        "48": "aoi_ref_5.png"
+        "9": "https://personyx.r2.unchainworks.com/Aoi/faceid/aoi_ref_1.png",
+        "41": "https://personyx.r2.unchainworks.com/Aoi/faceid/aoi_ref_2.png",
+        "43": "https://personyx.r2.unchainworks.com/Aoi/faceid/aoi_ref_3.png",
+        "47": "https://personyx.r2.unchainworks.com/Aoi/faceid/aoi_ref_4.png",
+        "48": "https://personyx.r2.unchainworks.com/Aoi/faceid/aoi_ref_5.png"
     },
     "color_match": {
         "node_id": "52",
-        "image": "aoi_color_match_2.png"
+        "image": "https://personyx.r2.unchainworks.com/Aoi/faceid/aoi_color_match_1.png"
     }
 }
