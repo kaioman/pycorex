@@ -15,7 +15,7 @@
             "name": "望遠レンズ・圧縮効果",
             "suggested_resolution": { "width": 832, "height" : 1216 },
             "description": "背景をやわらかくぼかして被写体の存在感と細部（髪・瞳・肌質）を際立たせる写実的クローズアップ",
-            "tags": "(extreme close-up:1.4), (shallow depth of field:1.6), (bokeh:1.3), (telephoto lens:1.2), natural skin detail",
+            "tags": "(extreme close-up:1.15), (shallow depth of field:1.0), (bokeh:1.0), (telephoto lens:1.0)",
             "vibe": "intimate",
             "best_for": ["lv1", "lv2", "lv3"]
         },

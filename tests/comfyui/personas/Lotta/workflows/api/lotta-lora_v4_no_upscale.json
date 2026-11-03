@@ -1,0 +1,302 @@
+{
+  "5": {
+    "inputs": {
+      "seed": 559915561854683,
+      "steps": 30,
+      "cfg": 6.5,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 1,
+      "model": [
+        "64",
+        0
+      ],
+      "positive": [
+        "12",
+        0
+      ],
+      "negative": [
+        "13",
+        0
+      ],
+      "latent_image": [
+        "6",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "Kサンプラー",
+      "cnr_id": "comfy-core",
+      "ver": "0.42.0"
+    }
+  },
+  "6": {
+    "inputs": {
+      "width": 1216,
+      "height": 832,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "空の潜在画像",
+      "cnr_id": "comfy-core",
+      "ver": "0.42.0"
+    }
+  },
+  "7": {
+    "inputs": {
+      "samples": [
+        "5",
+        0
+      ],
+      "vae": [
+        "10",
+        2
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAEデコード",
+      "cnr_id": "comfy-core",
+      "ver": "0.42.0"
+    }
+  },
+  "10": {
+    "inputs": {
+      "ckpt_name": "ponyRealism_V22.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple",
+    "_meta": {
+      "title": "チェックポイントを読み込む",
+      "cnr_id": "comfy-core",
+      "ver": "0.42.0"
+    }
+  },
+  "12": {
+    "inputs": {
+      "text": "score_9, score_8_up, score_7_up, rating_explicit BREAK realistic photo BREAK 1woman,(light brown hair:1.1), long hair, (straight bangs:1.25), brown eyes, detailed iris, (single mole under right eye:0.9), (silver hoop earrings:1.1), (black velvet choker:1.1) BREAK (bedroom eyes:1.3), (heavy eyelids:1.2), (parted lips:1.15), (expression of pleasure:1.2), (slight blush:1.1) BREAK (lying on side:1.15), (propped up on elbow:1.15), (looking at viewer:1.1), (cowboy shot:1.1), (bare legs:1.2), exposed thighs BREAK red neckerchief, white panties, (satin:1.1) BREAK inside elevator, mirrored walls, closed space, reflective surfaces,moonlight, serene, cool tone,steam, hazy atmosphere, volumetric haze",
+      "clip": [
+        "64",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIPテキストエンコード（プロンプト）",
+      "cnr_id": "comfy-core",
+      "ver": "0.42.0"
+    }
+  },
+  "13": {
+    "inputs": {
+      "text": "score_4, score_3, score_2, score_1, worst quality, low quality, 3d render, cgi, illustration, smooth plastic skin, (worst quality, low quality:1.4), bad anatomy, text, logo, watermark, oversaturated colors, (plastic texture:1.2), (cartoon:1.3), (oversharpen:1.2), (unnatural skin tone:1.3), (lens artifact:1.2), (bad anatomy:1.3), (extra fingers:1.4), (deformed limbs:1.3), (penis:1.1), (dick:1.1), (cock:1.1), (unrealistic proportions:1.2), (two people:1.45), (multiple people:1.4), (2people:1.45), (plastic skin:1.2), plastic_texture, lens_flare_artifact, (anime:1.3), 3d, render, blurry, lowres, bad hands, error, blurry",
+      "clip": [
+        "64",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIPテキストエンコード（プロンプト）",
+      "cnr_id": "comfy-core",
+      "ver": "0.42.0"
+    }
+  },
+  "55": {
+    "inputs": {
+      "text": "score_9, score_8_up, score_7_up, rating_explicit, realistic photo, detailed iris, brown eyes, light brown hair, long hair, straight bangs, (bedroom eyes:1.3), (heavy eyelids:1.2), (parted lips:1.15), (expression of pleasure:1.2), (slight blush:1.1)",
+      "clip": [
+        "65",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIPテキストエンコード（プロンプト）",
+      "cnr_id": "comfy-core",
+      "ver": "0.42.0"
+    }
+  },
+  "56": {
+    "inputs": {
+      "text": "score_4, score_3, score_2, score_1, worst quality, low quality, 3d render, cgi, illustration, smooth plastic skin, (worst quality, low quality:1.4), bad anatomy, text, logo, watermark, oversaturated colors,(two people:1.45), (multiple people:1.4), (2people:1.45), (plastic skin:1.2), plastic_texture, lens_flare_artifact, (anime:1.3), 3d, render, blurry, lowres, bad hands, error, blurry",
+      "clip": [
+        "65",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIPテキストエンコード（プロンプト）",
+      "cnr_id": "comfy-core",
+      "ver": "0.42.0"
+    }
+  },
+  "57": {
+    "inputs": {
+      "guide_size": 768,
+      "guide_size_for": true,
+      "max_size": 1024,
+      "seed": 280659752114120,
+      "steps": 25,
+      "cfg": 5,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 0.3,
+      "feather": 5,
+      "noise_mask": true,
+      "force_inpaint": true,
+      "bbox_threshold": 0.5,
+      "bbox_dilation": 10,
+      "bbox_crop_factor": 3,
+      "sam_detection_hint": "center-1",
+      "sam_dilation": 0,
+      "sam_threshold": 0.93,
+      "sam_bbox_expansion": 0,
+      "sam_mask_hint_threshold": 0.7,
+      "sam_mask_hint_use_negative": "False",
+      "drop_size": 64,
+      "wildcard": "",
+      "cycle": 1,
+      "inpaint_model": false,
+      "noise_mask_feather": 20,
+      "tiled_encode": false,
+      "tiled_decode": false,
+      "image": [
+        "7",
+        0
+      ],
+      "model": [
+        "65",
+        0
+      ],
+      "clip": [
+        "10",
+        1
+      ],
+      "vae": [
+        "10",
+        2
+      ],
+      "positive": [
+        "55",
+        0
+      ],
+      "negative": [
+        "56",
+        0
+      ],
+      "bbox_detector": [
+        "58",
+        0
+      ]
+    },
+    "class_type": "FaceDetailer",
+    "_meta": {
+      "title": "FaceDetailer",
+      "aux_id": "ltdrdata/ComfyUI-Impact-Pack",
+      "ver": "429d0159ad429e64d2b3916e6e7be9c22d025c3c"
+    }
+  },
+  "58": {
+    "inputs": {
+      "model_name": "bbox/face_yolov8m.pt"
+    },
+    "class_type": "UltralyticsDetectorProvider",
+    "_meta": {
+      "title": "UltralyticsDetectorProvider",
+      "aux_id": "ltdrdata/ComfyUI-Impact-Subpack",
+      "ver": "50c7b71a6a224734cc9b21963c6d1926816a97f1"
+    }
+  },
+  "63": {
+    "inputs": {
+      "lora_name": "lotta0131_lv7_pony_3440596_epoch_9.safetensors",
+      "strength_model": 0.9,
+      "strength_clip": 1,
+      "model": [
+        "10",
+        0
+      ],
+      "clip": [
+        "10",
+        1
+      ]
+    },
+    "class_type": "Load Lora",
+    "_meta": {
+      "title": "Load Lora",
+      "aux_id": "ltdrdata/was-node-suite-comfyui",
+      "ver": "44de705818d4663fefefde57ffe0ea5a9ea39df4"
+    }
+  },
+  "64": {
+    "inputs": {
+      "lora_name": "lotta0131_lv7_pony_3440596_epoch_9.safetensors",
+      "strength_model": 0.8,
+      "strength_clip": 1,
+      "model": [
+        "10",
+        0
+      ],
+      "clip": [
+        "10",
+        1
+      ]
+    },
+    "class_type": "Load Lora",
+    "_meta": {
+      "title": "Load Lora",
+      "aux_id": "ltdrdata/was-node-suite-comfyui",
+      "ver": "44de705818d4663fefefde57ffe0ea5a9ea39df4"
+    }
+  },
+  "65": {
+    "inputs": {
+      "lora_name": "cinematic expression style pony v1.1.safetensors",
+      "strength_model": 0.2,
+      "strength_clip": 1,
+      "model": [
+        "63",
+        0
+      ],
+      "clip": [
+        "63",
+        1
+      ]
+    },
+    "class_type": "Load Lora",
+    "_meta": {
+      "title": "Load Lora",
+      "aux_id": "ltdrdata/was-node-suite-comfyui",
+      "ver": "44de705818d4663fefefde57ffe0ea5a9ea39df4"
+    }
+  },
+  "70": {
+    "inputs": {
+      "filename_prefix": "ComfyUI",
+      "images": [
+        "57",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "画像を保存",
+      "cnr_id": "comfy-core",
+      "ver": "0.42.0"
+    }
+  },
+  "71": {
+    "inputs": {
+      "model_name": "RealESRGAN_x4plus.pth"
+    },
+    "class_type": "UpscaleModelLoader",
+    "_meta": {
+      "title": "拡大モデルを読み込む",
+      "cnr_id": "comfy-core",
+      "ver": "0.42.0"
+    }
+  }
+}

@@ -444,10 +444,14 @@ class PonyPromptGenerator(BasePromptGenerator):
             outfit = self._pick_weighted_item(self.wardrobe_data["outfits"], rating_level)
         
         # {color}プレースホルダ―をランダムな色に置換
-        wardrobe_tags = outfit['tags']
-        if "{color}" in wardrobe_tags:
-            random_color = random.choice(self.wardrobe_data.get("colors", [""]))
-            wardrobe_tags = wardrobe_tags.replace("{color}", random_color)
+        outfit_tags = outfit.get('tags', {})
+        outfit_color = ""
+        if any(
+            "{color}" in tag 
+            for tag in outfit_tags.values() 
+            if isinstance(tag, str) and tag
+        ):
+            outfit_color = random.choice(self.wardrobe_data.get("colors", [""]))
         
         ## --- [3. シーン(衣服破壊含む)・カメラの抽選] ---
 
@@ -480,7 +484,7 @@ class PonyPromptGenerator(BasePromptGenerator):
         
         # scene_rawを取得
         scene_raw = scene_data["tags"] if scene_data else ""
-        
+
         # innerwearの抽選
         roll = random.random() * 100
         threshold = self.persona_data.get("innerwear_thresholds", {}).get(str(rating_level), 100)
@@ -489,14 +493,77 @@ class PonyPromptGenerator(BasePromptGenerator):
         inner_bottom_tags = ""
         if roll < threshold:
             # シーンデータのinner_inclusionを考慮して、必要に応じてinnerwearを抽選
-            inner = self._pick_weighted_item(self.wardrobe_data["innerwear_sets"]["styles"], rating_level)
-            if inner:
-                # scene_dataのinner_inclusionに基づいて、innerwearのタグを衣装タグに追加
-                inner_tags = inner.get("tags", "")
-                inner_top_tags = inner_tags.get("top", "")
-                inner_top_other_tags = inner_tags.get("top_other", "")
-                inner_bottom_tags = inner_tags.get("bottom", "")
-                inner_bottom_other_tags = inner_tags.get("bottom_other", "")
+            inner = self._pick_weighted_item(
+                self.wardrobe_data["innerwear_sets"]["styles"], 
+                rating_level
+            ) or {}
+
+        # outer_inclusionで指定された部位だけ外側衣装を含める
+        outer_inclusion = (scene_data or {}).get("outer_inclusion") or {}
+        inner_inclusion = (scene_data or {}).get("inner_inclusion") or {}
+
+        no_bra_mode = inner.get("id") == "no_bra_mode"
+        if no_bra_mode:
+            outer_inclusion = {"top": False, "bottom": False}
+            inner_inclusion = {"top": False, "bottom": False}
+
+        absence_tag_config = self.scene_data.get("absence_tags", {})
+        absence_tags = []
+
+        # 衣装タグを構築する
+        outfit_tag_parts = []
+        for part in ("top", "bottom"):
+            # outer_inclusionがTrueの場合、outfit_tagsからタグを取得して置換
+            if outer_inclusion.get(part, True):
+                part_tags = outfit_tags.get(part, "")
+                if part_tags:
+                    outfit_tag_parts.append(part_tags.replace("{color}", outfit_color))
+            
+            # outer_inclusionがFalseの場合、inner_inclusionがTrueの場合はinnerwearのタグを取得して置換
+            if not outer_inclusion.get(part, True) and not no_bra_mode:
+                if not inner_inclusion.get(part, False):
+                    absence_tag = absence_tag_config.get(part, "")
+                    if absence_tag:
+                        absence_tags.append(absence_tag)
+
+        # accessory_tagsの処理
+        accessory_tags = outfit_tags.get("accessories", "")
+        if accessory_tags:
+            outfit_tag_parts.append(accessory_tags.replace("{color}", outfit_color))
+
+        # outer_inclusionとinner_inclusionの両方がFalseの場合、absence_tagsに追加
+        include_quality_tags = (
+            outer_inclusion.get("bottom", True) and inner_inclusion.get("bottom", False)
+        )
+
+        # quality_tagsの処理
+        quality_tags = outfit_tags.get("quality", "")
+        if include_quality_tags and quality_tags:
+            outfit_tag_parts.append(quality_tags.replace("{color}", outfit_color))
+
+        # wardrobe_tagsを構築
+        wardrobe_tags = ", ".join(outfit_tag_parts)
+        
+        # innerwearのタグを衣装タグに追加する
+        if inner:
+            # scene_dataのinner_inclusionに基づいて、innerwearのタグを衣装タグに追加
+            inner_tags = inner.get("tags", "")
+            inner_top_tags = inner_tags.get("top", "")
+            inner_top_other_tags = inner_tags.get("top_other", "")
+            inner_bottom_tags = inner_tags.get("bottom", "")
+            inner_bottom_other_tags = inner_tags.get("bottom_other", "")
+
+            # no_bra_modeの場合はinnerwearのタグを全て衣装タグに追加する
+            if no_bra_mode:
+                for tag in (
+                    inner_top_tags,
+                    inner_top_other_tags,
+                    inner_bottom_tags,
+                    inner_bottom_other_tags,
+                ):
+                    if tag:
+                        wardrobe_tags += f", {tag}"
+            else:
                 inner_inclusion = scene_data.get("inner_inclusion")
                 
                 # inner_inclusionのtop, bottomの両方がTrueの場合、
@@ -589,6 +656,8 @@ class PonyPromptGenerator(BasePromptGenerator):
         scene = scene.replace("{target_inner_top}", inner_top_tags)
         scene = scene.replace("{target_inner_bottom}", inner_bottom_tags)
         scene = scene.replace("{target_inner_socks}", outer_socks_tags_str)
+        if absence_tags:
+            scene += ", " + ", ".join(absence_tags)
         
         # 構図と衣装の解決ロジック
         if "sitting" in scene_raw:
