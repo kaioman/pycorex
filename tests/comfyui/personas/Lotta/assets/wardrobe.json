@@ -13,7 +13,12 @@
     "outfits": [
         {
             "id": "classic_sailor",
-            "tags": "classic sailor school uniform, pleated skirt, red neckerchief, realistic_fabric_texture",
+            "tags": {
+                "top": "classic sailor school uniform",
+                "bottom": "pleated skirt",
+                "accessories": "red neckerchief",
+                "quality": "realistic fabric texture"
+            },
             "vibe": "school",
             "min_lv": 1,
             "max_lv": 4,
@@ -21,11 +26,19 @@
             "parts": ["shirt", "skirt", "neckerchief"],
             "incompatible_scene_logic": [],
             "destructible_tags_key": "normal",
-            "outer_tags": { "top": "classic sailor", "bottom": "skirt" }
+            "outer_tags": {
+                "top": "classic sailor school uniform",
+                "bottom": "pleated skirt"
+            }
         },
         {
             "id": "classic_sailor_highsocks",
-            "tags": "classic sailor school uniform, pleated skirt, red neckerchief, (thighhighs:1.2), realistic knit texture",
+            "tags": {
+                "top": "classic sailor school uniform",
+                "bottom": "pleated skirt",
+                "accessories": "red neckerchief, (thighhighs:1.2)",
+                "quality": "realistic knit texture"
+            },
             "vibe": "school",
             "min_lv": 1,
             "max_lv": 4,
@@ -33,11 +46,16 @@
             "parts": ["shirt", "skirt", "neckerchief", "thighhighs"],
             "incompatible_scene_logic": [],
             "destructible_tags_key": "normal",
-            "outer_tags": { "top": "classic sailor", "bottom": "skirt", "socks": "thighhighs" }
+            "outer_tags": { "top": "classic sailor school uniform", "bottom": "pleated skirt", "socks": "thighhighs" }
         },
         {
             "id": "china_dress",
-            "tags": "{color} china dress, short china dress, (deep side slit:1.5), (silk embroidery:1.2), realistic silk sheen",
+            "tags": {
+                "top": "{color} china dress",
+                "bottom": "short china dress, (deep side slit:1.5)",
+                "accessories": "(silk embroidery:1.2)",
+                "quality": "realistic silk sheen"
+            },
             "vibe": "sexy",
             "min_lv": 1,
             "max_lv": 4,
@@ -49,7 +67,12 @@
         },
         {
             "id": "office_lady",
-            "tags": "office lady, business formal, tight pencil skirt, pantyhose, realistic fabric fall",
+            "tags": {
+                "top": "office lady, business formal",
+                "bottom": "tight pencil skirt, pantyhose",
+                "accessories": "",
+                "quality": "realistic fabric fall"
+            },
             "vibe": "mature",
             "min_lv": 1,
             "max_lv": 4,
@@ -61,7 +84,12 @@
         },
         {
             "id": "lingerie_only",
-            "tags": "sheer babydoll, lace trim, matching stockings, realistic lace detail",
+            "tags": {
+                "top": "sheer babydoll",
+                "bottom": "matching stockings",
+                "accessories": "lace trim",
+                "quality": "realistic lace detail"
+            },
             "vibe": "sexy",
             "min_lv": 3,
             "max_lv": 4,
@@ -73,7 +101,12 @@
         },
         {
             "id": "blazer_style",
-            "tags": "school blazer, plaid skirt, ribbon tie, realistic wool texture",
+            "tags": {
+                "top": "school blazer",
+                "bottom": "plaid skirt",
+                "accessories": "ribbon tie",
+                "quality": "realistic wool texture"
+            },
             "vibe": "school",
             "min_lv": 1,
             "max_lv": 4,
@@ -85,7 +118,12 @@
         },
         {
             "id": "gym_uniform",
-            "tags": "bloomers, gym shirt, (white socks:1.1), breathable fabric",
+            "tags": {
+                "top": "gym shirt",
+                "bottom": "bloomers",
+                "accessories": "(white socks:1.1)",
+                "quality": "breathable fabric"
+            },
             "vibe": "school",
             "min_lv": 1,
             "max_lv": 4,
@@ -104,7 +142,12 @@
         },
         {
             "id": "oversized_hoodie",
-            "tags": "oversized techwear hoodie, tactical joggers, sneakers, realistic fabric",
+            "tags": {
+                "top": "oversized techwear hoodie",
+                "bottom": "tactical joggers",
+                "accessories": "sneakers",
+                "quality": "realistic fabric"
+            },
             "vibe": "cyberpunk",
             "min_lv": 1,
             "max_lv": 3,
@@ -119,7 +162,12 @@
         },
         {
             "id": "bodysuit",
-            "tags": "sleek cyber bodysuit, metallic accents, subtle gloss, realistic reflections",
+            "tags": {
+                "top": "sleek cyber bodysuit",
+                "bottom": "",
+                "accessories": "metallic accents",
+                "quality": "subtle gloss, realistic reflections"
+            },
             "vibe": "cyberpunk",
             "min_lv": 1,
             "max_lv": 4,
@@ -134,7 +182,12 @@
         },
         {
             "id": "pilot_suit",
-            "tags": "80s mecha pilot suit, form-fitting, shoulder pads, worn leather detail",
+            "tags": {
+                "top": "80s mecha pilot suit, shoulder pads",
+                "bottom": "form-fitting",
+                "accessories": "",
+                "quality": "worn leather detail"
+            },
             "vibe": "cyberpunk",
             "min_lv": 1,
             "max_lv": 4,
@@ -149,7 +202,12 @@
         },
         {
             "id": "off_shoulder",
-            "tags": "oversized off-shoulder knit sweater, denim shorts, knitted texture",
+            "tags": {
+                "top": "oversized off-shoulder knit sweater",
+                "bottom": "denim shorts",
+                "accessories": "",
+                "quality": "knitted texture"
+            },
             "vibe": "casual",
             "min_lv": 1,
             "max_lv": 4,
@@ -164,7 +222,12 @@
         },
         {
             "id": "sundress",
-            "tags": "white summer sundress, straw hat, (thin translucent fabric:1.1), natural wind",
+            "tags": {
+                "top": "white summer sundress",
+                "bottom": "",
+                "accessories": "straw hat",
+                "quality": "(thin translucent fabric:1.1), natural wind"
+            },
             "vibe": "casual",
             "min_lv": 1,
             "max_lv": 4,
@@ -176,7 +239,12 @@
         },
         {
             "id": "tracksuit",
-            "tags": "80s retro tracksuit, side stripes, zip-up jacket, vintage fabric detail",
+            "tags": {
+                "top": "zip-up jacket, side stripes",
+                "bottom": "tracksuit pants",
+                "accessories": "",
+                "quality": "80s retro tracksuit, vintage fabric detail"
+            },
             "vibe": "casual",
             "min_lv": 1,
             "max_lv": 4,
@@ -191,7 +259,12 @@
         },
         {
             "id": "evening_dress",
-            "tags": "elegant backless evening dress, high slit, silk reflection",
+            "tags": {
+                "top": "elegant backless evening dress",
+                "bottom": "high slit",
+                "accessories": "",
+                "quality": "silk reflection"
+            },
             "vibe": "mature",
             "min_lv": 1,
             "max_lv": 4,
@@ -203,7 +276,12 @@
         },
         {
             "id": "turtleneck",
-            "tags": "tight sleeveless turtleneck, mini skirt, knitted texture",
+            "tags": {
+                "top": "tight sleeveless turtleneck",
+                "bottom": "mini skirt",
+                "accessories": "",
+                "quality": "knitted texture"
+            },
             "vibe": "mature",
             "min_lv": 1,
             "max_lv": 4,
@@ -220,7 +298,12 @@
         },
         {
             "id": "bikini_armor",
-            "tags": "(bikini armor:1.2), (armored bikini:1.2), (metal bikini:1.1), realistic metal shine, leather straps",
+            "tags": {
+                "top": "(bikini armor:1.2), (armored bikini:1.2)",
+                "bottom": "(metal bikini:1.1)",
+                "accessories": "leather straps",
+                "quality": "realistic metal shine"
+            },
             "vibe": "fantasy",
             "min_lv": 2,
             "max_lv": 4,
@@ -235,7 +318,12 @@
         },
         {
             "id": "miko_outfit",
-            "tags": "(traditional miko outfit:1.2), (solid white kimono top:1.3), (red hakama:1.2), natural fabric",
+            "tags": {
+                "top": "(traditional miko outfit:1.2), (solid white kimono top:1.3)",
+                "bottom": "(red hakama:1.2)",
+                "accessories": "",
+                "quality": "natural fabric"
+            },
             "vibe": "traditional",
             "min_lv": 1,
             "max_lv": 4,
@@ -250,7 +338,12 @@
         },
         {
             "id": "yukata",
-            "tags": "floral pattern yukata, obi sash, wooden geta, cotton texture",
+            "tags": {
+                "top": "floral pattern yukata",
+                "bottom": "",
+                "accessories": "obi sash, wooden geta",
+                "quality": "cotton texture"
+            },
             "vibe": "traditional",
             "min_lv": 1,
             "max_lv": 4,
@@ -262,7 +355,12 @@
         },
         {
             "id": "bunny_suit",
-            "tags": "(high-leg bunny suit:1.5), bow tie, wrist cuffs, realistic fabric sheen",
+            "tags": {
+                "top": "(high-leg bunny suit:1.5)",
+                "bottom": "",
+                "accessories": "bow tie, wrist cuffs",
+                "quality": "realistic fabric sheen"
+            },
             "vibe": "sexy",
             "min_lv": 2,
             "max_lv": 4,
@@ -277,7 +375,12 @@
         },
         {
             "id": "nurse_outfit",
-            "tags": "retro nurse uniform, nurse cap, white stockings, realistic fabric",
+            "tags": {
+                "top": "retro nurse uniform",
+                "bottom": "white stockings",
+                "accessories": "nurse cap",
+                "quality": "realistic fabric"
+            },
             "vibe": "sexy",
             "min_lv": 2,
             "max_lv": 4,
@@ -289,7 +392,12 @@
         },
         {
             "id": "swimsuit_80s",
-            "tags": "high-leg one-piece swimsuit, neon colors, 80s style, wet fabric detail",
+            "tags": {
+                "top": "high-leg one-piece swimsuit",
+                "bottom": "",
+                "accessories": "neon colors",
+                "quality": "80s style, wet fabric detail"
+            },
             "vibe": "sexy",
             "min_lv": 2,
             "max_lv": 4,
@@ -304,7 +412,12 @@
         },
         {
             "id": "denim_setup",
-            "tags": "denim jacket, button front, denim skirt, matching denim outfit, blue denim, (thighhighs:1.2), detailed_denim_texture",
+            "tags": {
+                "top": "denim jacket, button front",
+                "bottom": "denim skirt",
+                "accessories": "matching denim outfit, (thighhighs:1.2)",
+                "quality": "blue denim, detailed_denim_texture"
+            },
             "vibe": "casual",
             "min_lv": 1,
             "max_lv": 4,
@@ -316,7 +429,12 @@
         },
         {
             "id": "culottes_white_shirt",
-            "tags": "white dress shirt, tucked in, collared shirt, navy blue culottes, skirt pants, natural fabric",
+            "tags": {
+                "top": "white dress shirt, tucked in, collared shirt",
+                "bottom": "navy blue culottes, skirt pants",
+                "accessories": "",
+                "quality": "natural fabric"
+            },
             "vibe": "school",
             "min_lv": 1,
             "max_lv": 4,
@@ -328,7 +446,12 @@
         },
         {
             "id": "recruit_suit",
-            "tags": "(business suit:1.1), black suit, (tight pencil skirt:1.2), white dress shirt, black pantyhose, realistic tailoring",
+            "tags": {
+                "top": "(business suit:1.1), black suit, white dress shirt",
+                "bottom": "(tight pencil skirt:1.2), black pantyhose",
+                "accessories": "",
+                "quality": "realistic tailoring"
+            },
             "vibe": "school",
             "min_lv": 1,
             "max_lv": 4,
@@ -340,7 +463,12 @@
         },
         {
             "id": "tank_top_casual",
-            "tags": "(tank top:1.2), (scoop neck:1.1), (colorful tank top:1.3), tucked in, tight fit, fabric detail",
+            "tags": {
+                "top": "(tank top:1.2), (scoop neck:1.1), (colorful tank top:1.3)",
+                "bottom": "tucked in, tight fit",
+                "accessories": "",
+                "quality": "fabric detail"
+            },
             "vibe": "casual",
             "min_lv": 1,
             "max_lv": 4,
@@ -355,7 +483,12 @@
         },
         {
             "id": "kariyushi_wear",
-            "tags": "kariyushi wear, (aloha shirt:1.1), (floral print:1.2), (hibiscus print:1.2), lightweight fabric",
+            "tags": {
+                "top": "kariyushi wear, (aloha shirt:1.1)",
+                "bottom": "",
+                "accessories": "(floral print:1.2), (hibiscus print:1.2)",
+                "quality": "lightweight fabric"
+            },
             "vibe": "casual",
             "min_lv": 1,
             "max_lv": 4,
@@ -419,9 +552,10 @@
             {
                 "id": "no_bra_mode",
                 "tags": {
-                    "top": "no bra",
-                    "top_other": "(nipples visible through fabric:1.3)",
-                    "bottom": "no panties"
+                    "top": "(no_bra:1.15)",
+                    "top_other": "(topless:1.15), (nipples_visible_through_fabric:1.15)",
+                    "bottom": "(no_panties:1.15)",
+                    "bottom_other": "(bottomless:1.15)"
                 },
                 "vibe": "sexy",
                 "min_lv": 4

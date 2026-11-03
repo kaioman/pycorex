@@ -69,7 +69,12 @@ def make_generator(identity_tags=None):
     generator.wardrobe_data = {
         "outfits": [{
             "id": "outfit",
-            "tags": "clothes",
+            "tags": {
+                "top": "clothes",
+                "bottom": "",
+                "accessories": "",
+                "quality": "",
+            },
             "outer_tags": {"top": "top", "bottom": "bottom"},
         }],
         "innerwear_sets": {"styles": []},

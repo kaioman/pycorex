@@ -11,6 +11,10 @@
         "sexual_activity": "性的行為・道具を含む構図",
         "transparency": "濡れ・透け・布越しの描写"
     },
+    "absence_tags": {
+        "top": "(topless:1.15), (no bra:1.15)",
+        "bottom": "(bottomless:1.15), (no panties:1.15)"
+    },
     "scene_logic": [
         {
             "id": "lv1_window_side_dreaming",
@@ -493,6 +497,23 @@
                 "top": true,
                 "bottom": true
             }
+        },
+        {
+            "id": "lv4_bedroom_side_lying_relax",
+            "scene_groups": ["indoor_relaxation", "body_line", "sexual_activity"],
+            "description": "【ベッドの上の佇まい】ベッドに横たわり、肘をついて上半身を軽く起こしながら静かに視線を向ける落ち着いたシチュエーション",
+            "tags": "(lying on side:1.15), (propped up on elbow:1.15), (looking at viewer:1.1), (cowboy shot:1.1), (bare legs:1.2), exposed thighs",
+            "min_lv": 4, "max_lv": 4, "weight": 2.0,
+            "destructible_scene": false,
+            "inner_inclusion": {
+                "top": true,
+                "bottom": false
+            },
+            "outer_inclusion": {
+                "top": true,
+                "bottom": false
+            },
+            "suggested_resolution": { "width": 1216, "height": 832 }
         }
     ]
 }
