@@ -3,26 +3,58 @@
         {
             "id": "smile",
             "name": "笑顔",
-            "tags": "(soft smile:1.2), (crinkly eyes:1.15), (blushing cheeks:1.1)",
+            "tags": "smile, (soft smile:1.2), (crinkly eyes:1.15), (blushing cheeks:1.1)",
             "min_lv": 1,
             "max_lv": 3,
             "weight": 1.2
         },
         {
+            "id": "happy_excited",
+            "name": "大笑顔・大喜び",
+            "tags": "happy, (cheer:1.2), (laughing:1.15), open mouth, grin, smiling with eyes, (blushing cheeks:1.1)",
+            "min_lv": 1,
+            "max_lv": 3,
+            "weight": 1.2
+        },
+        {
+            "id": "happy_shy",
+            "name": "はにかみ・照れ笑い",
+            "tags": "happy, (blushing:1.2), shy smile, closed mouth, (subtle smile:1.15), (head tilt:1.1)",
+            "min_lv": 1,
+            "max_lv": 3,
+            "weight": 1.15
+        },
+        {
+            "id": "happy_gentle",
+            "name": "穏やかな笑顔",
+            "tags": "happy, (gentle smile:1.2), serene, soft expression, warm smile, (looking at viewer:1.1)",
+            "min_lv": 1,
+            "max_lv": 3,
+            "weight": 1.1
+        },
+        {
             "id": "pouting",
             "name": "膨れっ面",
-            "tags": "(pouting:1.3), (pouty lips:1.2), (annoyed expression:1.15), (averting gaze:1.1), (blushing cheeks:1.1)",
+            "tags": "puffed_cheeks, (pout:0.7), closed_mouth, pouty lips, looking_away, slightly blushing cheeks",
             "min_lv": 1,
             "max_lv": 3,
             "weight": 0.8
         },
         {
-            "id": "startled",
+            "id": "surprised",
             "name": "驚き",
-            "tags": "(startled expression:1.25), (wide eyes:1.15), (gasping:1.2), surprised look, (looking at viewer:1.15)",
+            "tags": "surprised, (open mouth:1.2), (wide eyes:1.15), raised eyebrows, slight gasp",
             "min_lv": 1,
             "max_lv": 3,
-            "weight": 1.1
+            "weight": 0.1
+        },
+        {
+            "id": "afraid",
+            "name": "恐怖",
+            "tags": "afraid, scared, (trembling:1.2), (wide eyes:1.2), (cold sweat:1.15), furrowed brow",
+            "min_lv": 4,
+            "max_lv": 4,
+            "weight": 0.1
         },
         {
             "id": "smirk",
@@ -30,31 +62,63 @@
             "tags": "(smirk:1.35), (seductive smile:1.15), (confident expression:1.2), (narrowed eyes:1.1)",
             "min_lv": 1,
             "max_lv": 3,
-            "weight": 0.8
+            "weight": 0.1
         },
+        {
+            "id": "provocative_sinister",
+            "name": "不敵な挑発",
+            "tags": "Creep sinister, (evil smile:1.2), (smirk:1.2), (raised eyebrow:1.15), sharp eyes, arrogantly looking at viewer",
+            "min_lv": 1,
+            "max_lv": 3,
+            "weight": 0.1
+        },        
         {
             "id": "melancholic",
             "name": "哀愁",
             "tags": "(melancholic expression:1.25), (wistful look:1.2), (pensive:1.1), (parted lips:1.1), (averting gaze:1.15)",
             "min_lv": 1,
             "max_lv": 3,
-            "weight": 0.8
+            "weight": 1.0
         },
         {
-            "id": "bedroom eyes",
-            "name": "恍惚",
-            "tags": "(bedroom eyes:1.3), (heavy eyelids:1.2), (parted lips:1.15), (expression of pleasure:1.2), (slight blush:1.1)",
+            "id": "crying",
+            "name": "泣き顔",
+            "tags": "(tears:1.1), (tearful_eyes:1.1), wet eyes, closed_mouth, expressionless, poker face, neutral expression",
             "min_lv": 3,
             "max_lv": 4,
             "weight": 1.0
         },
         {
-            "id": "shame",
-            "name": "屈辱",
-            "tags": "(frown:1.3), (looking down and away:1.25), (tears on cheek:1.25), (parted lips:1.2), (gasping for air:1.3)",
+            "id": "bedroom eyes",
+            "name": "恍惚",
+            "tags": "(bedroom eyes:1.3), (heavy eyelids:1.2), (parted lips:1.15), (expression of pleasure:1.2), (slight blush:1.1)",
             "min_lv": 4,
             "max_lv": 4,
             "weight": 1.0
+        },
+        {
+            "id": "bedroom eyes2",
+            "name": "恍惚2",
+            "tags": "half-closed eyes, dreamy eyes, parted lips, head tilt",
+            "min_lv": 4,
+            "max_lv": 4,
+            "weight": 1.0
+        },
+        {
+            "id": "ecstasy_trance",
+            "name": "うっとり・恍惚",
+            "tags": "(heavy breathing:1.05), (half-closed eyes:1.05), (flushed face:1.05), trance",
+            "min_lv": 4,
+            "max_lv": 4,
+            "weight": 1.0
+        },
+        {
+            "id": "ecstasy_intense",
+            "name": "快感・絶頂恍惚",
+            "tags": "half-closed eyes, dreamy eyes, parted_lips, light sweat, skin sheen, blissful, soft expression",
+            "min_lv": 4,
+            "max_lv": 4,
+            "weight": 1.25
         }
     ]
 }

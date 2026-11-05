@@ -514,6 +514,40 @@
                 "bottom": false
             },
             "suggested_resolution": { "width": 1216, "height": 832 }
+        },
+        {
+            "id": "lv4_shredded_top_bra_reveal",
+            "scene_groups": ["top_exposure", "innerwear_exposure", "clothing_destruction"],
+            "description": "【胸元の損壊】上着の前面が激しく引き裂かれ、中のブラジャーが完全に露出。{camera}を(close-up)にすれば、破れた布の繊維と肌の質感が際立つ",
+            "tags": "(cowboy shot:1.1), {camera}, (upper body focus:1.15), (shredded classic sailor school uniform:1.25), (torn classic sailor school uniform:1.2), (tattered chest panel:1.15), (frayed fabric:1.2), (vertical rip in classic sailor school uniform:1.2), (nipples visible through fabric:1.2), (cleavage focus:1.15), no wounds",
+            "min_lv": 4, "max_lv": 4, "weight": 2.0,
+            "destructible_scene": true,
+            "inner_inclusion": {
+                "top": false,
+                "bottom": true
+            },
+            "outer_inclusion": {
+                "top": true,
+                "bottom": true
+            },            
+            "suggested_resolution": { "width": 1216, "height" : 832 }   
+        },
+        {
+            "id": "lv4_phys_panty_pull_down",
+            "scene_groups": ["bottom_exposure", "innerwear_exposure", "sexual_activity"],
+            "description": "【ギリギリの境界線】前かがみの姿勢で、両手で下着の端をわずかに押し下げる仕草。性器露出を避けつつ背徳感を強調",
+            "tags": "{camera}, (waist up:1.15), (leaning forward:1.1), foreshortening, looking at viewer, blushing cheeks, embarrassed, (partially undressed:1.15), (pulling down panties:1.2), (panties down to thighs:1.15), (gaping waistband:1.15), (exposed hips:1.2), her hands on her own waistband, her fingers touching her own waistband",
+            "min_lv": 4, "max_lv": 4, "weight": 2.0,
+            "destructible_scene": false,
+            "inner_inclusion": {
+                "top": true,
+                "bottom": false
+            },
+            "outer_inclusion": {
+                "top": true,
+                "bottom": false
+            },            
+            "suggested_resolution": { "width": 832, "height" : 1216 }
         }
     ]
 }
