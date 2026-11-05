@@ -24,7 +24,7 @@
             "name": "広角レンズ・パース強調",
             "suggested_resolution": { "width": 1216, "height" : 832 },
             "description": "前景を強調して遠近感を作る。写実では過度な魚眼効果を避け、自然なパース調整を推奨",
-            "tags": "(wide angle lens:1.2), (perspective distortion:1.1), (foreshortening:1.3), (mild fisheye:0.6), realistic perspective",
+            "tags": "(wide angle lens:1.1), (foreshortening:1.15), realistic perspective, (depth of field:1.1)",
             "vibe": "dynamic",
             "best_for": ["lv2", "lv4"]
         },

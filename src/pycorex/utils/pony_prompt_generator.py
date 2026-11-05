@@ -654,7 +654,15 @@ class PonyPromptGenerator(BasePromptGenerator):
         scene = scene.replace("{target_fabric_outer_bottom}", outer_bottom_tags_str)
         ## 置換実行：インナー
         scene = scene.replace("{target_inner_top}", inner_top_tags)
-        scene = scene.replace("{target_inner_bottom}", inner_bottom_tags)
+        #scene = scene.replace("{target_inner_bottom}", inner_bottom_tags)
+        if no_bra_mode:
+            scene = ", ".join(
+                tag.strip()
+                for tag in scene.split(",")
+                if "{target_inner_bottom}" not in tag
+            )
+        else:
+            scene = scene.replace("{target_inner_bottom}", inner_bottom_tags)
         scene = scene.replace("{target_inner_socks}", outer_socks_tags_str)
         if absence_tags:
             scene += ", " + ", ".join(absence_tags)

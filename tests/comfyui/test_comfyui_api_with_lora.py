@@ -43,7 +43,7 @@ class TestRequestComfyUI:
         prompt_context = pony_generator.generate_prompt(
             rating_level=RatingLevel.EXPLICIT,
             test_outfit_id="classic_sailor",
-            test_scene_id_override="lv4_bedroom_side_lying_relax",
+            test_scene_id_override="lv4_phys_panty_pull_down",
         )
 
         # ワークフロー取得
