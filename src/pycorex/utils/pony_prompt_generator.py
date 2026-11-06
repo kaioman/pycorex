@@ -6,7 +6,7 @@ from typing import Optional, Union, Any
 from urllib.parse import urlparse
 from pycorex.core.base_prompt_generator import BasePromptGenerator
 from pycorex.enums.rating_level import RatingLevel
-from pycorex.models.prompt import PromptContextModel
+from pycorex.models.prompt import PromptContextModel, SelectedAssets
 
 class PonyPromptGenerator(BasePromptGenerator):
     """
@@ -289,7 +289,7 @@ class PonyPromptGenerator(BasePromptGenerator):
         # 3. 確率に基づき1つ選択
         return random.choices(candidates, weights=weights, k=1)[0]
     
-    def _get_environment_tags(self, scene_tags: str, outfit_id: str) -> str:
+    def _get_environment_tags(self, scene_tags: str, outfit_id: str) -> tuple[str, str]:
         """
         scene_tagsにlocation, lighting, textureのタグが含まれていない場合に、
         環境データから互換性のあるアイテムを抽選してタグを取得する
@@ -303,19 +303,22 @@ class PonyPromptGenerator(BasePromptGenerator):
 
         Returns
         -------
-        str
+        tuple[str, str]
             environmentタグ
+            environment_id
         """
         
-        location_tag = self._get_specific_env_tag(scene_tags, self.environment_data["locations"], outfit_id)
-        lighting_tag = self._get_specific_env_tag(scene_tags, self.environment_data["lightings"], outfit_id)
-        texture_tag = self._get_specific_env_tag(scene_tags, self.environment_data["textures"], outfit_id)
+        location = self._get_specific_env_item(scene_tags, self.environment_data["locations"], outfit_id)
+        lighting = self._get_specific_env_item(scene_tags, self.environment_data["lightings"], outfit_id)
+        texture = self._get_specific_env_item(scene_tags, self.environment_data["textures"], outfit_id)
         
         # 決定された環境タグを結合
-        env_tags = ",".join(filter(None, [location_tag, lighting_tag, texture_tag]))
-        return env_tags
+        env_items = [item for item in (location, lighting, texture) if item]
+        env_tags = ",".join(item["tags"] for item in env_items)
+        environment_id = ",".join(item["id"] for item in env_items)
+        return env_tags, environment_id
 
-    def _get_specific_env_tag(self, scene_tags: str, env_list: list[dict], outfit_id: str) -> Optional[str]:
+    def _get_specific_env_item(self, scene_tags: str, env_list: list[dict], outfit_id: str) -> Optional[dict]:
         """
         シーンタグに既存の環境要素が含まれていないかチェックし、
         互換性のあるアイテムをフィルタリングしてからランダム抽選する
@@ -331,8 +334,8 @@ class PonyPromptGenerator(BasePromptGenerator):
 
         Returns
         -------
-        Optional[str]
-            sceneタグに対して互換性のあるenvironmentタグ
+        Optional[dict]
+            選択されたenvironmentデータ
         """
         
         # シーンタグに既存の環境要素が含まれているかチェック
@@ -356,7 +359,7 @@ class PonyPromptGenerator(BasePromptGenerator):
             return None
         
         # ランダム抽選
-        return random.choice(compatible_items)["tags"]
+        return random.choice(compatible_items)
 
     def _get_base_identity(self) -> dict[str, Any]:
         """
@@ -613,7 +616,7 @@ class PonyPromptGenerator(BasePromptGenerator):
 
         # --- [3.5. 環境の抽選]
         # scene_logicにlocation, lighting, textureのタグが含まれていない場合に抽選する
-        environment_tags = self._get_environment_tags(scene_data["tags"], outfit["id"])
+        environment_tags, environment_id = self._get_environment_tags(scene_data["tags"], outfit["id"])
         
         # --- [4. プレースホルダーの置換] ---
 
@@ -755,6 +758,16 @@ class PonyPromptGenerator(BasePromptGenerator):
         return PromptContextModel(
             prompt_level=rating_level,
             scene_id=scene_data["id"],
+            selected_assets=SelectedAssets(
+                scene_id=scene_data["id"],
+                environment_id=environment_id,
+                camera_id=cam_data["id"],
+                outfits_id=outfit["id"],
+                inner_top=inner_top_tags,
+                inner_bottom=inner_bottom_tags,
+                outer_top=outer_top_tags_str,
+                outer_bottom=outer_bottom_tags_str,
+            ),
             positive_prompt=positive,
             negative_prompt=negative,
             image_width=image_width,

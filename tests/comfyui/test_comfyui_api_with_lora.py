@@ -2,6 +2,7 @@ import os
 import json
 import asyncio
 import pytest
+from dataclasses import dataclass, asdict
 from pathlib import Path
 from pycorex.configs.initialize_app import config
 from pycorex.comfyui_client import ComfyUIClient
@@ -9,6 +10,7 @@ from pycorex.utils.pony_prompt_generator import PonyPromptGenerator
 from pycorex.utils.workflow_editor import WorkflowEditor
 from pycorex.utils.workflow_mod import WorkflowMod
 from pycorex.enums.rating_level import RatingLevel
+from pycorex.models.prompt import SelectedAssets
 
 class TestRequestComfyUI:
     """
@@ -46,6 +48,10 @@ class TestRequestComfyUI:
             test_scene_id_override="lv4_phys_panty_pull_down",
         )
 
+        # 選択アセットをJSON出力
+        json_str = json.dumps(asdict(prompt_context.selected_assets), ensure_ascii=False, indent=2)
+        print(json_str)
+        
         # ワークフロー取得
         workflow = pony_generator.workflow_data
         
