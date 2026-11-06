@@ -7,7 +7,7 @@ on:
 
 jobs:
     publish-testpypi:
-        runs-on: ubuntu-latest
+        runs-on: ubuntu-24.04
         permissions:
             id-token: write   # OIDCトークン発行に必要
             contents: read
@@ -23,7 +23,7 @@ jobs:
               with:
                     repository-url: https://test.pypi.org/legacy/
     publish-pypi:
-        runs-on: ubuntu-latest
+        runs-on: ubuntu-24.04
         needs: publish-testpypi
         permissions:
             id-token: write   # OIDCトークン発行に必要
