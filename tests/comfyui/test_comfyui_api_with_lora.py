@@ -2,7 +2,7 @@ import os
 import json
 import asyncio
 import pytest
-from dataclasses import dataclass, asdict
+from dataclasses import asdict
 from pathlib import Path
 from pycorex.configs.initialize_app import config
 from pycorex.comfyui_client import ComfyUIClient
@@ -10,7 +10,6 @@ from pycorex.utils.pony_prompt_generator import PonyPromptGenerator
 from pycorex.utils.workflow_editor import WorkflowEditor
 from pycorex.utils.workflow_mod import WorkflowMod
 from pycorex.enums.rating_level import RatingLevel
-from pycorex.models.prompt import SelectedAssets
 
 class TestRequestComfyUI:
     """
@@ -43,9 +42,9 @@ class TestRequestComfyUI:
         )
         # PromptContextを生成
         prompt_context = pony_generator.generate_prompt(
-            rating_level=RatingLevel.EXPLICIT,
-            test_outfit_id="classic_sailor",
-            test_scene_id_override="lv4_phys_panty_pull_down",
+            rating_level=RatingLevel.QUESTIONABLE,
+            test_outfit_id="recruit_suit",
+            test_scene_id_override="lv3_phys_sitting_triangle_stable",
         )
 
         # 選択アセットをJSON出力

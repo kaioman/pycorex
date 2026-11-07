@@ -761,6 +761,7 @@ class PonyPromptGenerator(BasePromptGenerator):
             selected_assets=SelectedAssets(
                 scene_id=scene_data["id"],
                 environment_id=environment_id,
+                expression_id=expression_item['id'],
                 camera_id=cam_data["id"],
                 outfits_id=outfit["id"],
                 inner_top=inner_top_tags,

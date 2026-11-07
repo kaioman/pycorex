@@ -435,7 +435,7 @@
                 "accessories": "",
                 "quality": "natural fabric"
             },
-            "vibe": "school",
+            "vibe": "casual",
             "min_lv": 1,
             "max_lv": 4,
             "destructible": true,
@@ -452,7 +452,7 @@
                 "accessories": "",
                 "quality": "realistic tailoring"
             },
-            "vibe": "school",
+            "vibe": "casual",
             "min_lv": 1,
             "max_lv": 4,
             "destructible": true,
