@@ -21,7 +21,10 @@ class SelectedAssets():
 
     environment_id: str = ''
     """ 環境ID """
-    
+
+    expression_id: str = ''
+    """ 表情ID """
+
     camera_id: str = ''
     """ カメラアングルID """
     
@@ -39,6 +42,7 @@ class SelectedAssets():
     
     outer_bottom: str = ''
     """ 上着ID(ボトムス) """
+
 @dataclass
 class PromptContextModel():
     """
