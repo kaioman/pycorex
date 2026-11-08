@@ -736,7 +736,12 @@ class PonyPromptGenerator(BasePromptGenerator):
         ## 聖域(基本) + ティア別防壁(動的) + 品質ベース
         negative = f"{holy_grail}, {tier_neg_tags}, {base_neg}"
         ## 5. FaceDetailerのネガティブプロンプト
-        face_detailer_negative_prompt = f"{holy_grail},{base_neg}"
+        negative_face = self.persona_data.get("negative_face", "")
+        face_detailer_negative_prompt = ", ".join(
+            part.strip()
+            for part in [holy_grail, base_neg, negative_face]
+            if part and part.strip()
+        )
 
         # --- [7. ログ出力] ---
         app_logger.info(f"--- [Lv{rating_level}] Dynamic Synthesis Log ---")
